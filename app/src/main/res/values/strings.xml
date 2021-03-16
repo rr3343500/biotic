@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Biotic Classes</string>
+    <string name="biotic">Biotic</string>
+    <string name="classes">Classes</string>
+    <string name="welcome">Welcome Back!  </string>
+    <string name="signIn">sign in to countinue  </string>
+    <string name="mobile">Mobile Number  </string>
+    <string name="password">Password</string>
+    <string name="forget">Forgot your passwoed</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign Up</string>
+</resources>
