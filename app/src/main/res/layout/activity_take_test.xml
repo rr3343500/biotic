@@ -7,11 +7,26 @@
     tools:context=".Activity.TakeTestActivity">
 
 
+
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:padding="20dp"
+        android:id="@+id/mainview"
+        android:layout_gravity="center_vertical"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/timer"
+            tools:ignore="MissingConstraints" />
 
         <RelativeLayout
             android:id="@+id/timer"
@@ -111,33 +126,38 @@
 
 
         <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/clear"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:padding="10dp"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintTop_toBottomOf="@id/clear"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="20dp">
 
             <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:text="Prev"
-                android:enabled="false"
                 android:id="@+id/prev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_height="wrap_content"/>
+                android:enabled="false"
+                android:text="Prev" />
 
             <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:text="Next"
                 android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_height="wrap_content"/>
+                android:text="Next" />
 
 
         </RelativeLayout>
 
 
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </ScrollView>
