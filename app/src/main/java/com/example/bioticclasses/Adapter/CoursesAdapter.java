@@ -55,7 +55,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
 
     public class Viewholder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        MaterialCardView mainview;
+        ConstraintLayout mainview;
         public Viewholder(@NonNull @NotNull RowCourcesLayoutBinding binding) {
             super(binding.getRoot());
             imageView= binding.image;

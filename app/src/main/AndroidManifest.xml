@@ -26,7 +26,9 @@
         <activity android:name=".Activity.TakeTestActivity" />
         <activity android:name=".Activity.ForgetPassword" />
         <activity android:name=".Activity.SignUpActivity" />
-        <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.LoginActivity">
+
+        </activity>
     </application>
 
 </manifest>
