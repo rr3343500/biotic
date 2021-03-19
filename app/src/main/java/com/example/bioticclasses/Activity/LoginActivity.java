@@ -22,6 +22,6 @@ public class LoginActivity extends AppCompatActivity {
     private void ActivityAction(){
         binding.SigupBtn.setOnClickListener(v -> {startActivity(new Intent(this,SignUpActivity.class));});
         binding.forgotpsw.setOnClickListener(v -> {startActivity(new Intent(this,ForgetPassword.class));});
-        binding.SignInBtn.setOnClickListener(v -> {startActivity(new Intent(this,TakeTestActivity.class));});
+        binding.SignInBtn.setOnClickListener(v -> {startActivity(new Intent(this,MainActivity.class));});
     }
 }
