@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create your Own \n account today."
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/signupBtn"
         app:layout_constraintLeft_toLeftOf="@+id/GuidelineStart1"
@@ -31,10 +31,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nameTextInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxStrokeColor="@color/white"
+            app:boxStrokeColor="#F53A48"
+            app:hintTextColor="@color/white"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -44,16 +45,16 @@
                 android:hint="@string/name"
                 android:inputType="text"
                 android:textColor="@color/white"
-                android:textColorHint="@color/black" />
+                android:textColorHint="@color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailTextInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxStrokeColor="@color/white"
+            app:boxStrokeColor="#F53A48"
             app:layout_constraintTop_toBottomOf="@+id/nameTextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -63,16 +64,16 @@
                 android:hint="@string/email"
                 android:inputType="text"
                 android:textColor="@color/white"
-                android:textColorHint="@color/black" />
+                android:textColorHint="@color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/numberTextInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxStrokeColor="@color/white"
+            app:boxStrokeColor="#F53A48"
             app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -82,16 +83,16 @@
                 android:hint="@string/number"
                 android:inputType="text"
                 android:textColor="@color/white"
-                android:textColorHint="@color/black" />
+                android:textColorHint="@color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordTextInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxStrokeColor="@color/white"
+            app:boxStrokeColor="#F53A48"
             app:layout_constraintTop_toBottomOf="@+id/numberTextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -101,20 +102,35 @@
                 android:hint="@string/password"
                 android:inputType="text"
                 android:textColor="@color/white"
-                android:textColorHint="@color/black" />
+                android:textColorHint="@color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <Spinner
-            android:id="@+id/classes"
+            android:id="@+id/gender"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/spinner_background"
             android:gravity="start"
+            android:theme="@style/mySpinnerItemStyle"
             android:textAlignment="textStart"
+            android:popupBackground="@color/theme"
             app:layout_constraintTop_toBottomOf="@id/passwordTextInputLayout" />
+
+
+        <Spinner
+            android:id="@+id/classes"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/spinner_background"
+            android:gravity="start"
+            android:popupBackground="@color/theme"
+            android:theme="@style/mySpinnerItemStyle"
+            android:textAlignment="textStart"
+            app:layout_constraintTop_toBottomOf="@id/gender" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
