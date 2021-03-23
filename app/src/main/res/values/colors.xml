@@ -17,4 +17,5 @@
     <color name="lightredColor">#EF3E50</color>
     <color name="lightorangeColor">#FFA3A4</color>
     <color name="ultralightorangeColor">#FEEEEE</color>
+    <color name="dark_green">#4CAF50</color>
 </resources>

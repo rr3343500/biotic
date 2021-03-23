@@ -9,7 +9,7 @@
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="sign_up">Sign Up</string>
     <string name="password">Password</string>
-    <string name="number">Number</string>
+    <string name="number">Mobile</string>
     <string name="email">Email</string>
     <string name="name">Name</string>
 </resources>

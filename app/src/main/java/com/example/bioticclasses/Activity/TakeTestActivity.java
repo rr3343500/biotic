@@ -1,6 +1,8 @@
 package com.example.bioticclasses.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -23,8 +25,11 @@ import com.example.bioticclasses.Adapter.QuestionAdapter;
 import com.example.bioticclasses.List.QuestionList;
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.databinding.ActivityTakeTestBinding;
+import com.example.bioticclasses.databinding.TakeTestLayoutBinding;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.navigation.NavigationView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TakeTestActivity extends AppCompatActivity implements QuestionAdapter.ChangeQuestion {
-    ActivityTakeTestBinding binding;
+    TakeTestLayoutBinding binding;
     List<QuestionList>questionLists= new ArrayList<>();
     int question= 0;
     JSONObject answersheet;
@@ -45,44 +50,58 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= ActivityTakeTestBinding.inflate(getLayoutInflater());
+        binding= TakeTestLayoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setTitle("Python Tests");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().hide();
         answersheet= new JSONObject();
+        setActivityData();
         ActivityAction();
-        for (int i =0 ;i<10;i++){
-            questionLists.add(new QuestionList("your question no is  "+i, "patato"+i,"tomato"+i,"onion"+i,"chilli"+i  ));
-        }
-
-        binding.recycle.setAdapter(new QuestionAdapter(this,this));
-
-        binding.question.setText("Q."+question+" "+questionLists.get(question).getQues());
-        binding.t1.setText(questionLists.get(question).getOption1()); binding.ans1.setTag(questionLists.get(question).getOption1());
-        binding.t2.setText(questionLists.get(question).getOption2()); binding.ans2.setTag(questionLists.get(question).getOption2());
-        binding.t3.setText(questionLists.get(question).getOption3()); binding.ans3.setTag(questionLists.get(question).getOption3());
-        binding.t4.setText(questionLists.get(question).getOption4()); binding.ans4.setTag(questionLists.get(question).getOption4());
-
         StartTest();
 
     }
 
+    private void setActivityData(){
+        for (int i =1 ;i<=50;i++){
+            questionLists.add(new QuestionList("your question no is  "+i, "patato"+i,"tomato"+i,"onion"+i,"chilli"+i  ));
+        }
+        binding.recycle.setAdapter(new QuestionAdapter(this,this));
+        binding.mainview.question.setText(questionLists.get(question).getQues());
+        binding.mainview.ques.setText("Q."+ question);
+        binding.mainview.t1.setText(questionLists.get(question).getOption1()); binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
+        binding.mainview.t2.setText(questionLists.get(question).getOption2()); binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
+        binding.mainview.t3.setText(questionLists.get(question).getOption3()); binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
+        binding.mainview.t4.setText(questionLists.get(question).getOption4()); binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
+        binding.total.setText(String.valueOf(questionLists.size()));
+
+    }
+    private void SetDrawerLayout(){
+
+    }
 
 
+    private void openDrawer() {
+
+        if (binding.drawer.isDrawerVisible(GravityCompat.END)) {
+            binding.drawer.closeDrawer(GravityCompat.END);
+        } else binding .drawer.openDrawer(GravityCompat.END);
+    }
 
 
     private void ActivityAction(){
-        binding.next.setOnClickListener(v -> {question++;Next();});
-        binding.prev.setOnClickListener(v -> {question--;Prev();});
-        binding.clear.setOnClickListener(v -> {clearResponse();;deletejson(String.valueOf(question));});
-        binding.submit.setOnClickListener(v -> { Submit(binding.getRoot());});
+        binding.mainview.next.setOnClickListener(v -> {question++;Next();});
+        binding.mainview.prev.setOnClickListener(v -> {question--;Prev();});
+        binding.mainview.clear.setOnClickListener(v -> {clearResponse();
+            deletejson(String.valueOf(question));});
+        binding.mainview.submit.setOnClickListener(v -> { Submit(binding.getRoot());});
+        binding.mainview.sidebarMenu.setOnClickListener(v -> { openDrawer(); });
+
     }
 
     private void timer() {
       countDownTimer =  new CountDownTimer(15000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                binding.time.setText("" + millisUntilFinished / 1000);
+                binding.mainview.time.setText("00:" + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
@@ -96,18 +115,19 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
     private void Next(){
       action=false;
       clearResponse();
-      if(question==questionLists.size()-1){binding.next.setEnabled(false);binding.submit.setVisibility(View.VISIBLE);}else {binding.prev.setEnabled(true);Loading();binding.submit.setVisibility(View.GONE);}
-      binding.question.setText("Q"+question+"  " +questionLists.get(question).getQues());
-      binding.t1.setText(questionLists.get(question).getOption1()); binding.ans1.setTag(questionLists.get(question).getOption1());
-      binding.t2.setText(questionLists.get(question).getOption2()); binding.ans2.setTag(questionLists.get(question).getOption2());
-      binding.t3.setText(questionLists.get(question).getOption3()); binding.ans3.setTag(questionLists.get(question).getOption3());
-      binding.t4.setText(questionLists.get(question).getOption4()); binding.ans4.setTag(questionLists.get(question).getOption4());
+      if(question==questionLists.size()-1){binding.mainview.next.setEnabled(false);binding.mainview.submit.setVisibility(View.VISIBLE);}else {binding.mainview.prev.setEnabled(true);Loading();binding.mainview.submit.setVisibility(View.GONE);}
+      binding.mainview.question.setText(questionLists.get(question).getQues());
+      binding.mainview.ques.setText("Q."+ question);
+      binding.mainview.t1.setText(questionLists.get(question).getOption1()); binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
+      binding.mainview.t2.setText(questionLists.get(question).getOption2()); binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
+      binding.mainview.t3.setText(questionLists.get(question).getOption3()); binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
+      binding.mainview.t4.setText(questionLists.get(question).getOption4()); binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
             if(!searchJson(String.valueOf(question)).isEmpty()){
-                RadioButton button = binding.newoption.findViewWithTag(searchJson(String.valueOf(question)));
+                RadioButton button = binding.mainview.newoption.findViewWithTag(searchJson(String.valueOf(question)));
                 if(button!=null){button.setChecked(true);}
             }else
                 {
-                    binding.newoption.clearCheck();
+                    binding.mainview.newoption.clearCheck();
                 }
       action=true;
     }
@@ -115,19 +135,20 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
     private void Prev(){
         action=false;
         clearResponse();
-        if(question==0){binding.prev.setEnabled(false);binding.submit.setVisibility(View.GONE);}else {binding.next.setEnabled(true);Loading();binding.submit.setVisibility(View.GONE);}
-        binding.question.setText("Q"+question+  "  " +questionLists.get(question).getQues());
-        binding.t1.setText(questionLists.get(question).getOption1()); binding.ans1.setTag(questionLists.get(question).getOption1());
-        binding.t2.setText(questionLists.get(question).getOption2()); binding.ans2.setTag(questionLists.get(question).getOption2());
-        binding.t3.setText(questionLists.get(question).getOption3()); binding.ans3.setTag(questionLists.get(question).getOption3());
-        binding.t4.setText(questionLists.get(question).getOption4()); binding.ans4.setTag(questionLists.get(question).getOption4());
+        if(question==0){binding.mainview.prev.setEnabled(false);binding.mainview.submit.setVisibility(View.GONE);}else {binding.mainview.next.setEnabled(true);Loading();binding.mainview.submit.setVisibility(View.GONE);}
+        binding.mainview.question.setText(questionLists.get(question).getQues());
+        binding.mainview.ques.setText("Q."+ question);
+        binding.mainview.t1.setText(questionLists.get(question).getOption1()); binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
+        binding.mainview.t2.setText(questionLists.get(question).getOption2()); binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
+        binding.mainview.t3.setText(questionLists.get(question).getOption3()); binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
+        binding.mainview.t4.setText(questionLists.get(question).getOption4()); binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
             if(!searchJson(String.valueOf(question)).isEmpty()){
                 String s=searchJson(String.valueOf(question));
-                RadioButton button = binding.newoption.findViewWithTag(s);
+                RadioButton button = binding.mainview.newoption.findViewWithTag(s);
                 if(button!=null){button.setChecked(true);}
             }else
             {
-                binding.newoption.clearCheck();
+                binding.mainview.newoption.clearCheck();
             }
        action= true;
     }
@@ -135,12 +156,12 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
     private void Loading() {
         new CountDownTimer(1000, 1000) {
             public void onTick(long millisUntilFinished) {
-                binding.mainview.setAlpha((float) 0.5);
-                binding.progress.setVisibility(View.VISIBLE);
+//                binding.mainview.setAlpha((float) 0.5);
+//                binding.progress.setVisibility(View.VISIBLE);
             }
             public void onFinish() {
-                binding.progress.setVisibility(View.GONE);
-                binding.mainview.setAlpha(1);
+//                binding.progress.setVisibility(View.GONE);
+//                binding.mainview.setAlpha(1);
             }
         }.start();
     }
@@ -174,7 +195,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                 alertDialogBuilder.setPositiveButton("Submit",
                         (arg0, arg1) ->{startActivity(new Intent(this,ScoreActivity.class));});
                 AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.show();
     }
 
@@ -281,7 +302,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         RadioButton radioButton= findViewById(view.getId());
         switch (view.getId()) {
             case R.id.ans1:
-                if (binding.ans1.isChecked()) {
+                if (binding.mainview.ans1.isChecked()) {
                     try {
                         if(radioButton!=null && action){
                             answersheet.put(String.valueOf(question),radioButton.getTag().toString());
@@ -291,16 +312,16 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                     }
                     Log.e("json ", String.valueOf(answersheet));
 
-                    binding.ans1.setChecked(true);
-                    binding.ans2.setChecked(false);
-                    binding.ans3.setChecked(false);
-                    binding.ans4.setChecked(false);
+                    binding.mainview.ans1.setChecked(true);
+                    binding.mainview.ans2.setChecked(false);
+                    binding.mainview.ans3.setChecked(false);
+                    binding.mainview.ans4.setChecked(false);
                     onSelectOption(question);
 
                 }
                 break;
             case R.id.ans2:
-                if (binding.ans2.isChecked()) {
+                if (binding.mainview.ans2.isChecked()) {
                     try {
                         if(radioButton!=null && action){
                             answersheet.put(String.valueOf(question),radioButton.getTag().toString());
@@ -309,15 +330,15 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                         e.printStackTrace();
                     }
                     Log.e("json ", String.valueOf(answersheet));
-                    binding.ans1.setChecked(false);
-                    binding.ans2.setChecked(true);
-                    binding.ans3.setChecked(false);
-                    binding.ans4.setChecked(false);
+                    binding.mainview.ans1.setChecked(false);
+                    binding.mainview.ans2.setChecked(true);
+                    binding.mainview.ans3.setChecked(false);
+                    binding.mainview.ans4.setChecked(false);
                     onSelectOption(question);
                 }
                 break;
             case R.id.ans3:
-                if (binding.ans3.isChecked()) {
+                if (binding.mainview.ans3.isChecked()) {
                     try {
                         if(radioButton!=null && action){
                             answersheet.put(String.valueOf(question),radioButton.getTag().toString());
@@ -326,15 +347,15 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                         e.printStackTrace();
                     }
                     Log.e("json ", String.valueOf(answersheet));
-                    binding.ans1.setChecked(false);
-                    binding.ans2.setChecked(false);
-                    binding.ans3.setChecked(true);
-                    binding.ans4.setChecked(false);
+                    binding.mainview.ans1.setChecked(false);
+                    binding.mainview.ans2.setChecked(false);
+                    binding.mainview.ans3.setChecked(true);
+                    binding.mainview.ans4.setChecked(false);
                     onSelectOption(question);
                 }
                 break;
             case R.id.ans4:
-                if (binding.ans4.isChecked()) {
+                if (binding.mainview.ans4.isChecked()) {
                     try {
                         if(radioButton!=null && action){
                             answersheet.put(String.valueOf(question),radioButton.getTag().toString());
@@ -343,10 +364,10 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                         e.printStackTrace();
                     }
                     Log.e("json ", String.valueOf(answersheet));
-                    binding.ans1.setChecked(false);
-                    binding.ans2.setChecked(false);
-                    binding.ans3.setChecked(false);
-                    binding.ans4.setChecked(true);
+                    binding.mainview.ans1.setChecked(false);
+                    binding.mainview.ans2.setChecked(false);
+                    binding.mainview.ans3.setChecked(false);
+                    binding.mainview.ans4.setChecked(true);
                     onSelectOption(question);
                 }
                 break;
@@ -354,10 +375,10 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
     }
 
     private void clearResponse(){
-        binding.ans1.setChecked(false);
-        binding.ans2.setChecked(false);
-        binding.ans3.setChecked(false);
-        binding.ans4.setChecked(false);
+        binding.mainview.ans1.setChecked(false);
+        binding.mainview.ans2.setChecked(false);
+        binding.mainview.ans3.setChecked(false);
+        binding.mainview.ans4.setChecked(false);
         onClearOption(question);
     }
 
@@ -369,38 +390,42 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         action=false;
         clearResponse();
         if(question==questionLists.size()-1){
-            binding.next.setEnabled(false);binding.prev.setEnabled(true);binding.submit.setVisibility(View.VISIBLE);
+            binding.mainview.next.setEnabled(false);binding.mainview.prev.setEnabled(true);binding.mainview.submit.setVisibility(View.VISIBLE);
         } else if(question == 0){
-            binding.prev.setEnabled(false);binding.next.setEnabled(true);binding.submit.setVisibility(View.GONE);
+            binding.mainview.prev.setEnabled(false);binding.mainview.next.setEnabled(true);binding.mainview.submit.setVisibility(View.GONE);
         }else {
-                binding.prev.setEnabled(true); binding.next.setEnabled(true);Loading();binding.submit.setVisibility(View.GONE);
+                binding.mainview.prev.setEnabled(true); binding.mainview.next.setEnabled(true);Loading();binding.mainview.submit.setVisibility(View.GONE);
             }
-        binding.question.setText("Q"+question+"  " +questionLists.get(question).getQues());
-        binding.t1.setText(questionLists.get(question).getOption1()); binding.ans1.setTag(questionLists.get(question).getOption1());
-        binding.t2.setText(questionLists.get(question).getOption2()); binding.ans2.setTag(questionLists.get(question).getOption2());
-        binding.t3.setText(questionLists.get(question).getOption3()); binding.ans3.setTag(questionLists.get(question).getOption3());
-        binding.t4.setText(questionLists.get(question).getOption4()); binding.ans4.setTag(questionLists.get(question).getOption4());
+        binding.mainview.question.setText(questionLists.get(question).getQues());
+        binding.mainview.ques.setText("Q."+ question);
+        binding.mainview.t1.setText(questionLists.get(question).getOption1()); binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
+        binding.mainview.t2.setText(questionLists.get(question).getOption2()); binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
+        binding.mainview.t3.setText(questionLists.get(question).getOption3()); binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
+        binding.mainview.t4.setText(questionLists.get(question).getOption4()); binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
         if(!searchJson(String.valueOf(question)).isEmpty()){
-            RadioButton button = binding.newoption.findViewWithTag(searchJson(String.valueOf(question)));
+            RadioButton button = binding.mainview.newoption.findViewWithTag(searchJson(String.valueOf(question)));
             if(button!=null){button.setChecked(true);}
         }else
         {
-            binding.newoption.clearCheck();
+            binding.mainview.newoption.clearCheck();
         }
         action=true;
+        binding.drawer.closeDrawer(GravityCompat.END);
+
     }
 
     private void onSelectOption(int position){
        QuestionAdapter.Viewholder  viewholder= (QuestionAdapter.Viewholder) binding.recycle.findViewHolderForAdapterPosition(position);
        MaterialCardView cardView = viewholder.itemView.findViewById(R.id.mainview);
-        cardView.setCardBackgroundColor(Color.GREEN);
+       cardView.setCardBackgroundColor(getResources().getColor(R.color.dark_green));
 
     }
 
     private void onClearOption(int position){
-        QuestionAdapter.Viewholder  viewholder= (QuestionAdapter.Viewholder) binding.recycle.findViewHolderForAdapterPosition(position);
-        MaterialCardView cardView = viewholder.itemView.findViewById(R.id.mainview);
-        cardView.setCardBackgroundColor(Color.GRAY);
+//        QuestionAdapter.Viewholder  viewholder= (QuestionAdapter.Viewholder) binding.recycle.findViewHolderForAdapterPosition(position);
+//        MaterialCardView cardView = viewholder.itemView.findViewById(R.id.mainview);
+//        cardView.setCardBackgroundColor(getResources().getColor(R.color.gray));
 
     }
+
 }

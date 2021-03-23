@@ -43,12 +43,12 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Viewho
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull Viewholder holder, int position) {
-        holder.textView.setText(String.valueOf(position));
+        holder.textView.setText(String.valueOf(position+1));
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return 50;
     }
 
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
