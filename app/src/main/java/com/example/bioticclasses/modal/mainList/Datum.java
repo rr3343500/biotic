@@ -1,11 +1,13 @@
 
 package com.example.bioticclasses.modal.mainList;
 
+import android.app.Application;
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum {
+public class Datum  {
 
     @SerializedName("tests")
     @Expose

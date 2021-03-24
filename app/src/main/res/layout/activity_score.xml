@@ -124,7 +124,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/lato_bold"
                         android:padding="4dp"
-                        android:text="Attem Question"
+                        android:text="Attempt Question"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -153,7 +153,6 @@
                     android:weightSum="2">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/wrong_ans"
                         style="@style/TextAppearance.MaterialComponents.Headline6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -189,14 +188,13 @@
                     android:weightSum="2">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/coorect_ans"
                         style="@style/TextAppearance.MaterialComponents.Headline6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/lato_bold"
                         android:padding="4dp"
-                        android:text="Coorect Answer"
+                        android:text="Correct Answer"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         app:layout_constraintLeft_toLeftOf="parent"

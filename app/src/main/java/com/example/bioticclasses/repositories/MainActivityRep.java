@@ -40,8 +40,7 @@ public class MainActivityRep {
 
     public LiveData<List<Datum>> getMainList() {
 
-        Log.e(TAG, "getMainList: " + datumMutableLiveData.getValue());
-        Log.e(TAG, "getMainList: " + datumMutableLiveData.getValue());
+
         if (datumMutableLiveData.getValue() == null) {
             try {
                 MainList();

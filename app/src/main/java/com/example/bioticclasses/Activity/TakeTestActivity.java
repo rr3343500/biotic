@@ -142,19 +142,36 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         });
     }
 
+
+    private String modifyDateLayout(String inputDate) throws ParseException {
+        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(inputDate);
+        return new SimpleDateFormat("HH:mm:ss").format(date);
+    }
+
+    public long getMilliFromDate(String dateFormat) {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        try {
+            date = formatter.parse(dateFormat);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Today is " + date);
+        return date.getTime();
+    }
+
     private void timer() {
         if (timecheck.getTimeLimit().trim().equals("NO"))
             binding.mainview.time.setText("Unlimited");
         else {
-
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            long a = 0;
             try {
-                Date formatted = formatter.parse(timecheck.getDuration());
-                Log.e(TAG, "timer: " + formatted.getTime());
+                a = getMilliFromDate(modifyDateLayout(timecheck.getDuration()));
+                Log.e(TAG, "timer: " + a);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
+//            15000
 
             countDownTimer = new CountDownTimer(15000, 1000) {
 

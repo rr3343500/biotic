@@ -4,6 +4,7 @@ import com.example.bioticclasses.modal.login.Signin;
 import com.example.bioticclasses.modal.mainList.MainList;
 import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.SubjectClass;
+import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -40,4 +41,52 @@ public interface BiotechInterface {
     @FormUrlEncoded
     Call<MainList> getSubjectTest(@Field("name_hi") String name_hi, @Field("cls") String cls);
 
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST("add_user_test_result")
+    Call<TestSubmitData> testSubmit(@Body JsonObject jsonObject);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

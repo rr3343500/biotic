@@ -48,6 +48,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
                 Toast.makeText(context, "No Tests", Toast.LENGTH_SHORT).show();
             else
                 context.startActivity(new Intent(context, TestListActivity.class).putExtra("pos", String.valueOf(position)));
+
         });
         binding.subjectName.setText(list.getNameEn());
         if (position >= 9) binding.counting.setText(String.valueOf(position + 1));

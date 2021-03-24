@@ -11,18 +11,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.bioticclasses.R;
+import com.example.bioticclasses.Service.ApiClient;
+import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.ActivityScoreBinding;
 import com.example.bioticclasses.modal.mainList.Question;
+import com.example.bioticclasses.modal.mainList.Test;
+import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
+import com.example.bioticclasses.other.SessionManage;
 import com.example.bioticclasses.viewModel.MainActivityViewModel;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import im.dacer.androidcharts.PieHelper;
 import im.dacer.androidcharts.PieView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ScoreActivity extends AppCompatActivity {
 
@@ -33,6 +45,10 @@ public class ScoreActivity extends AppCompatActivity {
     int correctAnswer = 0, wrongAnser = 0;
     MainActivityViewModel mainActivityViewModel;
     ActivityScoreBinding binding;
+    JsonObject passjsonObject = new JsonObject();
+    JsonArray jsonElements = new JsonArray();
+    BiotechInterface biotechInterface;
+    SessionManage sessionManage;
 
 
     @Override
@@ -48,6 +64,8 @@ public class ScoreActivity extends AppCompatActivity {
         pos = Integer.parseInt(getIntent().getStringExtra("pos"));
         TestPos = Integer.parseInt(getIntent().getStringExtra("TestPos"));
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
+        sessionManage = new SessionManage(this);
 
         try {
             answersheet = new JSONObject(getIntent().getStringExtra("answersheet"));
@@ -73,19 +91,33 @@ public class ScoreActivity extends AppCompatActivity {
                     Log.e(TAG, "calculateTest: " + Copt.getCop());
                     if (answersheet.getString(key).trim().toUpperCase().equals(Copt.getCop().trim().toUpperCase())) {
                         correctAnswer++;
+
                     } else {
                         wrongAnser++;
                     }
+
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("question", Copt.getQuestion());
+                    jsonObject.addProperty("op1", Copt.getOp1());
+                    jsonObject.addProperty("op2", Copt.getOp2());
+                    jsonObject.addProperty("op3", Copt.getOp3());
+                    jsonObject.addProperty("op4", Copt.getOp4());
+                    jsonObject.addProperty("cop", Copt.getCop());
+                    jsonObject.addProperty("uop", answersheet.getString(key).trim());
+                    jsonObject.addProperty("des", "");
+                    jsonObject.addProperty("type", Copt.getType());
+                    jsonElements.add(jsonObject);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
             }
-            AnswerSheet(data.get(pos).getTests().get(TestPos).getQuestions().size(), data.get(pos).getTests().get(TestPos).getCoorectMarks(), data.get(pos).getTests().get(TestPos).getWrongMarks());
+            AnswerSheet(data.get(pos).getTests().get(TestPos).getQuestions().size(), data.get(pos).getTests().get(TestPos).getCoorectMarks(), data.get(pos).getTests().get(TestPos).getWrongMarks(), data.get(pos).getTests());
         });
     }
 
-    private void AnswerSheet(int totalQuestion, int coorect_marks_1_question, int wrong_marks_1_question) {
+    private void AnswerSheet(int totalQuestion, int coorect_marks_1_question, int wrong_marks_1_question, List<Test> test) {
         Log.e(TAG, "calculateTest: correctAnswer" + correctAnswer);
         Log.e(TAG, "calculateTest: wrongAnser" + wrongAnser);
 
@@ -98,6 +130,43 @@ public class ScoreActivity extends AppCompatActivity {
         binding.wrongAnswer.setText(String.valueOf(wrongAnser));
         binding.correctAnswer.setText(String.valueOf(correctAnswer));
         binding.totalMarks.setText(String.valueOf((correctAnswer * coorect_marks_1_question) - (wrongAnser * wrong_marks_1_question)));
+
+
+        int totalMarks = totalQuestion * coorect_marks_1_question;
+        int leaveQue = totalQuestion - (correctAnswer + wrongAnser);
+
+
+        passjsonObject.addProperty("user_id", sessionManage.getUserDetails().get("userid"));
+        passjsonObject.addProperty("test_id", test.get(TestPos).getId());
+        passjsonObject.addProperty("total_ques", totalQuestion);
+        passjsonObject.addProperty("total_marks", String.valueOf(totalMarks));
+        passjsonObject.addProperty("marks_obtain", String.valueOf((correctAnswer * coorect_marks_1_question) - (wrongAnser * wrong_marks_1_question)));
+        passjsonObject.addProperty("correct_ques", correctAnswer);
+        passjsonObject.addProperty("wrong_ques", wrongAnser);
+        passjsonObject.addProperty("leave_ques", String.valueOf(leaveQue));
+        passjsonObject.add("response", jsonElements);
+
+        Log.e(TAG, "AnswerSheet: " + passjsonObject.toString());
+        TestSubmit();
+    }
+
+    private void TestSubmit() {
+        biotechInterface.testSubmit(passjsonObject).enqueue(new Callback<TestSubmitData>() {
+            @Override
+            public void onResponse(Call<TestSubmitData> call, Response<TestSubmitData> response) {
+                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+                if (response.isSuccessful()) {
+                    if (!response.body().getResult().getError() && response.body().getResult().getErrorCode() == 200) {
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TestSubmitData> call, Throwable t) {
+
+            }
+        });
     }
 
 

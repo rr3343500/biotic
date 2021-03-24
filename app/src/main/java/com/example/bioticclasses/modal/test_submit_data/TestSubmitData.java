@@ -1,12 +1,10 @@
 
-package com.example.bioticclasses.modal.mainList;
-
-import android.app.Application;
+package com.example.bioticclasses.modal.test_submit_data;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MainList extends Application {
+public class TestSubmitData {
 
     @SerializedName("result")
     @Expose

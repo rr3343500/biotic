@@ -177,7 +177,11 @@ public class SessionManage {
 
 
         user.put(CLASS1, pref.getString(CLASS1, null));
+
         user.put(SUBJECT, pref.getString(SUBJECT, null));
+
+        user.put(USERID, pref.getString(USERID, null));
+
 
         return user;
     }
@@ -216,14 +220,7 @@ public class SessionManage {
      *
      * */
 
-    public void userDetails(String name, String email, String mobile, String class1, String subject) {
-        editor.putString(NAME, name);
-        editor.putString(EMAIL, email);
-        editor.putString(MOBILE, mobile);
-        editor.putString(CLASS1, class1);
-        editor.putString(SUBJECT, subject);
-        editor.commit();
-    }
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.bioticclasses.Activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,14 +9,21 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.bioticclasses.Adapter.TestAdapter;
 import com.example.bioticclasses.databinding.ActivityTestListBinding;
+import com.example.bioticclasses.modal.mainList.Datum;
+import com.example.bioticclasses.modal.mainList.MainList;
 import com.example.bioticclasses.viewModel.MainActivityViewModel;
+
+import java.util.List;
 
 public class TestListActivity extends AppCompatActivity {
 
     ActivityTestListBinding binding;
     int position;
     MainActivityViewModel mainActivityViewModel;
+    List<Datum> datumList;
+    private static final String TAG = "TestListActivity";
 
+   MainList mainList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +33,14 @@ public class TestListActivity extends AppCompatActivity {
         setTitle("Python Tests");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+//        Log.e(TAG, "onCreate: " + mainList.getResult().getData().size() );
+
+
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
         position = Integer.parseInt(getIntent().getStringExtra("pos"));
+
 
         try {
             TestData();
