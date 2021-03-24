@@ -1,80 +1,109 @@
 package com.example.bioticclasses.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.bioticclasses.Adapter.QuestionAdapter;
 import com.example.bioticclasses.List.QuestionList;
 import com.example.bioticclasses.R;
-import com.example.bioticclasses.databinding.ActivityTakeTestBinding;
 import com.example.bioticclasses.databinding.TakeTestLayoutBinding;
+import com.example.bioticclasses.modal.mainList.Question;
+import com.example.bioticclasses.viewModel.MainActivityViewModel;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.navigation.NavigationView;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TakeTestActivity extends AppCompatActivity implements QuestionAdapter.ChangeQuestion {
     TakeTestLayoutBinding binding;
-    List<QuestionList>questionLists= new ArrayList<>();
-    int question= 0;
+    List<QuestionList> questionLists = new ArrayList<>();
+    int question = 0;
     JSONObject answersheet;
-    Boolean action= true;
-    Boolean Test= false;
-    Boolean Warning= false;
+    Boolean action = true;
+    Boolean Test = false;
+    Boolean Warning = false;
     CountDownTimer countDownTimer;
     String msg;
+    MainActivityViewModel mainActivityViewModel;
+    List<Question> list;
+    int SubPos, TestPos;
+    private static final String TAG = "TakeTestActivity";
+    com.example.bioticclasses.modal.mainList.Test timecheck;
+    AlertDialog alertDialog;
+
     QuestionAdapter.ChangeQuestion changeQuestion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= TakeTestLayoutBinding.inflate(getLayoutInflater());
+        binding = TakeTestLayoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
-        answersheet= new JSONObject();
+        answersheet = new JSONObject();
+
+        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        SubPos = Integer.parseInt(getIntent().getStringExtra("subPosition"));
+        TestPos = Integer.parseInt(getIntent().getStringExtra("testPos"));
+
         setActivityData();
         ActivityAction();
         StartTest();
 
     }
 
-    private void setActivityData(){
-        for (int i =1 ;i<=50;i++){
-            questionLists.add(new QuestionList("your question no is  "+i, "patato"+i,"tomato"+i,"onion"+i,"chilli"+i  ));
-        }
-        binding.recycle.setAdapter(new QuestionAdapter(this,this));
-        binding.mainview.question.setText(questionLists.get(question).getQues());
-        binding.mainview.ques.setText("Q."+ question);
-        binding.mainview.t1.setText(questionLists.get(question).getOption1()); binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
-        binding.mainview.t2.setText(questionLists.get(question).getOption2()); binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
-        binding.mainview.t3.setText(questionLists.get(question).getOption3()); binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
-        binding.mainview.t4.setText(questionLists.get(question).getOption4()); binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
-        binding.total.setText(String.valueOf(questionLists.size()));
+    private void setActivityData() {
+
+
+        mainActivityViewModel.getMainList().observe(this, data -> {
+
+            list = data.get(SubPos).getTests().get(TestPos).getQuestions();
+            timecheck = data.get(SubPos).getTests().get(TestPos);
+
+            for (int i = 1; i <= list.size(); i++) {
+                questionLists.add(new QuestionList("your question no is  " + i, "patato" + i, "tomato" + i, "onion" + i, "chilli" + i));
+            }
+            binding.recycle.setAdapter(new QuestionAdapter(this, this, list));
+
+            if (list.get(question).getType().trim().toUpperCase().equals("TEXT")) {
+                binding.mainview.question.setText(list.get(question).getQuestion());
+                int snoCount = question + 1;
+                binding.mainview.ques.setText("Q." + snoCount);
+                binding.mainview.t1.setText(list.get(question).getOp1());
+//                binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
+                binding.mainview.ans1.setTag("op1");
+                binding.mainview.t2.setText(list.get(question).getOp2());
+//                binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
+                binding.mainview.ans2.setTag("op2");
+                binding.mainview.t3.setText(list.get(question).getOp3());
+//                binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
+                binding.mainview.ans3.setTag("op3");
+                binding.mainview.t4.setText(list.get(question).getOp4());
+//                binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
+                binding.mainview.ans4.setTag("op4");
+                binding.total.setText(String.valueOf(questionLists.size()));
+            }
+        });
+
 
     }
-    private void SetDrawerLayout(){
+
+    private void SetDrawerLayout() {
 
     }
 
@@ -83,74 +112,146 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
 
         if (binding.drawer.isDrawerVisible(GravityCompat.END)) {
             binding.drawer.closeDrawer(GravityCompat.END);
-        } else binding .drawer.openDrawer(GravityCompat.END);
+        } else binding.drawer.openDrawer(GravityCompat.END);
     }
 
 
-    private void ActivityAction(){
-        binding.mainview.next.setOnClickListener(v -> {question++;Next();});
-        binding.mainview.prev.setOnClickListener(v -> {question--;Prev();});
-        binding.mainview.clear.setOnClickListener(v -> {clearResponse();
-            deletejson(String.valueOf(question));});
-        binding.mainview.submit.setOnClickListener(v -> { Submit(binding.getRoot());});
-        binding.mainview.sidebarMenu.setOnClickListener(v -> { openDrawer(); });
-
+    private void ActivityAction() {
+        binding.mainview.next.setOnClickListener(v -> {
+            question++;
+            Next();
+        });
+        binding.mainview.prev.setOnClickListener(v -> {
+            question--;
+            Prev();
+        });
+        binding.mainview.clear.setOnClickListener(v -> {
+            clearResponse();
+            deletejson(String.valueOf(question));
+        });
+        binding.mainview.submit.setOnClickListener(v -> {
+            Submit(binding.getRoot());
+        });
+        binding.mainview.sidebarMenu.setOnClickListener(v -> {
+            openDrawer();
+        });
+        binding.finalsubmit.setOnClickListener(v -> {
+            if (countDownTimer != null) countDownTimer.cancel();
+            startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)));
+            finish();
+        });
     }
 
     private void timer() {
-      countDownTimer =  new CountDownTimer(15000, 1000) {
+        if (timecheck.getTimeLimit().trim().equals("NO"))
+            binding.mainview.time.setText("Unlimited");
+        else {
 
-            public void onTick(long millisUntilFinished) {
-                binding.mainview.time.setText("00:" + millisUntilFinished / 1000);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date formatted = formatter.parse(timecheck.getDuration());
+                Log.e(TAG, "timer: " + formatted.getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
 
-            public void onFinish() {
-                TimeUp(binding.getRoot());
-            }
 
-        }.start();
-    }
+            countDownTimer = new CountDownTimer(15000, 1000) {
 
-
-    private void Next(){
-      action=false;
-      clearResponse();
-      if(question==questionLists.size()-1){binding.mainview.next.setEnabled(false);binding.mainview.submit.setVisibility(View.VISIBLE);}else {binding.mainview.prev.setEnabled(true);Loading();binding.mainview.submit.setVisibility(View.GONE);}
-      binding.mainview.question.setText(questionLists.get(question).getQues());
-      binding.mainview.ques.setText("Q."+ question);
-      binding.mainview.t1.setText(questionLists.get(question).getOption1()); binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
-      binding.mainview.t2.setText(questionLists.get(question).getOption2()); binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
-      binding.mainview.t3.setText(questionLists.get(question).getOption3()); binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
-      binding.mainview.t4.setText(questionLists.get(question).getOption4()); binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
-            if(!searchJson(String.valueOf(question)).isEmpty()){
-                RadioButton button = binding.mainview.newoption.findViewWithTag(searchJson(String.valueOf(question)));
-                if(button!=null){button.setChecked(true);}
-            }else
-                {
-                    binding.mainview.newoption.clearCheck();
+                public void onTick(long millisUntilFinished) {
+                    binding.mainview.time.setText("00:" + millisUntilFinished / 1000);
                 }
-      action=true;
+
+                public void onFinish() {
+                    TimeUp(binding.getRoot());
+                }
+
+            }.start();
+        }
     }
 
-    private void Prev(){
-        action=false;
+
+    private void Next() {
+
+        action = false;
         clearResponse();
-        if(question==0){binding.mainview.prev.setEnabled(false);binding.mainview.submit.setVisibility(View.GONE);}else {binding.mainview.next.setEnabled(true);Loading();binding.mainview.submit.setVisibility(View.GONE);}
-        binding.mainview.question.setText(questionLists.get(question).getQues());
-        binding.mainview.ques.setText("Q."+ question);
-        binding.mainview.t1.setText(questionLists.get(question).getOption1()); binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
-        binding.mainview.t2.setText(questionLists.get(question).getOption2()); binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
-        binding.mainview.t3.setText(questionLists.get(question).getOption3()); binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
-        binding.mainview.t4.setText(questionLists.get(question).getOption4()); binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
-            if(!searchJson(String.valueOf(question)).isEmpty()){
-                String s=searchJson(String.valueOf(question));
-                RadioButton button = binding.mainview.newoption.findViewWithTag(s);
-                if(button!=null){button.setChecked(true);}
-            }else
-            {
-                binding.mainview.newoption.clearCheck();
+
+        if (question == list.size() - 1) {
+            binding.mainview.next.setEnabled(false);
+            binding.mainview.submit.setVisibility(View.GONE);
+        } else {
+            binding.mainview.prev.setEnabled(true);
+            Loading();
+            binding.mainview.submit.setVisibility(View.GONE);
+        }
+        binding.mainview.question.setText(list.get(question).getQuestion());
+        int snoCount = question + 1;
+        binding.mainview.ques.setText("Q." + snoCount);
+        binding.mainview.t1.setText(list.get(question).getOp1());
+//        binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
+        binding.mainview.ans1.setTag("op1");
+        binding.mainview.t2.setText(list.get(question).getOp2());
+//        binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
+        binding.mainview.ans2.setTag("op2");
+        binding.mainview.t3.setText(list.get(question).getOp3());
+//        binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
+        binding.mainview.ans3.setTag("op3");
+        binding.mainview.t4.setText(list.get(question).getOp4());
+//        binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
+        binding.mainview.ans4.setTag("op4");
+        if (!searchJson(String.valueOf(question)).isEmpty()) {
+            RadioButton button = binding.mainview.newoption.findViewWithTag(searchJson(String.valueOf(question)));
+            if (button != null) {
+                button.setChecked(true);
             }
-       action= true;
+        } else {
+            binding.mainview.newoption.clearCheck();
+        }
+
+
+        action = true;
+    }
+
+    private void Prev() {
+
+        Log.e(TAG, "Prev: " + question);
+
+        action = false;
+        clearResponse();
+        if (question == 0) {
+            binding.mainview.prev.setEnabled(false);
+            binding.mainview.submit.setVisibility(View.GONE);
+        } else {
+            binding.mainview.next.setEnabled(true);
+            Loading();
+            binding.mainview.submit.setVisibility(View.GONE);
+        }
+        binding.mainview.question.setText(list.get(question).getQuestion());
+        int snoCount = question + 1;
+        binding.mainview.ques.setText("Q." + snoCount);
+
+        binding.mainview.t1.setText(list.get(question).getOp1());
+//        binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
+        binding.mainview.ans1.setTag("op1");
+        binding.mainview.t2.setText(list.get(question).getOp2());
+//        binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
+        binding.mainview.ans2.setTag("op2");
+        binding.mainview.t3.setText(list.get(question).getOp3());
+//        binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
+        binding.mainview.ans3.setTag("op3");
+        binding.mainview.t4.setText(list.get(question).getOp4());
+//        binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
+        binding.mainview.ans4.setTag("op4");
+        if (!searchJson(String.valueOf(question)).isEmpty()) {
+            String s = searchJson(String.valueOf(question));
+            RadioButton button = binding.mainview.newoption.findViewWithTag(s);
+            if (button != null) {
+                button.setChecked(true);
+            }
+        } else {
+            binding.mainview.newoption.clearCheck();
+        }
+        action = true;
     }
 
     private void Loading() {
@@ -189,13 +290,16 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         return super.onOptionsItemSelected(menuItem);
     }
 
-    public void TimeUp(View view){
+    public void TimeUp(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Time Up Please Submit");
-                alertDialogBuilder.setPositiveButton("Submit",
-                        (arg0, arg1) ->{startActivity(new Intent(this,ScoreActivity.class));});
-                AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.setCanceledOnTouchOutside(true);
+        alertDialogBuilder.setPositiveButton("Submit",
+                (arg0, arg1) -> {
+                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)));
+                    finish();
+                });
+        alertDialog = alertDialogBuilder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
     }
 
@@ -203,7 +307,9 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Are you sure you want to submit.");
         alertDialogBuilder.setPositiveButton("Submit",
-                (arg0, arg1) ->{startActivity(new Intent(this,ScoreActivity.class));});
+                (arg0, arg1) -> {
+                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)));
+                });
         alertDialogBuilder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.setCanceledOnTouchOutside(true);
@@ -386,42 +492,59 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
     @Override
     public void onitemClick(int position, MaterialCardView cardView) {
 //        cardView.setCardBackgroundColor(Color.GREEN);
-        this.question=position;
-        action=false;
+        this.question = position;
+        action = false;
         clearResponse();
-        if(question==questionLists.size()-1){
-            binding.mainview.next.setEnabled(false);binding.mainview.prev.setEnabled(true);binding.mainview.submit.setVisibility(View.VISIBLE);
-        } else if(question == 0){
-            binding.mainview.prev.setEnabled(false);binding.mainview.next.setEnabled(true);binding.mainview.submit.setVisibility(View.GONE);
-        }else {
-                binding.mainview.prev.setEnabled(true); binding.mainview.next.setEnabled(true);Loading();binding.mainview.submit.setVisibility(View.GONE);
-            }
+        if (question == questionLists.size() - 1) {
+            binding.mainview.next.setEnabled(false);
+            binding.mainview.prev.setEnabled(true);
+            binding.mainview.submit.setVisibility(View.VISIBLE);
+        } else if (question == 0) {
+            binding.mainview.prev.setEnabled(false);
+            binding.mainview.next.setEnabled(true);
+            binding.mainview.submit.setVisibility(View.GONE);
+        } else {
+            binding.mainview.prev.setEnabled(true);
+            binding.mainview.next.setEnabled(true);
+            Loading();
+            binding.mainview.submit.setVisibility(View.GONE);
+        }
         binding.mainview.question.setText(questionLists.get(question).getQues());
-        binding.mainview.ques.setText("Q."+ question);
-        binding.mainview.t1.setText(questionLists.get(question).getOption1()); binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
-        binding.mainview.t2.setText(questionLists.get(question).getOption2()); binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
-        binding.mainview.t3.setText(questionLists.get(question).getOption3()); binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
-        binding.mainview.t4.setText(questionLists.get(question).getOption4()); binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
-        if(!searchJson(String.valueOf(question)).isEmpty()){
+        int snoCount = question + 1;
+        binding.mainview.ques.setText("Q." + snoCount);
+        binding.mainview.t1.setText(questionLists.get(question).getOption1());
+//        binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
+        binding.mainview.ans1.setTag("op1");
+        binding.mainview.t2.setText(questionLists.get(question).getOption2());
+//        binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
+        binding.mainview.ans2.setTag("op2");
+        binding.mainview.t3.setText(questionLists.get(question).getOption3());
+//        binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
+        binding.mainview.ans3.setTag("op3");
+        binding.mainview.t4.setText(questionLists.get(question).getOption4());
+//        binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
+        binding.mainview.ans4.setTag("op4");
+        if (!searchJson(String.valueOf(question)).isEmpty()) {
             RadioButton button = binding.mainview.newoption.findViewWithTag(searchJson(String.valueOf(question)));
-            if(button!=null){button.setChecked(true);}
-        }else
-        {
+            if (button != null) {
+                button.setChecked(true);
+            }
+        } else {
             binding.mainview.newoption.clearCheck();
         }
-        action=true;
+        action = true;
         binding.drawer.closeDrawer(GravityCompat.END);
 
     }
 
-    private void onSelectOption(int position){
-       QuestionAdapter.Viewholder  viewholder= (QuestionAdapter.Viewholder) binding.recycle.findViewHolderForAdapterPosition(position);
-       MaterialCardView cardView = viewholder.itemView.findViewById(R.id.mainview);
-       cardView.setCardBackgroundColor(getResources().getColor(R.color.dark_green));
+    private void onSelectOption(int position) {
+        QuestionAdapter.Viewholder viewholder = (QuestionAdapter.Viewholder) binding.recycle.findViewHolderForAdapterPosition(position);
+        MaterialCardView cardView = viewholder.itemView.findViewById(R.id.mainview);
+        cardView.setCardBackgroundColor(getResources().getColor(R.color.dark_green));
 
     }
 
-    private void onClearOption(int position){
+    private void onClearOption(int position) {
 //        QuestionAdapter.Viewholder  viewholder= (QuestionAdapter.Viewholder) binding.recycle.findViewHolderForAdapterPosition(position);
 //        MaterialCardView cardView = viewholder.itemView.findViewById(R.id.mainview);
 //        cardView.setCardBackgroundColor(getResources().getColor(R.color.gray));

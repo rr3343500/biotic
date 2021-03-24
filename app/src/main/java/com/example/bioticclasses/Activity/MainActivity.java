@@ -1,14 +1,15 @@
 package com.example.bioticclasses.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.bioticclasses.Adapter.CoursesAdapter;
 import com.example.bioticclasses.Adapter.SliderAdapter;
@@ -16,6 +17,7 @@ import com.example.bioticclasses.List.CourseList;
 import com.example.bioticclasses.List.SliderList;
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.databinding.ActivityMainBinding;
+import com.example.bioticclasses.viewModel.MainActivityViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -26,23 +28,36 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
     ActivityMainBinding binding;
-    List<CourseList>courseLists= new ArrayList<>();
-    List<SliderList>sliderLists= new ArrayList<>();
+    List<CourseList> courseLists = new ArrayList<>();
+    List<SliderList> sliderLists = new ArrayList<>();
     DrawerLayout drawer;
+    private static final String TAG = "MainActivity";
+    MainActivityViewModel mainActivityViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         binding.navView.setNavigationItemSelectedListener(MainActivity.this);
 
-        sliderLists.add(new SliderList("Learn Java","https://besthqwallpapers.com/Uploads/17-2-2020/122068/java-glitter-logo-programming-language-grid-metal-background-java-creative.jpg"));
-        sliderLists.add(new SliderList("Learn Python","https://www.wallpapertip.com/wmimgs/160-1606471_logo-java.png"));
-        sliderLists.add(new SliderList("Machine Learning","https://cdn.hipwallpaper.com/m/27/88/bkRyWH.jpg"));
-        sliderLists.add(new SliderList("Internet of Things","https://www.setaswall.com/wp-content/uploads/2017/06/Programming-Wallpapers-30-1280-x-720.jpg"));
-        sliderLists.add(new SliderList("Artificial Intelligence","https://c4.wallpaperflare.com/wallpaper/126/647/803/5bd32e64b29c9-wallpaper-preview.jpg"));
+        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
+        try {
+            MainList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        sliderLists.add(new SliderList("Learn Java", "https://besthqwallpapers.com/Uploads/17-2-2020/122068/java-glitter-logo-programming-language-grid-metal-background-java-creative.jpg"));
+        sliderLists.add(new SliderList("Learn Python", "https://www.wallpapertip.com/wmimgs/160-1606471_logo-java.png"));
+        sliderLists.add(new SliderList("Machine Learning", "https://cdn.hipwallpaper.com/m/27/88/bkRyWH.jpg"));
+        sliderLists.add(new SliderList("Internet of Things", "https://www.setaswall.com/wp-content/uploads/2017/06/Programming-Wallpapers-30-1280-x-720.jpg"));
+        sliderLists.add(new SliderList("Artificial Intelligence", "https://c4.wallpaperflare.com/wallpaper/126/647/803/5bd32e64b29c9-wallpaper-preview.jpg"));
 
 
         SetActivityData();
@@ -51,11 +66,16 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     }
 
-    private void SetActivityData(){
+    private void MainList() throws Exception {
+        mainActivityViewModel.getMainList().observe(this, data -> {
+            binding.home.recycle.setAdapter(new CoursesAdapter(this, data));
+        });
+    }
+
+    private void SetActivityData() {
         getSupportActionBar().hide();
         drawer = binding.drawer;
-        binding.home.recycle.setAdapter(new CoursesAdapter(this,courseLists));
-        SliderAdapter adapter = new SliderAdapter(this,sliderLists);
+        SliderAdapter adapter = new SliderAdapter(this, sliderLists);
         binding.home.imageSlider.setSliderAdapter(adapter);
         binding.home.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
         binding.home.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -89,6 +109,35 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 startActivity(new Intent(this, MyTestsActivity.class));
                 break;
 
-        } return false;
+        }
+        return false;
     }
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

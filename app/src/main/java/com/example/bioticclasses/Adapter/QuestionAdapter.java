@@ -14,6 +14,7 @@ import com.example.bioticclasses.Activity.TakeTestActivity;
 import com.example.bioticclasses.List.CourseList;
 import com.example.bioticclasses.List.QuestionList;
 import com.example.bioticclasses.databinding.RowQuestionLayoutBinding;
+import com.example.bioticclasses.modal.mainList.Question;
 import com.google.android.material.card.MaterialCardView;
 
 
@@ -24,13 +25,13 @@ import java.util.List;
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Viewholder> {
     TakeTestActivity context;
     RowQuestionLayoutBinding binding;
-    List<QuestionList> questionLists;
+    List<Question> questionLists;
     ChangeQuestion changeQuestion;
 
-    public QuestionAdapter(TakeTestActivity context,ChangeQuestion changeQuestion) {
+    public QuestionAdapter(TakeTestActivity context, ChangeQuestion changeQuestion, List<Question> list) {
         this.context = context;
         this.changeQuestion=changeQuestion;
-
+        this.questionLists = list;
     }
 
     @NonNull
@@ -48,7 +49,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Viewho
 
     @Override
     public int getItemCount() {
-        return 50;
+        return questionLists.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener{

@@ -1,6 +1,7 @@
 package com.example.bioticclasses.Service;
 
 import com.example.bioticclasses.modal.login.Login;
+import com.example.bioticclasses.modal.mainList.MainList;
 import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.SubjectClass;
 
@@ -25,5 +26,9 @@ public interface BiotechInterface {
     @POST("fetch_sub_class")
     @FormUrlEncoded
     Call<SubjectClass> Fetch_sub_class(@Field("mobile") String mobile);
+
+    @POST("fetch_all_test")
+    @FormUrlEncoded
+    Call<MainList> getSubjectTest(@Field("name_hi") String name_hi, @Field("cls") String cls);
 
 }

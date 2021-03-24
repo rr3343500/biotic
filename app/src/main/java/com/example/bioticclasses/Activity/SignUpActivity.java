@@ -266,6 +266,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void Signup(){
-        biotechInterface.Signup()
+//        biotechInterface.Signup()
     }
 }
