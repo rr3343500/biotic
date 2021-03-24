@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.example.bioticclasses.Activity.LoginActivity;
 import com.example.bioticclasses.Activity.MainActivity;
-import com.example.bioticclasses.modal.login.Login;
 
 import java.util.HashMap;
 
@@ -65,18 +65,12 @@ public class SessionManage {
 
 
 
-    /*
-     *
-     *
-     *   My Biotic
-     *
-     */
-
     public static final String CLASS1 = "Class";
     public static final String SUBJECT = "Subject";
     public static final String NAME = "Name";
     public static final String EMAIL = "Email";
     public static final String MOBILE = "Mobile";
+    public static final String MEDIUN = "Medium";
 
 
     // Constructor
@@ -119,27 +113,15 @@ public class SessionManage {
      * Create login session
      */
 //    public void createLoginSession(String name, String email, String mobile, String photo){     modified due to photo not available
-    public void createLoginSession(String phone, String password, String token, String name, String mobile) {
-        // Storing login value as TRUE
+    public void createLoginSession(String name, String email, String mobile, String class1, String subject,String medium, String Userid) {
         editor.putBoolean(IS_LOGIN, true);
-
-        // Storing name in pref
-//        editor.putString(KEY_NAME, name);
-
-        // Storing email in pref
-//        editor.putString(KEY_EMAIL, email);
-
-
-        // Storing password in shared pref
-        editor.putString(KEY_PASSWORD, password);
-
-        //  Storing phone number in pref
-        editor.putString(KEY_MOBiLE, phone);
-
-        // Storing image url in pref
-        editor.putString(KEYID, token);
-
-        // commit changes
+        editor.putString(NAME, name);
+        editor.putString(EMAIL, email);
+        editor.putString(MOBILE, mobile);
+        editor.putString(CLASS1, class1);
+        editor.putString(SUBJECT, subject);
+        editor.putString(MEDIUN, medium);
+        editor.putString(USERID, Userid);
         editor.commit();
     }
 
@@ -152,7 +134,7 @@ public class SessionManage {
         // Check login status
         if (!this.isLoggedIn()) {
             // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(context, Login.class);
+            Intent i = new Intent(context, LoginActivity.class);
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

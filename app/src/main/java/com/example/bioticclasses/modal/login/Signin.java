@@ -4,7 +4,7 @@ package com.example.bioticclasses.modal.login;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Login {
+public class Signin {
 
     @SerializedName("result")
     @Expose

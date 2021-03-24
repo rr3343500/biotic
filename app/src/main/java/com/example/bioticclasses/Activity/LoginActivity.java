@@ -7,13 +7,16 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.ActivityLoginBinding;
-import com.example.bioticclasses.modal.login.Login;
+import com.example.bioticclasses.modal.login.Signin;
 import com.example.bioticclasses.modal.signup.Signup;
+import com.example.bioticclasses.other.SessionManage;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,7 +24,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
      ActivityLoginBinding binding;
-
+     SessionManage sessionManage;
      BiotechInterface biotechInterface ;
 
     @Override
@@ -29,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding= ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        sessionManage= new SessionManage(this);
         biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -52,20 +55,40 @@ public class LoginActivity extends AppCompatActivity {
 
 
     void SigIn(){
-        biotechInterface.LOGIN_CALL(binding.mobile.getText().toString(),binding.password.getText().toString()).enqueue(new Callback<Login>() {
+        JsonObject jsonObject= new JsonObject();
+        jsonObject.addProperty("mobile",binding.mobile.getText().toString());
+        jsonObject.addProperty("password",binding.password.getText().toString());
+
+
+        biotechInterface.LOGIN_CALL(jsonObject).enqueue(new Callback<Signup>() {
             @Override
-            public void onResponse(Call<Login> call, Response<Login> response) {
-                Log.e("responce", String.valueOf(response.body().getResult()));
+            public void onResponse(Call<Signup> call, Response<Signup> response) {
                 if (response.isSuccessful()){
+                    Log.e("sadsfs",response.body().getResult().getMessage());
+                    Log.e("sadsfs", String.valueOf(response.body().getResult().getErrorCode()));
                     Log.e("sadsfs", String.valueOf(response.body().getResult().getError()));
                     if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
+                        sessionManage.createLoginSession(response.body().getResult().getData().getNameEn(),
+                                response.body().getResult().getData().getEmail(),
+                                response.body().getResult().getData().getMobile(),
+                                response.body().getResult().getData().getMedium(),
+                                response.body().getResult().getData().getStuSub().toString(),
+                                response.body().getResult().getData().getMedium(),
+                                response.body().getResult().getData().getId()
+                        );
+                        if (sessionManage.Checkingcredential()){
+                            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                        }
 
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<Login> call, Throwable t) {
+            public void onFailure(Call<Signup> call, Throwable t) {
 
             }
         });

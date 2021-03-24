@@ -11,9 +11,6 @@ public class Datum {
     @SerializedName("active")
     @Expose
     private String active;
-    @SerializedName("stu_sub")
-    @Expose
-    private List<StuSub> stuSub = null;
     @SerializedName("_id")
     @Expose
     private String id;
@@ -29,6 +26,9 @@ public class Datum {
     @SerializedName("password")
     @Expose
     private String password;
+    @SerializedName("stu_sub")
+    @Expose
+    private List<StuSub> stuSub = null;
     @SerializedName("medium")
     @Expose
     private String medium;
@@ -48,14 +48,6 @@ public class Datum {
 
     public void setActive(String active) {
         this.active = active;
-    }
-
-    public List<StuSub> getStuSub() {
-        return stuSub;
-    }
-
-    public void setStuSub(List<StuSub> stuSub) {
-        this.stuSub = stuSub;
     }
 
     public String getId() {
@@ -96,6 +88,14 @@ public class Datum {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<StuSub> getStuSub() {
+        return stuSub;
+    }
+
+    public void setStuSub(List<StuSub> stuSub) {
+        this.stuSub = stuSub;
     }
 
     public String getMedium() {

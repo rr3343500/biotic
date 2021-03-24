@@ -17,6 +17,7 @@ import com.example.bioticclasses.List.CourseList;
 import com.example.bioticclasses.List.SliderList;
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.databinding.ActivityMainBinding;
+import com.example.bioticclasses.other.SessionManage;
 import com.example.bioticclasses.viewModel.MainActivityViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     List<CourseList> courseLists = new ArrayList<>();
     List<SliderList> sliderLists = new ArrayList<>();
     DrawerLayout drawer;
+    SessionManage sessionManage;
     private static final String TAG = "MainActivity";
     MainActivityViewModel mainActivityViewModel;
 
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        sessionManage = new SessionManage(this);
+        sessionManage.checkLogin();
 
         binding.navView.setNavigationItemSelectedListener(MainActivity.this);
 

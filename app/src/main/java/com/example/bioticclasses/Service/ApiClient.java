@@ -9,7 +9,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiClient {
+public class    ApiClient {
     public static final String BASE_URL = "http://bioticbioclasses.com/nodeapp2/exam_api/";
     private static Retrofit retrofit = null;
 

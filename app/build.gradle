@@ -61,4 +61,5 @@ dependencies {
     implementation 'com.github.blackfizz:eazegraph:1.2.5l@aar'
     implementation 'im.dacer:AndroidCharts:1.0.4'
 
+
 }

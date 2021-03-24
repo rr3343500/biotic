@@ -1,26 +1,35 @@
 package com.example.bioticclasses.Service;
 
-import com.example.bioticclasses.modal.login.Login;
+import com.example.bioticclasses.modal.login.Signin;
 import com.example.bioticclasses.modal.mainList.MainList;
 import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.SubjectClass;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface BiotechInterface {
 
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
     @POST("add_new_user")
-    @FormUrlEncoded
-    Call<Signup> Signup(@Field("name_en") String name_en, @Field("email") String email,
-                        @Field("mobile") String mobile, @Field("medium") String medium, @Field("class") String classs,
-                        @Field("password") String password, @Field("subjects") String subjects);
+    Call<Signup> SIGNUP_CALL(@Body JsonObject jsonObject);
 
-    @POST("add_new_user")
-    @FormUrlEncoded
-    Call<Login> LOGIN_CALL(@Field("mobile") String mobile, @Field("password") String password);
+
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST("signin")
+    Call<Signup> LOGIN_CALL(@Body JsonObject jsonObject);
 
 
     @POST("fetch_sub_class")

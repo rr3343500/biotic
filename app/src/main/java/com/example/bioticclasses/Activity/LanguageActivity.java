@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.databinding.ActivityLanguageBinding;
 
-public class LanguageActivity extends AppCompatActivity {
+public class   LanguageActivity extends AppCompatActivity {
     ActivityLanguageBinding binding;
     String[] spinnerValue = {"Hindi","English"};
 
