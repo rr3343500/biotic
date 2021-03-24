@@ -29,7 +29,7 @@ public interface BiotechInterface {
             "Content-Type: application/json"
     })
     @POST("signin")
-    Call<Signup> LOGIN_CALL(@Body JsonObject jsonObject);
+    Call<Signin> LOGIN_CALL(@Body JsonObject jsonObject);
 
 
     @POST("fetch_sub_class")

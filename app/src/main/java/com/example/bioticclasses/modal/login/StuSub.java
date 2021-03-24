@@ -19,11 +19,11 @@ public class StuSub {
     @Expose
     private String createdAt;
 
-    public String getSid() {
+    public String get_id() {
         return sid;
     }
 
-    public void setSid(String sid) {
+    public void set_id(String sid) {
         this.sid = sid;
     }
 
