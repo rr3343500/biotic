@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class    ApiClient {
     public static final String BASE_URL = "http://bioticbioclasses.com/nodeapp2/exam_api/";
+    public static final String Image_URL = "http://bioticbioclasses.com/nodeapp2/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {

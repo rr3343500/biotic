@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
+import com.example.bioticclasses.global.GlobalList;
 import com.example.bioticclasses.modal.mainList.Datum;
 import com.example.bioticclasses.modal.mainList.MainList;
 import com.example.bioticclasses.other.SessionManage;
@@ -24,6 +25,7 @@ public class MainActivityRep {
     MutableLiveData<List<Datum>> datumMutableLiveData = new MutableLiveData<>();
     BiotechInterface biotechInterface;
     SessionManage sessionManage;
+    Context context;
     public static MainActivityRep ourInstance;
     private static final String TAG = "MainActivityRep";
 
@@ -34,6 +36,7 @@ public class MainActivityRep {
     public MainActivityRep(Context context) {
         this.biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
         this.sessionManage = new SessionManage(context);
+        this.context=context;
 
     }
 
@@ -60,6 +63,7 @@ public class MainActivityRep {
                 if (response.isSuccessful()) {
                     if (!response.body().getResult().getError() && response.body().getResult().getErrorCode() == 200) {
                         datumMutableLiveData.setValue(response.body().getResult().getData());
+                        ((GlobalList)context.getApplicationContext()).result = response.body().getResult();
                     }
                 } else {
 

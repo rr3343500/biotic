@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,10 @@ import com.example.bioticclasses.Adapter.SliderAdapter;
 import com.example.bioticclasses.List.CourseList;
 import com.example.bioticclasses.List.SliderList;
 import com.example.bioticclasses.R;
+import com.example.bioticclasses.Service.ApiClient;
+import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.ActivityMainBinding;
+import com.example.bioticclasses.modal.banner.Banner;
 import com.example.bioticclasses.other.SessionManage;
 import com.example.bioticclasses.viewModel.MainActivityViewModel;
 import com.google.android.material.navigation.NavigationView;
@@ -29,6 +33,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ActivityMainBinding binding;
@@ -38,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SessionManage sessionManage;
     private static final String TAG = "MainActivity";
     MainActivityViewModel mainActivityViewModel;
+    BiotechInterface biotechInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +66,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-        sliderLists.add(new SliderList("Learn Java", "https://besthqwallpapers.com/Uploads/17-2-2020/122068/java-glitter-logo-programming-language-grid-metal-background-java-creative.jpg"));
-        sliderLists.add(new SliderList("Learn Python", "https://www.wallpapertip.com/wmimgs/160-1606471_logo-java.png"));
-        sliderLists.add(new SliderList("Machine Learning", "https://cdn.hipwallpaper.com/m/27/88/bkRyWH.jpg"));
-        sliderLists.add(new SliderList("Internet of Things", "https://www.setaswall.com/wp-content/uploads/2017/06/Programming-Wallpapers-30-1280-x-720.jpg"));
-        sliderLists.add(new SliderList("Artificial Intelligence", "https://c4.wallpaperflare.com/wallpaper/126/647/803/5bd32e64b29c9-wallpaper-preview.jpg"));
-
-
         SetActivityData();
         ActivityAction();
 
@@ -79,20 +81,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void SetActivityData() {
         getSupportActionBar().hide();
         drawer = binding.drawer;
-        SliderAdapter adapter = new SliderAdapter(this, sliderLists);
-        binding.home.imageSlider.setSliderAdapter(adapter);
-        binding.home.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
-        binding.home.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-        binding.home.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
-        binding.home.imageSlider.setIndicatorSelectedColor(Color.WHITE);
-        binding.home.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
-        binding.home.imageSlider.setScrollTimeInSec(4);
-        binding.home.imageSlider.startAutoCycle();
     }
 
     private void ActivityAction() {
         binding.home.sidebarMenu.setOnClickListener(v -> {
             openDrawer();
+        });
+
+        binding.home.bottom.profile.setOnClickListener(v -> {
+            startActivity( new Intent(MainActivity.this, ProfileActivity.class));
         });
     }
 
@@ -112,14 +109,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.test:
                 startActivity(new Intent(this, MyTestsActivity.class));
                 break;
+            case R.id.logout:
+                sessionManage.logoutUser();
+                finish();
+                break;
 
         }
         return false;
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
+        biotechInterface.BANNER_CALL().enqueue(new Callback<Banner>() {
+            @Override
+            public void onResponse(Call<Banner> call, Response<Banner> response) {
+                if (response.isSuccessful()){
+                    if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
+                        for(int i=0; i< response.body().getResult().getData().size();i++){
+                            sliderLists.add(new SliderList("", response.body().getResult().getData().get(i).getName()));
+                        }
+                        if(!sliderLists.isEmpty()){
+                            SliderAdapter adapter = new SliderAdapter(MainActivity.this, sliderLists);
+                            binding.home.imageSlider.setSliderAdapter(adapter);
+                            binding.home.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                            binding.home.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                            binding.home.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+                            binding.home.imageSlider.setIndicatorSelectedColor(Color.WHITE);
+                            binding.home.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
+                            binding.home.imageSlider.setScrollTimeInSec(4);
+                            binding.home.imageSlider.startAutoCycle();
+                        }
 
+                    }
+                    else {
+                        Toast.makeText(MainActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<Banner> call, Throwable t) {
+
+            }
+        });
+    }
 }
 
 

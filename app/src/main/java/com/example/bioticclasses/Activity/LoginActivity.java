@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                     else {
-                        Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, response.body().getResult().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }

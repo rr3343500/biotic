@@ -17,7 +17,9 @@ import com.example.bioticclasses.Adapter.QuestionAdapter;
 import com.example.bioticclasses.List.QuestionList;
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.databinding.TakeTestLayoutBinding;
+import com.example.bioticclasses.global.GlobalList;
 import com.example.bioticclasses.modal.mainList.Question;
+import com.example.bioticclasses.modal.mainList.Result;
 import com.example.bioticclasses.viewModel.MainActivityViewModel;
 import com.google.android.material.card.MaterialCardView;
 
@@ -61,46 +63,79 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         SubPos = Integer.parseInt(getIntent().getStringExtra("subPosition"));
         TestPos = Integer.parseInt(getIntent().getStringExtra("testPos"));
 
+        Result result =((GlobalList)getApplicationContext()).result;
+        list = result.getData().get(SubPos).getTests().get(TestPos).getQuestions();
+        timecheck = result.getData().get(SubPos).getTests().get(TestPos);
+
         setActivityData();
         ActivityAction();
         StartTest();
+
+
+
+
 
     }
 
     private void setActivityData() {
 
+        for (int i = 1; i <= list.size(); i++) {
+            questionLists.add(new QuestionList("your question no is  " + i, "patato" + i, "tomato" + i, "onion" + i, "chilli" + i));
+        }
+        binding.recycle.setAdapter(new QuestionAdapter(this, this, list));
 
-        mainActivityViewModel.getMainList().observe(this, data -> {
-
-            list = data.get(SubPos).getTests().get(TestPos).getQuestions();
-            timecheck = data.get(SubPos).getTests().get(TestPos);
-
-            for (int i = 1; i <= list.size(); i++) {
-                questionLists.add(new QuestionList("your question no is  " + i, "patato" + i, "tomato" + i, "onion" + i, "chilli" + i));
-            }
-            binding.recycle.setAdapter(new QuestionAdapter(this, this, list));
-
-            if (list.get(question).getType().trim().toUpperCase().equals("TEXT")) {
-                binding.mainview.question.setText(list.get(question).getQuestion());
-                int snoCount = question + 1;
-                binding.mainview.ques.setText("Q." + snoCount);
-                binding.mainview.t1.setText(list.get(question).getOp1());
+        if (list.get(question).getType().trim().toUpperCase().equals("TEXT")) {
+            binding.mainview.question.setText(list.get(question).getQuestion());
+            int snoCount = question + 1;
+            binding.mainview.ques.setText("Q." + snoCount);
+            binding.mainview.t1.setText(list.get(question).getOp1());
 //                binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
-                binding.mainview.ans1.setTag("op1");
-                binding.mainview.t2.setText(list.get(question).getOp2());
+            binding.mainview.ans1.setTag("op1");
+            binding.mainview.t2.setText(list.get(question).getOp2());
 //                binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
-                binding.mainview.ans2.setTag("op2");
-                binding.mainview.t3.setText(list.get(question).getOp3());
+            binding.mainview.ans2.setTag("op2");
+            binding.mainview.t3.setText(list.get(question).getOp3());
 //                binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
-                binding.mainview.ans3.setTag("op3");
-                binding.mainview.t4.setText(list.get(question).getOp4());
+            binding.mainview.ans3.setTag("op3");
+            binding.mainview.t4.setText(list.get(question).getOp4());
 //                binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
-                binding.mainview.ans4.setTag("op4");
-                binding.total.setText(String.valueOf(questionLists.size()));
-            }
+            binding.mainview.ans4.setTag("op4");
+            binding.total.setText(String.valueOf(questionLists.size()));
+        }
+
+
+ /*       mainActivityViewModel.getMainList().observe(this, data -> {
+
+
+//            list = data.get(SubPos).getTests().get(TestPos).getQuestions();
+//            timecheck = data.get(SubPos).getTests().get(TestPos);
+
+//            for (int i = 1; i <= list.size(); i++) {
+//                questionLists.add(new QuestionList("your question no is  " + i, "patato" + i, "tomato" + i, "onion" + i, "chilli" + i));
+//            }
+//            binding.recycle.setAdapter(new QuestionAdapter(this, this, list));
+//
+//            if (list.get(question).getType().trim().toUpperCase().equals("TEXT")) {
+//                binding.mainview.question.setText(list.get(question).getQuestion());
+//                int snoCount = question + 1;
+//                binding.mainview.ques.setText("Q." + snoCount);
+//                binding.mainview.t1.setText(list.get(question).getOp1());
+////                binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
+//                binding.mainview.ans1.setTag("op1");
+//                binding.mainview.t2.setText(list.get(question).getOp2());
+////                binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
+//                binding.mainview.ans2.setTag("op2");
+//                binding.mainview.t3.setText(list.get(question).getOp3());
+////                binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
+//                binding.mainview.ans3.setTag("op3");
+//                binding.mainview.t4.setText(list.get(question).getOp4());
+////                binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
+//                binding.mainview.ans4.setTag("op4");
+//                binding.total.setText(String.valueOf(questionLists.size()));
+//            }
         });
 
-
+*/
     }
 
     private void SetDrawerLayout() {
@@ -136,7 +171,9 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
             openDrawer();
         });
         binding.finalsubmit.setOnClickListener(v -> {
+
             if (countDownTimer != null) countDownTimer.cancel();
+
             startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)));
             finish();
         });
@@ -338,7 +375,10 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Are you sure that you want to exit Test. if you click yes your test auto submitted");
         alertDialogBuilder.setPositiveButton("yes",
-                (arg0, arg1) ->{countDownTimer.cancel();startActivity(new Intent(this,TestListActivity.class));finish();});
+                (arg0, arg1) ->{
+           if(countDownTimer != null){ countDownTimer.cancel();}
+            startActivity(new Intent(this,TestListActivity.class).putExtra("pos",String.valueOf(SubPos)));finish();
+        });
         alertDialogBuilder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();

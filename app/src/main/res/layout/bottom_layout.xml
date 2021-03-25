@@ -44,6 +44,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginBottom="15dp"
+        android:id="@+id/profile"
         android:src="@drawable/ic_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +54,8 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginBottom="15dp"
-        android:src="@drawable/ic_user"
+        android:src="@drawable/course"
+        android:id="@+id/course"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/logoIcon"
         app:layout_constraintStart_toStartOf="parent" />

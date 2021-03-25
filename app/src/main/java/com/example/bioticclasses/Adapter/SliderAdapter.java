@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.bioticclasses.List.SliderList;
 import com.example.bioticclasses.R;
+import com.example.bioticclasses.Service.ApiClient;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class SliderAdapter  extends SliderViewAdapter<SliderAdapter.SliderAdapte
         viewHolder.textViewDescription.setTextSize(16);
         viewHolder.textViewDescription.setTextColor(Color.WHITE);
         Glide.with(viewHolder.itemView)
-                .load(sliderItem.getUrl())
+                .load(ApiClient.Image_URL+sliderItem.getUrl())
                 .fitCenter()
                 .into(viewHolder.imageViewBackground);
 

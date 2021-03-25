@@ -156,32 +156,22 @@ public class SessionManage {
     }
 
 
-    /**
-     * Get stored session data
-     */
+
     public HashMap<String, String> getUserDetails() {
         HashMap<String, String> user = new HashMap<>();
-        // user name
-        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
 
-        // user email id
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        user.put(NAME, pref.getString(NAME, null));
 
-        // user phone number
-        user.put(KEY_MOBiLE, pref.getString(KEY_MOBiLE, null));
 
-        // user avatar
-        user.put(KEYID, pref.getString(KEYID, null));
+        user.put(EMAIL, pref.getString(EMAIL, null));
 
-        user.put(USERID, pref.getString(USERID, null));
+
+        user.put(MOBILE, pref.getString(MOBILE, null));
 
 
         user.put(CLASS1, pref.getString(CLASS1, null));
 
         user.put(SUBJECT, pref.getString(SUBJECT, null));
-
-        user.put(USERID, pref.getString(USERID, null));
-
 
         return user;
     }
@@ -195,7 +185,7 @@ public class SessionManage {
         editor.commit();
 
         // After logout redirect user to Login Activity
-        Intent i = new Intent(context, MainActivity.class);
+        Intent i = new Intent(context, LoginActivity.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -206,21 +196,20 @@ public class SessionManage {
         context.startActivity(i);
     }
 
-    /**
-     * Quick check for login
-     **/
-    // Get Login State
+
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
     }
 
-    /*
-     *
-     * Ginny session
-     *
-     * */
 
-
+    public void userDetails(String name, String email, String mobile, String class1, String subject) {
+        editor.putString(NAME, name);
+        editor.putString(EMAIL, email);
+        editor.putString(MOBILE, mobile);
+        editor.putString(CLASS1, class1);
+        editor.putString(SUBJECT, subject);
+        editor.commit();
+    }
 
 
 }

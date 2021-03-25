@@ -1,5 +1,6 @@
 package com.example.bioticclasses.Service;
 
+import com.example.bioticclasses.modal.banner.Banner;
 import com.example.bioticclasses.modal.login.Signin;
 import com.example.bioticclasses.modal.mainList.MainList;
 import com.example.bioticclasses.modal.signup.Signup;
@@ -32,6 +33,13 @@ public interface BiotechInterface {
     @POST("signin")
     Call<Signin> LOGIN_CALL(@Body JsonObject jsonObject);
 
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST("fetch_banner")
+    Call<Banner> BANNER_CALL();
+
 
     @POST("fetch_sub_class")
     @FormUrlEncoded
@@ -47,46 +55,5 @@ public interface BiotechInterface {
     })
     @POST("add_user_test_result")
     Call<TestSubmitData> testSubmit(@Body JsonObject jsonObject);
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -342,14 +342,18 @@ public class SignUpActivity extends AppCompatActivity  {
 
                     }
                     else {
-                        Toast.makeText(SignUpActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, response.body().getResult().getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                }else {
+                    Toast.makeText(SignUpActivity.this, "hyjkhygbjh,vgjyh", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
             @Override
             public void onFailure(Call<Signup> call, Throwable t) {
                 Log.e("sadsfs",t.getMessage());
+                Toast.makeText(SignUpActivity.this, "user  Already Registered!", Toast.LENGTH_SHORT).show();
             }
         });
 
