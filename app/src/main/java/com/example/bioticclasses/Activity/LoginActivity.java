@@ -76,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                                 response.body().getResult().getData().get(0).getMedium(),
                                 response.body().getResult().getData().get(0).getId()
                         );
+
+                        Log.e("xzfsdf",  response.body().getResult().getData().get(0).getId());
                         if (sessionManage.Checkingcredential()){
                             startActivity(new Intent(LoginActivity.this,MainActivity.class));
                         }

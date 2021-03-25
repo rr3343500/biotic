@@ -3,10 +3,13 @@ package com.example.bioticclasses.Service;
 import com.example.bioticclasses.modal.banner.Banner;
 import com.example.bioticclasses.modal.login.Signin;
 import com.example.bioticclasses.modal.mainList.MainList;
+import com.example.bioticclasses.modal.mytest.MyTest;
 import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.SubjectClass;
 import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
 import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -55,5 +58,14 @@ public interface BiotechInterface {
     })
     @POST("add_user_test_result")
     Call<TestSubmitData> testSubmit(@Body JsonObject jsonObject);
+
+
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST("fetch_user_test")
+    Call<ArrayList<MyTest>> TEST_CALL(@Body JsonObject jsonObject);
 
 }

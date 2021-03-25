@@ -172,6 +172,7 @@ public class SessionManage {
         user.put(CLASS1, pref.getString(CLASS1, null));
 
         user.put(SUBJECT, pref.getString(SUBJECT, null));
+        user.put(USERID, pref.getString(USERID, null));
 
         return user;
     }
