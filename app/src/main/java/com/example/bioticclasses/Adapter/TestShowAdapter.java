@@ -49,7 +49,7 @@ public class TestShowAdapter extends RecyclerView.Adapter<TestShowAdapter.Viewho
                 holder.t2.setText(list.getOp2());
                 holder.t3.setText(list.getOp3());
                 holder.t4.setText(list.getOp4());
-                holder.accepted.setText("Accepted answer - " + list.getCop());
+                holder.accepted.setText("Correct answer - " + list.getCop());
                 int q = position + 1;
                 holder.ques.setText("Q." + q);
                 switch (list.getUop()) {

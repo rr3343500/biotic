@@ -53,6 +53,7 @@ public class ViewTestActivity extends AppCompatActivity {
         biotechInterface.getTestList(sessionManage.getUserDetails().get("userid"), sessionManage.getUserDetails().get("Class")).enqueue(new Callback<TestShowList>() {
             @Override
             public void onResponse(Call<TestShowList> call, Response<TestShowList> response) {
+
                 List<Datum> list = response.body().getResult().getData();
                 binding.recycle.setAdapter(new TestShowAdapter(list.get(pos).getResponse()));
             }

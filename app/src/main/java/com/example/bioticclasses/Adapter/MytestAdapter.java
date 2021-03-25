@@ -46,8 +46,8 @@ public class MytestAdapter extends RecyclerView.Adapter<MytestAdapter.Viewholder
     public void onBindViewHolder(@NonNull @NotNull Viewholder holder, int position) {
         Datum list = tests.get(position);
         binding.totalmarks.setText("Total Marks : "+list.getTotalMarks().toString());
-        binding.obtainedmarks.setText("Marks Obtained : "+list.getMarksObtain().toString());
-        binding.name.setText(list.getMarksObtain().toString());
+        binding.obtainedmarks.setText("Marks Obtained : " + list.getMarksObtain().toString());
+        binding.name.setText(list.getTestName());
 
         binding.viewtest.setOnClickListener(v -> {
             context.startActivity(new Intent(context, ViewTestActivity.class).putExtra("position",String.valueOf(position)));

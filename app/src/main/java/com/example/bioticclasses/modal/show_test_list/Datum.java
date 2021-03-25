@@ -46,6 +46,9 @@ public class Datum {
     @SerializedName("__v")
     @Expose
     private Integer v;
+    @SerializedName("test_name")
+    @Expose
+    private String testName;
 
     public String getId() {
         return id;
@@ -149,6 +152,14 @@ public class Datum {
 
     public void setV(Integer v) {
         this.v = v;
+    }
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
     }
 
 }
