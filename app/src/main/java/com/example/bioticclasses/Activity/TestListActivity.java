@@ -30,17 +30,14 @@ public class TestListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTestListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setTitle("Python Tests");
+        setTitle("Tests");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
 //        Log.e(TAG, "onCreate: " + mainList.getResult().getData().size() );
 
-
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-
         position = Integer.parseInt(getIntent().getStringExtra("pos"));
-
 
         try {
             TestData();

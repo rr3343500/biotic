@@ -199,31 +199,32 @@
             tools:ignore="MissingConstraints">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-             <androidx.constraintlayout.widget.ConstraintLayout
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_marginTop="5dp"
-                 tools:ignore="MissingConstraints">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/Ans1Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    tools:ignore="MissingConstraints">
 
-                 <LinearLayout
-                     android:layout_width="match_parent"
-                     android:orientation="horizontal"
-                     android:id="@+id/ansview"
-                     android:gravity="center_vertical"
-                     android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/ansview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                     <com.google.android.material.radiobutton.MaterialRadioButton
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:id="@+id/ans1"
-                         android:buttonTint="@color/redColor"
-                         android:onClick="OnOptionChecked"
-                         android:text=""/>
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/ans1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/redColor"
+                            android:onClick="OnOptionChecked"
+                            android:text="" />
 
-                     <TextView
+                        <TextView
                          android:id="@+id/t1"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
@@ -251,12 +252,9 @@
                      tools:ignore="MissingConstraints" />
 
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-         </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -264,6 +262,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/Ans2Layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:ignore="MissingConstraints">
@@ -323,6 +322,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/Ans3Layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:ignore="MissingConstraints">
@@ -383,6 +383,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/Ans4Layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:ignore="MissingConstraints">

@@ -29,10 +29,12 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class TakeTestActivity extends AppCompatActivity implements QuestionAdapter.ChangeQuestion {
+public class TakeTestActivity extends AppCompatActivity implements QuestionAdapter.ChangeQuestion, View.OnClickListener {
     TakeTestLayoutBinding binding;
     List<QuestionList> questionLists = new ArrayList<>();
     int question = 0;
@@ -48,8 +50,13 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
     private static final String TAG = "TakeTestActivity";
     com.example.bioticclasses.modal.mainList.Test timecheck;
     AlertDialog alertDialog;
-
+    Calendar todayDate = Calendar.getInstance();
+    Calendar nextDate = Calendar.getInstance();
+    long todatTimeMili, NextTimeMili;
+    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     QuestionAdapter.ChangeQuestion changeQuestion;
+    private static long START_TIME_IN_MILLIS = 600000;
+    AlertDialog alertDialog1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,16 +70,18 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         SubPos = Integer.parseInt(getIntent().getStringExtra("subPosition"));
         TestPos = Integer.parseInt(getIntent().getStringExtra("testPos"));
 
-        Result result =((GlobalList)getApplicationContext()).result;
+        Result result = ((GlobalList) getApplicationContext()).result;
         list = result.getData().get(SubPos).getTests().get(TestPos).getQuestions();
         timecheck = result.getData().get(SubPos).getTests().get(TestPos);
+
+        binding.mainview.Ans1Layout.setOnClickListener(this);
+        binding.mainview.Ans2Layout.setOnClickListener(this);
+        binding.mainview.Ans3Layout.setOnClickListener(this);
+        binding.mainview.Ans4Layout.setOnClickListener(this);
 
         setActivityData();
         ActivityAction();
         StartTest();
-
-
-
 
 
     }
@@ -173,7 +182,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         binding.finalsubmit.setOnClickListener(v -> {
 
             if (countDownTimer != null) countDownTimer.cancel();
-
+            Test = false;
             startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)));
             finish();
         });
@@ -185,35 +194,38 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         return new SimpleDateFormat("HH:mm:ss").format(date);
     }
 
-    public long getMilliFromDate(String dateFormat) {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-        try {
-            date = formatter.parse(dateFormat);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+    public String getTimeStamp(long timeinMillies) {
+        String date = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // modify format
+        date = formatter.format(new Date(timeinMillies));
         System.out.println("Today is " + date);
-        return date.getTime();
+
+        return date;
     }
+
 
     private void timer() {
         if (timecheck.getTimeLimit().trim().equals("NO"))
             binding.mainview.time.setText("Unlimited");
         else {
-            long a = 0;
-            try {
-                a = getMilliFromDate(modifyDateLayout(timecheck.getDuration()));
-                Log.e(TAG, "timer: " + a);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-//            15000
 
-            countDownTimer = new CountDownTimer(15000, 1000) {
+            String Date = timecheck.getDuration();
+            String[] SpliteTime = Date.split(":");
+            Log.e(TAG, "timer: " + getTimeStamp(todayDate.getTimeInMillis()));
+            todatTimeMili = todayDate.getTimeInMillis();
+            nextDate = todayDate;
+            nextDate.add(Calendar.MINUTE, Integer.parseInt(Date));
+            Log.e(TAG, "timer: " + getTimeStamp(nextDate.getTimeInMillis()));
+            NextTimeMili = nextDate.getTimeInMillis();
+            START_TIME_IN_MILLIS = NextTimeMili - todatTimeMili;
+            Log.e(TAG, "timer: mili sec" + mTimeLeftInMillis);
+
+            countDownTimer = new CountDownTimer(7200000, 1000) {
 
                 public void onTick(long millisUntilFinished) {
-                    binding.mainview.time.setText("00:" + millisUntilFinished / 1000);
+                    mTimeLeftInMillis = millisUntilFinished;
+                    updateCountDownText();
+//                    binding.mainview.time.setText("00:" + millisUntilFinished / 1000);
                 }
 
                 public void onFinish() {
@@ -224,6 +236,18 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         }
     }
 
+    private void updateCountDownText() {
+        int minutes = (int) ((mTimeLeftInMillis / (1000 * 60)) % 60);
+        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+        int hours = (int) ((mTimeLeftInMillis / (1000 * 60 * 60)) % 24);
+
+//        Log.e(TAG, "updateCountDownText: " + hours );
+//        Log.e(TAG, "updateCountDownText: " + minutes );
+//        Log.e(TAG, "updateCountDownText: " + seconds );
+
+        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
+        binding.mainview.time.setText(timeLeftFormatted);
+    }
 
     private void Next() {
 
@@ -232,11 +256,13 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
 
         if (question == list.size() - 1) {
             binding.mainview.next.setEnabled(false);
-            binding.mainview.submit.setVisibility(View.GONE);
+            binding.mainview.submit.setVisibility(View.VISIBLE);
+            binding.mainview.next.setVisibility(View.GONE);
         } else {
             binding.mainview.prev.setEnabled(true);
             Loading();
             binding.mainview.submit.setVisibility(View.GONE);
+
         }
         binding.mainview.question.setText(list.get(question).getQuestion());
         int snoCount = question + 1;
@@ -279,6 +305,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
             binding.mainview.next.setEnabled(true);
             Loading();
             binding.mainview.submit.setVisibility(View.GONE);
+            binding.mainview.next.setVisibility(View.VISIBLE);
         }
         binding.mainview.question.setText(list.get(question).getQuestion());
         int snoCount = question + 1;
@@ -362,90 +389,14 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         alertDialogBuilder.setMessage("Are you sure you want to submit.");
         alertDialogBuilder.setPositiveButton("Submit",
                 (arg0, arg1) -> {
+                    if (countDownTimer != null) countDownTimer.cancel();
+                    Test = false;
                     startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)));
                 });
         alertDialogBuilder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.show();
-    }
-
-    @Override
-    public void onBackPressed() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Are you sure that you want to exit Test. if you click yes your test auto submitted");
-        alertDialogBuilder.setPositiveButton("yes",
-                (arg0, arg1) ->{
-           if(countDownTimer != null){ countDownTimer.cancel();}
-            startActivity(new Intent(this,TestListActivity.class).putExtra("pos",String.valueOf(SubPos)));finish();
-        });
-        alertDialogBuilder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(Test) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setMessage("If you change the screen you test is auto submit and exit");
-            alertDialogBuilder.setPositiveButton("exit",
-                    (arg0, arg1) -> {
-                    });
-            alertDialogBuilder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-
-        if(Test) {
-            if(Warning) {
-                 msg="we Have already give warning.";
-            }else {
-                 msg="If you another time change the screen you test is auto submit and exit.";
-            }
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setMessage(msg);
-            if(Warning) {
-                alertDialogBuilder.setPositiveButton("exit",
-                        (arg0, arg1) -> {
-                            countDownTimer.cancel();
-                            startActivity(new Intent(this, TestListActivity.class));
-                            finish();
-                        });
-            }else {
-                alertDialogBuilder.setNegativeButton("close", (dialog, which) -> {
-                    Warning= true;
-                    dialog.cancel();
-
-                });
-            }
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            if(Warning){ alertDialog.setCanceledOnTouchOutside(false);}
-            alertDialog.show();
-        }
-
-        super.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(Test) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setMessage("If you change the screen you test is auto submit and exit");
-            alertDialogBuilder.setPositiveButton("exit",
-                    (arg0, arg1) -> {
-                        super.onDestroy();
-                    });
-            alertDialogBuilder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
-        }
     }
 
     private void StartTest(){
@@ -480,7 +431,6 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                     binding.mainview.ans3.setChecked(false);
                     binding.mainview.ans4.setChecked(false);
                     onSelectOption(question);
-
                 }
                 break;
             case R.id.ans2:
@@ -534,6 +484,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                     onSelectOption(question);
                 }
                 break;
+
         }
     }
 
@@ -608,4 +559,79 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.Ans1Layout:
+                if (binding.mainview.ans1.isChecked()) {
+                    try {
+                        if(binding.mainview.ans1 !=null && action){
+                            answersheet.put(String.valueOf(question),binding.mainview.ans1.getTag().toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.e("json ", String.valueOf(answersheet));
+
+                    binding.mainview.ans1.setChecked(true);
+                    binding.mainview.ans2.setChecked(false);
+                    binding.mainview.ans3.setChecked(false);
+                    binding.mainview.ans4.setChecked(false);
+                    onSelectOption(question);
+                }
+                break;
+            case R.id.Ans2Layout:
+                if (binding.mainview.ans2.isChecked()) {
+                    try {
+                        if(binding.mainview.ans2!=null && action){
+                            answersheet.put(String.valueOf(question),binding.mainview.ans2.getTag().toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.e("json ", String.valueOf(answersheet));
+                    binding.mainview.ans1.setChecked(false);
+                    binding.mainview.ans2.setChecked(true);
+                    binding.mainview.ans3.setChecked(false);
+                    binding.mainview.ans4.setChecked(false);
+                    onSelectOption(question);
+                }
+                break;
+            case R.id.Ans3Layout:
+                if (binding.mainview.ans3.isChecked()) {
+                    try {
+                        if(binding.mainview.ans3!=null && action){
+                            answersheet.put(String.valueOf(question),binding.mainview.ans3.getTag().toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.e("json ", String.valueOf(answersheet));
+                    binding.mainview.ans1.setChecked(false);
+                    binding.mainview.ans2.setChecked(false);
+                    binding.mainview.ans3.setChecked(true);
+                    binding.mainview.ans4.setChecked(false);
+                    onSelectOption(question);
+                }
+                break;
+            case R.id.Ans4Layout:
+                if (binding.mainview.ans4.isChecked()) {
+                    try {
+                        if(binding.mainview.ans4!=null && action){
+                            answersheet.put(String.valueOf(question),binding.mainview.ans4.getTag().toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.e("json ", String.valueOf(answersheet));
+                    binding.mainview.ans1.setChecked(false);
+                    binding.mainview.ans2.setChecked(false);
+                    binding.mainview.ans3.setChecked(false);
+                    binding.mainview.ans4.setChecked(true);
+                    onSelectOption(question);
+                }
+                break;
+        }
+    }
 }

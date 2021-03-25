@@ -14,7 +14,9 @@ import com.example.bioticclasses.R;
 import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.ActivityScoreBinding;
+import com.example.bioticclasses.global.GlobalList;
 import com.example.bioticclasses.modal.mainList.Question;
+import com.example.bioticclasses.modal.mainList.Result;
 import com.example.bioticclasses.modal.mainList.Test;
 import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
 import com.example.bioticclasses.other.SessionManage;
@@ -49,7 +51,7 @@ public class ScoreActivity extends AppCompatActivity {
     JsonArray jsonElements = new JsonArray();
     BiotechInterface biotechInterface;
     SessionManage sessionManage;
-
+    Result result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,9 @@ public class ScoreActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setTitle("Score Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        result = ((GlobalList) getApplicationContext()).result;
+
 
         textView = (TextView) findViewById(R.id.textView);
         final PieView pieView = (PieView) findViewById(R.id.pie_view);
@@ -80,6 +85,39 @@ public class ScoreActivity extends AppCompatActivity {
 
     private void calculateTest() {
 
+
+        Iterator iterator = answersheet.keys();
+        while (iterator.hasNext()) {
+            String key = (String) iterator.next();
+            try {
+                Question Copt = result.getData().get(pos).getTests().get(TestPos).getQuestions().get(Integer.parseInt(key));
+                if (answersheet.getString(key).trim().toUpperCase().equals(Copt.getCop().trim().toUpperCase())) {
+                    correctAnswer++;
+                } else {
+                    wrongAnser++;
+                }
+//                JsonObject jsonObject = new JsonObject();
+//                jsonObject.addProperty("question", Copt.getQuestion());
+//                jsonObject.addProperty("op1", Copt.getOp1());
+//                jsonObject.addProperty("op2", Copt.getOp2());
+//                jsonObject.addProperty("op3", Copt.getOp3());
+//                jsonObject.addProperty("op4", Copt.getOp4());
+//                jsonObject.addProperty("cop", Copt.getCop());
+//                jsonObject.addProperty("uop", answersheet.getString(key).trim());
+//                jsonObject.addProperty("des", "");
+//                jsonObject.addProperty("type", Copt.getType());
+//                jsonElements.add(jsonObject);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+        AnswerSheet(result.getData().get(pos).getTests().get(TestPos).getQuestions().size(), result.getData().get(pos).getTests().get(TestPos).getCoorectMarks(), result.getData().get(pos).getTests().get(TestPos).getWrongMarks(), result.getData().get(pos).getTests());
+
+
+
+/*
         mainActivityViewModel.getMainList().observe(this, data -> {
 
             Iterator iterator = answersheet.keys();
@@ -91,11 +129,9 @@ public class ScoreActivity extends AppCompatActivity {
                     Log.e(TAG, "calculateTest: " + Copt.getCop());
                     if (answersheet.getString(key).trim().toUpperCase().equals(Copt.getCop().trim().toUpperCase())) {
                         correctAnswer++;
-
                     } else {
                         wrongAnser++;
                     }
-
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("question", Copt.getQuestion());
                     jsonObject.addProperty("op1", Copt.getOp1());
@@ -114,16 +150,61 @@ public class ScoreActivity extends AppCompatActivity {
 
             }
             AnswerSheet(data.get(pos).getTests().get(TestPos).getQuestions().size(), data.get(pos).getTests().get(TestPos).getCoorectMarks(), data.get(pos).getTests().get(TestPos).getWrongMarks(), data.get(pos).getTests());
-        });
+        });*/
     }
 
     private void AnswerSheet(int totalQuestion, int coorect_marks_1_question, int wrong_marks_1_question, List<Test> test) {
-        Log.e(TAG, "calculateTest: correctAnswer" + correctAnswer);
-        Log.e(TAG, "calculateTest: wrongAnser" + wrongAnser);
+//        Log.e(TAG, "calculateTest: correctAnswer" + correctAnswer);
+//        Log.e(TAG, "calculateTest: wrongAnser" + wrongAnser);
+//
+//        Log.e(TAG, "calculateTest: totalQuestion" + totalQuestion);
+//        Log.e(TAG, "calculateTest: coorect_marks_1_question" + coorect_marks_1_question);
+//        Log.e(TAG, "calculateTest: wrong_marks_1_question" + wrong_marks_1_question);
+        List<Question> questionList = result.getData().get(pos).getTests().get(TestPos).getQuestions();
+        for (int i = 0; i < questionList.size(); i++) {
+            Question Copt = questionList.get(i);
+            try {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("question", questionList.get(i).getQuestion());
+                jsonObject.addProperty("op1", Copt.getOp1());
+                jsonObject.addProperty("op2", Copt.getOp2());
+                jsonObject.addProperty("op3", Copt.getOp3());
+                jsonObject.addProperty("op4", Copt.getOp4());
+                jsonObject.addProperty("cop", Copt.getCop());
+                jsonObject.addProperty("uop", answersheet.getString(String.valueOf(i)).trim());
+                jsonObject.addProperty("des", "");
+                jsonObject.addProperty("type", Copt.getType());
+                jsonElements.add(jsonObject);
 
-        Log.e(TAG, "calculateTest: totalQuestion" + totalQuestion);
-        Log.e(TAG, "calculateTest: coorect_marks_1_question" + coorect_marks_1_question);
-        Log.e(TAG, "calculateTest: wrong_marks_1_question" + wrong_marks_1_question);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("question", questionList.get(i).getQuestion());
+                jsonObject.addProperty("op1", Copt.getOp1());
+                jsonObject.addProperty("op2", Copt.getOp2());
+                jsonObject.addProperty("op3", Copt.getOp3());
+                jsonObject.addProperty("op4", Copt.getOp4());
+                jsonObject.addProperty("cop", Copt.getCop());
+                jsonObject.addProperty("uop", "");
+                jsonObject.addProperty("des", "");
+                jsonObject.addProperty("type", Copt.getType());
+                jsonElements.add(jsonObject);
+            }
+
+//            JsonObject jsonObject = new JsonObject();
+//            jsonObject.addProperty("question", Copt.getQuestion());
+//            jsonObject.addProperty("op1", Copt.getOp1());
+//            jsonObject.addProperty("op2", Copt.getOp2());
+//            jsonObject.addProperty("op3", Copt.getOp3());
+//            jsonObject.addProperty("op4", Copt.getOp4());
+//            jsonObject.addProperty("cop", Copt.getCop());
+//            jsonObject.addProperty("uop", answersheet.getString(key).trim());
+//            jsonObject.addProperty("des", "");
+//            jsonObject.addProperty("type", Copt.getType());
+//            jsonElements.add(jsonObject);
+
+        }
+
 
         binding.attemQuestion.setText(String.valueOf(correctAnswer + wrongAnser));
         binding.NoQuestion.setText(String.valueOf(totalQuestion));
