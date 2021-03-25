@@ -22,7 +22,7 @@
             android:fontFamily="@font/lato_semi_bold"
             android:textSize="16dp"
             android:textColor="@color/black"
-            android:text="Tensorflow with Python"
+            android:text=""
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints" />
 
