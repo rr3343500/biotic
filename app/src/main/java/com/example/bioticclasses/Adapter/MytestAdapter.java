@@ -12,7 +12,7 @@ import com.example.bioticclasses.Activity.MyTestsActivity;
 import com.example.bioticclasses.Activity.ViewTestActivity;
 import com.example.bioticclasses.List.CourseList;
 import com.example.bioticclasses.databinding.RowMytestlistLayoutBinding;
-import com.example.bioticclasses.modal.mytest.MyTest;
+import com.example.bioticclasses.modal.show_test_list.Datum;
 import com.google.android.material.button.MaterialButton;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,11 +23,11 @@ public class MytestAdapter extends RecyclerView.Adapter<MytestAdapter.Viewholder
     Context context;
     RowMytestlistLayoutBinding binding;
     List<CourseList> courseLists;
-    List<MyTest> tests;
+    List<Datum> tests;
     int subPosition;
 
 
-    public MytestAdapter(MyTestsActivity context, List<MyTest> tests) {
+    public MytestAdapter(MyTestsActivity context, List<Datum> tests) {
         this.context = context;
         this.tests = tests;
     }
@@ -44,7 +44,7 @@ public class MytestAdapter extends RecyclerView.Adapter<MytestAdapter.Viewholder
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull Viewholder holder, int position) {
-        MyTest list = tests.get(position);
+        Datum list = tests.get(position);
         binding.totalmarks.setText("Total Marks : "+list.getTotalMarks().toString());
         binding.obtainedmarks.setText("Marks Obtained : "+list.getMarksObtain().toString());
         binding.name.setText(list.getMarksObtain().toString());

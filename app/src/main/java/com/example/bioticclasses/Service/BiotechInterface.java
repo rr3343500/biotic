@@ -4,6 +4,7 @@ import com.example.bioticclasses.modal.banner.Banner;
 import com.example.bioticclasses.modal.login.Signin;
 import com.example.bioticclasses.modal.mainList.MainList;
 import com.example.bioticclasses.modal.mytest.MyTest;
+import com.example.bioticclasses.modal.show_test_list.TestShowList;
 import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.SubjectClass;
 import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
@@ -60,7 +61,6 @@ public interface BiotechInterface {
     Call<TestSubmitData> testSubmit(@Body JsonObject jsonObject);
 
 
-
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json"
@@ -68,4 +68,43 @@ public interface BiotechInterface {
     @POST("fetch_user_test")
     Call<ArrayList<MyTest>> TEST_CALL(@Body JsonObject jsonObject);
 
+
+    @POST("fetch_user_test")
+    @FormUrlEncoded
+    Call<TestShowList> getTestList(@Field("user_id") String user_id, @Field("cls") String cls);
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

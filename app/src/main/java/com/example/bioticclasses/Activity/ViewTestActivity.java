@@ -1,28 +1,94 @@
 package com.example.bioticclasses.Activity;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-
-import com.example.bioticclasses.Adapter.MyTestViewAdapter;
-import com.example.bioticclasses.Adapter.MytestAdapter;
-import com.example.bioticclasses.R;
+import com.example.bioticclasses.Adapter.TestShowAdapter;
+import com.example.bioticclasses.Service.ApiClient;
+import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.ActivityViewTestBinding;
-import com.example.bioticclasses.global.GlobalList;
+import com.example.bioticclasses.modal.mytest.MyTest;
+import com.example.bioticclasses.modal.show_test_list.Datum;
+import com.example.bioticclasses.modal.show_test_list.TestShowList;
+import com.example.bioticclasses.other.SessionManage;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ViewTestActivity extends AppCompatActivity {
-     ActivityViewTestBinding  binding;
-     int pos;
+    ActivityViewTestBinding binding;
+    int pos;
+    private static final String TAG = "ViewTestActivity";
+    MyTest myTest;
+    SessionManage sessionManage;
+    BiotechInterface biotechInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= ActivityViewTestBinding.inflate(getLayoutInflater());
+        binding = ActivityViewTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Log.e("dsfdgd","cfgxf  "+getIntent().getStringExtra("position"));
-        pos= Integer.parseInt(getIntent().getStringExtra("position"));
-        binding.recycle.setAdapter(new MyTestViewAdapter(this, ((GlobalList)getApplicationContext()).myTest.get(pos).getResponse()));
+
+        biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
+        sessionManage = new SessionManage(this);
+        pos = Integer.parseInt(getIntent().getStringExtra("position"));
+//        myTest = ((GlobalList) getApplicationContext()).myTest.get(pos);
+
+        test();
+//        binding.recycle.setAdapter(new MyTestViewAdapter(this, myTest.getResponse()));
     }
+
+
+    void test() {
+
+   /*     JsonObject jsonObject = new JsonObject();
+//        jsonObject.addProperty("user_id", sessionManage.getUserDetails().get("userid"));
+//        jsonObject.addProperty("user_id", "605c1c4553a5880b41762566");
+        Log.e("dds", jsonObject.toString());*/
+
+        biotechInterface.getTestList(sessionManage.getUserDetails().get("userid"), sessionManage.getUserDetails().get("Class")).enqueue(new Callback<TestShowList>() {
+            @Override
+            public void onResponse(Call<TestShowList> call, Response<TestShowList> response) {
+                List<Datum> list = response.body().getResult().getData();
+                binding.recycle.setAdapter(new TestShowAdapter(list.get(pos).getResponse()));
+            }
+
+            @Override
+            public void onFailure(Call<TestShowList> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

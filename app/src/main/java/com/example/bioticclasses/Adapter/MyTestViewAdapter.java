@@ -1,8 +1,8 @@
 package com.example.bioticclasses.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,7 +12,9 @@ import com.example.bioticclasses.Activity.ViewTestActivity;
 import com.example.bioticclasses.databinding.RowMyTestQuestionLayoutBinding;
 import com.example.bioticclasses.modal.mytest.Response;
 import com.google.android.material.button.MaterialButton;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class MyTestViewAdapter extends RecyclerView.Adapter<MyTestViewAdapter.Viewholder> {
@@ -20,7 +22,7 @@ public class MyTestViewAdapter extends RecyclerView.Adapter<MyTestViewAdapter.Vi
         RowMyTestQuestionLayoutBinding binding;
         List<Response> responses;
         int subPosition;
-
+        private static final String TAG = "MyTestViewAdapter";
 
         public MyTestViewAdapter(ViewTestActivity context, List<Response> responses) {
                 this.context = context;
@@ -39,16 +41,20 @@ public class MyTestViewAdapter extends RecyclerView.Adapter<MyTestViewAdapter.Vi
 
         @Override
         public void onBindViewHolder(@NonNull @NotNull Viewholder holder, int position) {
-              switch (responses.get(position).getType().toUpperCase()) {
-                      case "TEXT":
-                              binding.question.setText(responses.get(position).getQuestion());
-                              binding.t1.setText(responses.get(position).getOp1());
-                              binding.t2.setText(responses.get(position).getOp2());
-                              binding.t3.setText(responses.get(position).getOp3());
-                              binding.t4.setText(responses.get(position).getOp4());
-                              binding.accepted.setText("Accepted answer - "+ responses.get(position).getCop());
-                              int q= position+1;
-                              binding.ques.setText("Q."+q);
+
+                Response list = responses.get(position);
+                Log.e(TAG, "onBindViewHolder: " + list.getQuestion() );
+
+  /*              switch (responses.get(position).getType().toUpperCase()) {
+                        case "TEXT":
+                                binding.question.setText(responses.get(position).getQuestion());
+                                binding.t1.setText(responses.get(position).getOp1());
+                                binding.t2.setText(responses.get(position).getOp2());
+                                binding.t3.setText(responses.get(position).getOp3());
+                                binding.t4.setText(responses.get(position).getOp4());
+                                binding.accepted.setText("Accepted answer - " + responses.get(position).getCop());
+                                int q = position + 1;
+                                binding.ques.setText("Q." + q);
                               switch (responses.get(position).getUop()){
                                       case "op1" :
                                               binding.ans1.setChecked(true);
@@ -82,7 +88,7 @@ public class MyTestViewAdapter extends RecyclerView.Adapter<MyTestViewAdapter.Vi
                       case "IMAGE" :
                               break;
               }
-
+*/
 
         }
 
@@ -93,6 +99,7 @@ public class MyTestViewAdapter extends RecyclerView.Adapter<MyTestViewAdapter.Vi
 
         public class Viewholder extends RecyclerView.ViewHolder {
             MaterialButton start;
+
             public Viewholder(@NonNull RowMyTestQuestionLayoutBinding binding) {
                 super(binding.getRoot());
             }

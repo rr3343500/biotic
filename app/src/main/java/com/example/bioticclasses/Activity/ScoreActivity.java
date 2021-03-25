@@ -217,6 +217,7 @@ public class ScoreActivity extends AppCompatActivity {
         int leaveQue = totalQuestion - (correctAnswer + wrongAnser);
 
 
+        passjsonObject.addProperty("test_name", test.get(TestPos).getHeading());
         passjsonObject.addProperty("user_id", sessionManage.getUserDetails().get("userid"));
         passjsonObject.addProperty("test_id", test.get(TestPos).getId());
         passjsonObject.addProperty("total_ques", totalQuestion);

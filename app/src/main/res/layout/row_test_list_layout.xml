@@ -17,6 +17,7 @@
 
 
         <TextView
+
             android:layout_width="wrap_content"
             android:id="@+id/name"
             android:fontFamily="@font/lato_semi_bold"
