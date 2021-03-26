@@ -75,6 +75,7 @@ SessionManage {
     public static final String EMAIL = "Email";
     public static final String MOBILE = "Mobile";
     public static final String MEDIUN = "Medium";
+    public static final String ACTIVE = "Active";
 
 
     // Constructor
@@ -117,7 +118,7 @@ SessionManage {
      * Create login session
      */
 //    public void createLoginSession(String name, String email, String mobile, String photo){     modified due to photo not available
-    public void createLoginSession(String name, String email, String mobile, String class1, String subject,String medium, String Userid) {
+    public void createLoginSession(String name, String email, String mobile, String class1, String subject,String medium, String Userid, String active) {
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
@@ -126,14 +127,11 @@ SessionManage {
         editor.putString(SUBJECT, subject);
         editor.putString(MEDIUN, medium);
         editor.putString(USERID, Userid);
+        editor.putString(ACTIVE, active);
         editor.commit();
     }
 
-    /**
-     * Check login method wil check user login status
-     * If false it will redirect user to login page
-     * Else won't do anything
-     */
+
     public void checkLogin() {
         // Check login status
         if (!this.isLoggedIn()) {
@@ -178,6 +176,7 @@ SessionManage {
         user.put(SUBJECT, pref.getString(SUBJECT, null));
 
         user.put(USERID, pref.getString(USERID, null));
+        user.put(ACTIVE, pref.getString(ACTIVE, null));
 
 
         return user;
@@ -216,6 +215,14 @@ SessionManage {
         editor.putString(CLASS1, class1);
         editor.putString(SUBJECT, subject);
         editor.commit();
+    }
+
+    public Boolean active(){
+        Boolean status = false;
+        if( pref.getString(ACTIVE, null).toUpperCase().equals("YES")){
+            status=true;
+        }
+        return status;
     }
 
 

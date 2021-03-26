@@ -12,6 +12,7 @@
     <color name="theme">#F53A48</color>
     <color name="mtrl_textinput_default_box_stroke_color">#F53A48</color>
     <color name="light_white">#E4E4E4</color>
+    <color name="ultralight_white">#B5B5B5</color>
 
     <color name="redColor">#EB0319</color>
     <color name="lightredColor">#EF3E50</color>

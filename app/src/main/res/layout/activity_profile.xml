@@ -93,6 +93,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:id="@+id/image"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="1dp"
                 android:src="@drawable/ic_man"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -221,15 +223,65 @@
 
 
             <Spinner
-                android:id="@+id/classes"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:gravity="start"
-                android:visibility="gone"
-                android:theme="@style/mySpinnerItemStyle"
-                android:textAlignment="textStart"
-                app:layout_constraintTop_toBottomOf="@id/gender" />
+            android:id="@+id/gender"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/white_spinner_border"
+            android:gravity="start"
+            android:theme="@style/mySpinnerItemStyle"
+            android:textAlignment="textStart"
+            android:popupBackground="@color/lightorangeColor"
+            app:layout_constraintTop_toBottomOf="@id/passwordTextInputLayout" />
+
+        <Spinner
+            android:id="@+id/language"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/white_spinner_border"
+            android:gravity="start"
+            android:theme="@style/mySpinnerItemStyle"
+            android:textAlignment="textStart"
+            android:popupBackground="@color/lightorangeColor"
+            app:layout_constraintTop_toBottomOf="@id/gender"
+            tools:ignore="MissingConstraints" />
+
+        <Spinner
+            android:id="@+id/classes"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/white_spinner_border"
+            android:gravity="start"
+            android:popupBackground="@color/lightorangeColor"
+            android:theme="@style/mySpinnerItemStyle"
+            android:textAlignment="textStart"
+            app:layout_constraintTop_toBottomOf="@id/language" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/classes"
+            android:id="@+id/subject"
+            android:visibility="gone"
+            android:paddingLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:background="@drawable/white_spinner_border">
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:fontFamily="@font/lato_semi_bold"
+               android:text="Select Subject"
+               android:id="@+id/multisubject"
+               android:textColor="@color/black"/>
+
+        </LinearLayout>
 
 
 
@@ -238,7 +290,8 @@
                 android:layout_height="match_parent"
                 android:text="Update Profile"
                 android:layout_marginBottom="10dp"
-                android:visibility="gone"
+                android:layout_marginTop="20dp"
+                android:visibility="visible"
                 android:fontFamily="@font/lato_semi_bold"
                 android:textColor="@color/white"/>
 

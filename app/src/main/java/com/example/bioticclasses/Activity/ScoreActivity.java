@@ -5,11 +5,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.bioticclasses.Adapter.RankAdapter;
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
@@ -19,6 +21,7 @@ import com.example.bioticclasses.modal.mainList.Question;
 import com.example.bioticclasses.modal.mainList.Result;
 import com.example.bioticclasses.modal.mainList.Test;
 import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
+import com.example.bioticclasses.modal.testresult.TestResult;
 import com.example.bioticclasses.other.SessionManage;
 import com.example.bioticclasses.viewModel.MainActivityViewModel;
 import com.google.gson.Gson;
@@ -52,6 +55,7 @@ public class ScoreActivity extends AppCompatActivity {
     BiotechInterface biotechInterface;
     SessionManage sessionManage;
     Result result;
+    PieView pieView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +69,7 @@ public class ScoreActivity extends AppCompatActivity {
 
 
         textView = (TextView) findViewById(R.id.textView);
-        final PieView pieView = (PieView) findViewById(R.id.pie_view);
+         pieView = (PieView) findViewById(R.id.pie_view);
         pos = Integer.parseInt(getIntent().getStringExtra("pos"));
         TestPos = Integer.parseInt(getIntent().getStringExtra("TestPos"));
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
@@ -78,7 +82,7 @@ public class ScoreActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         calculateTest();
-        set(pieView);
+
 
     }
 
@@ -219,6 +223,7 @@ public class ScoreActivity extends AppCompatActivity {
 
         passjsonObject.addProperty("test_name", test.get(TestPos).getHeading());
         passjsonObject.addProperty("user_id", sessionManage.getUserDetails().get("userid"));
+        passjsonObject.addProperty("user_name", sessionManage.getUserDetails().get("Name"));
         passjsonObject.addProperty("test_id", test.get(TestPos).getId());
         passjsonObject.addProperty("total_ques", totalQuestion);
         passjsonObject.addProperty("total_marks", String.valueOf(totalMarks));
@@ -229,17 +234,19 @@ public class ScoreActivity extends AppCompatActivity {
         passjsonObject.add("response", jsonElements);
 
         Log.e(TAG, "AnswerSheet: " + passjsonObject.toString());
-        TestSubmit();
+        TestSubmit( test.get(TestPos).getId());
+
+        set(pieView, totalQuestion,correctAnswer,wrongAnser);
     }
 
-    private void TestSubmit() {
+    private void TestSubmit(String id) {
         biotechInterface.testSubmit(passjsonObject).enqueue(new Callback<TestSubmitData>() {
             @Override
             public void onResponse(Call<TestSubmitData> call, Response<TestSubmitData> response) {
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
                 if (response.isSuccessful()) {
                     if (!response.body().getResult().getError() && response.body().getResult().getErrorCode() == 200) {
-
+                        SetRank(id);
                     }
                 }
             }
@@ -280,14 +287,25 @@ public class ScoreActivity extends AppCompatActivity {
         pieView.setDate(pieHelperArrayList);
     }
 
-    private void set(PieView pieView) {
+    private void set(PieView pieView, double total1,int attempt, int notvisited ) {
+         double unvisited=   total1-(correctAnswer+wrongAnser);
+
+         double per1=   unvisited / total1;
+         double perun=   per1 * 100;
+
+        double percor=    (correctAnswer / total1) * 100;
+
+        double perwro = (wrongAnser / total1) * 100;
+
+
+
         ArrayList<PieHelper> pieHelperArrayList = new ArrayList<>();
-        pieHelperArrayList.add(new PieHelper(20, Color.BLACK));
-        pieHelperArrayList.add(new PieHelper(50));
-        pieHelperArrayList.add(new PieHelper(30));
+        pieHelperArrayList.add(new PieHelper((float) percor, Color.GREEN));
+        pieHelperArrayList.add(new PieHelper((float) perwro, Color.RED));
+        pieHelperArrayList.add(new PieHelper((float) perun, Color.GRAY));
 //        pieHelperArrayList.add(new PieHelper(12));
 //        pieHelperArrayList.add(new PieHelper(32));
-
+        pieView.showPercentLabel(false);
         pieView.setDate(pieHelperArrayList);
         pieView.setOnPieClickListener(index -> {
             if (index != PieView.NO_SELECTED_INDEX) {
@@ -303,5 +321,27 @@ public class ScoreActivity extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(ScoreActivity.this, TestListActivity.class).putExtra("pos", String.valueOf(pos)));
         finish();
+    }
+
+
+    public void SetRank(String id){
+       JsonObject jsonObject= new JsonObject();
+       jsonObject.addProperty("test_id",id);
+      biotechInterface.TEST_RESULT_CALL(jsonObject).enqueue(new Callback<TestResult>() {
+          @Override
+          public void onResponse(Call<TestResult> call, Response<TestResult> response) {
+              if (response.isSuccessful()) {
+                  if (!response.body().getResult().getError() && response.body().getResult().getErrorCode() == 200) {
+                   binding.recycle.setAdapter(new RankAdapter(ScoreActivity.this,response.body().getResult().getData()));
+                   binding.rankview.setVisibility(View.VISIBLE);
+                  }
+              }
+          }
+
+          @Override
+          public void onFailure(Call<TestResult> call, Throwable t) {
+
+          }
+      });
     }
 }

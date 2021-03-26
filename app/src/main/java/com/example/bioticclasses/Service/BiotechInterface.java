@@ -8,6 +8,7 @@ import com.example.bioticclasses.modal.show_test_list.TestShowList;
 import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.SubjectClass;
 import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
+import com.example.bioticclasses.modal.testresult.TestResult;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -28,8 +29,6 @@ public interface BiotechInterface {
     @POST("add_new_user")
     Call<Signup> SIGNUP_CALL(@Body JsonObject jsonObject);
 
-
-
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json"
@@ -42,7 +41,7 @@ public interface BiotechInterface {
             "Content-Type: application/json"
     })
     @POST("fetch_banner")
-    Call<Banner> BANNER_CALL();
+    Call<Banner> BANNER_CALL();      
 
 
     @POST("fetch_sub_class")
@@ -72,6 +71,14 @@ public interface BiotechInterface {
     @POST("fetch_user_test")
     @FormUrlEncoded
     Call<TestShowList> getTestList(@Field("user_id") String user_id, @Field("cls") String cls);
+
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST("test_result")
+    Call<TestResult> TEST_RESULT_CALL(@Body JsonObject jsonObject);
 
 }
 

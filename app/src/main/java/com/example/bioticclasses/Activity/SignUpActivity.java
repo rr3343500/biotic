@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,13 +28,18 @@ import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.Subject;
 import com.example.bioticclasses.modal.subjectclass.SubjectClass;
 import com.example.bioticclasses.other.SessionManage;
+import com.google.android.material.button.MaterialButton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,15 +50,18 @@ public class SignUpActivity extends AppCompatActivity  {
     String[] spinnerValue = {"Male","Female"};
     String[] classes={};
     String[] subjects={};
+    HashMap<String,String>subjectlist= new HashMap<>();
     ArrayList<String>finalsubjects = new ArrayList<String>();
     BiotechInterface biotechInterface ;
     List<Subject>subjectsList= new ArrayList<>();
-    String SubjectName="", ClassName="", Gender="";
+    String SubjectName="", ClassName="", Gender="" , Language="";
     SubjectAdapter subjectAdapter;
     ClassAdapter classadapter;
-    Boolean first=false, second=false, third=false;
+    Boolean first=false, second=false, third=false,fourth=false;
     JsonArray jsonArray;
+    JSONObject jsonObject= new JSONObject();
     SessionManage sessionManage;
+    String[] language = {"Hindi","English"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,31 +90,62 @@ public class SignUpActivity extends AppCompatActivity  {
 
         subjectAdapter = new SubjectAdapter(SignUpActivity.this, android.R.layout.simple_list_item_1);
 
+
+        LanguageAdapter languageAdapter = new LanguageAdapter(SignUpActivity.this, android.R.layout.simple_list_item_1);
+        languageAdapter.addAll(language);
+        languageAdapter.add("Select Medium");
+        binding.language.setAdapter(languageAdapter);
+        binding.language.setSelection(languageAdapter.getCount());
     }
 
 
 
-    public void showDialog( ArrayList<String> stringArrayList){
+    public void showDialog(HashMap<String,String> stringArrayList){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
         dialog.setContentView(R.layout.multiselect_dialog_layout);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.RED));
         LinearLayout linearLayout= dialog.findViewById(R.id.mainview);
-        for(int i=0 ;i< stringArrayList.size();i++){
+        for (Map.Entry me : stringArrayList.entrySet()) {
+            System.out.println("Key: "+me.getKey() + " & Value: " + me.getValue());
+            System.out.println("Key: "+me.getKey() + " & Value: " + me.getValue());
             CheckBox cb = new CheckBox(getApplicationContext());
-            cb.setText(stringArrayList.get(i));
+            cb.setText(me.getValue().toString());
+            cb.setTag(me.getKey().toString());
+            cb.setTextColor(getResources().getColor(R.color.white));
+            LinearLayout.LayoutParams params =new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0,10,0,0);
+            cb.setLayoutParams(params);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cb.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+            }
+            linearLayout.addView(cb);
             cb.setOnClickListener(v -> {
-                finalsubjects.add( cb.getText().toString());
+                if(!cb.isChecked()){
+                  jsonObject.remove(cb.getTag().toString());
+                }else {
+                    try {
+                        jsonObject.put(cb.getTag().toString(),cb.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.e("TAG", "showDialog: " + jsonObject.toString());
             });
         }
+
+        MaterialButton close= dialog.findViewById(R.id.close);
+        close.setOnClickListener(v -> {dialog.cancel();});
         dialog.show();
     }
 
     private void ActivityAction(){
 
-        binding.signupBtn.setOnClickListener(v -> {startActivity(new Intent(SignUpActivity.this , LanguageActivity.class));});
+        binding.signupBtn.setOnClickListener(v -> {
+            if(Validate()){
+                Signup();
+            }
+        });
 
         binding.gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -125,20 +166,18 @@ public class SignUpActivity extends AppCompatActivity  {
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
                 if (second){
                     ClassName= classes[position];
-                    ArrayList<String> stringArrayList = new ArrayList<String>();
-
                     for(int i=0 ;i< subjectsList.size();i++){
                         if(subjectsList.get(i).getStuClass().trim().toUpperCase().equals(ClassName.trim().toUpperCase())){
-                            stringArrayList.add(subjectsList.get(i).getNameEn());
+                            subjectlist.put(subjectsList.get(i).getId(),subjectsList.get(i).getNameEn());
                         }
                     }
                     subjects= null;
-                    subjects=stringArrayList.toArray(new String[stringArrayList.size()]);
-                    subjectAdapter.clear();
-                    subjectAdapter.addAll(subjects);
-                    subjectAdapter.add("Select Subject");
-                    binding.subject.setAdapter(subjectAdapter);
-                    binding.subject.setSelection(subjectAdapter.getCount());
+//                    subjects=stringArrayList.toArray(new String[stringArrayList.size()]);
+//                    subjectAdapter.clear();
+//                    subjectAdapter.addAll(subjects);
+//                    subjectAdapter.add("Select Subject");
+//                    binding.subject.setAdapter(subjectAdapter);
+//                    binding.subject.setSelection(subjectAdapter.getCount());
                     binding.subject.setVisibility(View.VISIBLE);
 
                 }else {
@@ -152,74 +191,28 @@ public class SignUpActivity extends AppCompatActivity  {
                 ClassName= "";
             }
         });
-        binding.subject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        binding.subject.setOnClickListener(v -> {showDialog(subjectlist);});
+
+        binding.language.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-                if (third){
-                    JsonObject jsonObject= new JsonObject();
-                    jsonArray= new JsonArray();
-                    jsonObject.addProperty("id","6059cbb443eb7c29568afc8b");
-                    jsonObject.addProperty("subj","BIOLOGY");
-                    jsonArray.add(jsonObject);
-
-                    SubjectName=jsonArray.toString();
+                if(fourth){
+                    Language= language[position];
                 }else {
-                    third= true;
-                };
+                    fourth=true;
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                SubjectName= "";
-            }
-        });
-
-        binding.signupBtn.setOnClickListener(v -> {
-            if(Validate()){
-                Signup();
+              Language="";
             }
         });
     }
 
 
-
-
-    public class GenderAdapter extends ArrayAdapter<String> {
-        public GenderAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-        }
-
-        @Override
-        public int getCount() {
-            int count = super.getCount();
-            return count > 0 ? count - 1 : count;
-        }
-    }
-
-    public class ClassAdapter extends ArrayAdapter<String> {
-        public ClassAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-        }
-
-        @Override
-        public int getCount() {
-            int count = super.getCount();
-            return count > 0 ? count - 1 : count;
-        }
-    }
-
-    public class SubjectAdapter extends ArrayAdapter<String> {
-        public SubjectAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-        }
-
-        @Override
-        public int getCount() {
-            int count = super.getCount();
-            return count > 0 ? count - 1 : count;
-        }
-    }
 
     @Override
     protected void onStart() {
@@ -298,8 +291,14 @@ public class SignUpActivity extends AppCompatActivity  {
         }else {
             responce = true;
         }
-        if(SubjectName.isEmpty()){
+        if(jsonObject.toString().isEmpty()){
             Toast.makeText(this, "Select Subject", Toast.LENGTH_SHORT).show();
+            responce = false;
+        }else {
+            responce = true;
+        }
+        if(Language.isEmpty()){
+            Toast.makeText(this, "Select Medium", Toast.LENGTH_SHORT).show();
             responce = false;
         }else {
             responce = true;
@@ -313,11 +312,29 @@ public class SignUpActivity extends AppCompatActivity  {
         JsonObject jsonObject1 = new JsonObject();
         jsonObject1.addProperty("name_en", binding.name.getText().toString().toUpperCase());
         jsonObject1.addProperty("email", binding.email.getText().toString().toUpperCase());
-        jsonObject1.addProperty("mobile", binding.mobile.getText().toString().toUpperCase());
-        jsonObject1.addProperty("medium", "ENGLISH");
+        jsonObject1.addProperty("mobile", binding.mobile.getText().toString());
+        jsonObject1.addProperty("medium", Language.toUpperCase());
         jsonObject1.addProperty("password", binding.password.getText().toString());
         jsonObject1.addProperty("stu_class", ClassName);
+        jsonArray= new JsonArray();
+
+        Iterator<?>keys = jsonObject.keys();
+        while (keys.hasNext()) {
+            try {
+                String key = String.valueOf(keys.next());
+                JsonObject finalsubject= new JsonObject();
+                finalsubject.addProperty("id",key);
+                finalsubject.addProperty("subj",jsonObject.getString(key));
+                jsonArray.add(finalsubject);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         jsonObject1.add("subjects", jsonArray);
+
+
+
 
         Log.e("row  json ", jsonObject1.toString());
 
@@ -332,10 +349,11 @@ public class SignUpActivity extends AppCompatActivity  {
                         sessionManage.createLoginSession(response.body().getResult().getData().getNameEn(),
                                 response.body().getResult().getData().getEmail(),
                                 response.body().getResult().getData().getMobile(),
-                                response.body().getResult().getData().getMedium(),
+                                String.valueOf(response.body().getResult().getData().getClass()),
                                 response.body().getResult().getData().getStuSub().toString(),
                                 response.body().getResult().getData().getMedium(),
-                                response.body().getResult().getData().getId()
+                                response.body().getResult().getData().getId(),
+                                response.body().getResult().getData().getActive()
                                );
                         if (sessionManage.Checkingcredential()){
                             startActivity(new Intent(SignUpActivity.this,MainActivity.class));
@@ -360,4 +378,58 @@ public class SignUpActivity extends AppCompatActivity  {
 
 
     }
+
+
+
+
+
+    public class GenderAdapter extends ArrayAdapter<String> {
+        public GenderAdapter(Context context, int textViewResourceId) {
+            super(context, textViewResourceId);
+        }
+
+        @Override
+        public int getCount() {
+            int count = super.getCount();
+            return count > 0 ? count - 1 : count;
+        }
+    }
+
+    public class ClassAdapter extends ArrayAdapter<String> {
+        public ClassAdapter(Context context, int textViewResourceId) {
+            super(context, textViewResourceId);
+        }
+
+        @Override
+        public int getCount() {
+            int count = super.getCount();
+            return count > 0 ? count - 1 : count;
+        }
+    }
+
+    public class SubjectAdapter extends ArrayAdapter<String> {
+        public SubjectAdapter(Context context, int textViewResourceId) {
+            super(context, textViewResourceId);
+        }
+
+        @Override
+        public int getCount() {
+            int count = super.getCount();
+            return count > 0 ? count - 1 : count;
+        }
+    }
+
+
+    public class LanguageAdapter extends ArrayAdapter<String> {
+        public LanguageAdapter(Context context, int textViewResourceId) {
+            super(context, textViewResourceId);
+        }
+
+        @Override
+        public int getCount() {
+            int count = super.getCount();
+            return count > 0 ? count - 1 : count;
+        }
+    }
+
 }

@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sessionManage = new SessionManage(this);
         sessionManage.checkLogin();
 
+
         binding.navView.setNavigationItemSelectedListener(MainActivity.this);
 
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView mobile =headerView.findViewById(R.id.usermobile);
          name.setText(sessionManage.getUserDetails().get("Name"));
          mobile.setText(sessionManage.getUserDetails().get("Mobile"));
-         classes.setText(sessionManage.getUserDetails().get("Class"));
+         classes.setText(sessionManage.getUserDetails().get("Medium"));
 
 
         try {
@@ -130,6 +131,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.logout:
                 sessionManage.logoutUser();
                 finish();
+                break;
+            case R.id.lacture:
+                startActivity(new Intent(this, VedioLactureActivity.class));
+                break;
+            case R.id.notes:
+                startActivity(new Intent(this, NotesActivity.class));
                 break;
 
 

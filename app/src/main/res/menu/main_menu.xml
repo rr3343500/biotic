@@ -15,6 +15,17 @@
         android:icon="@drawable/test"
         android:title="My Test" />
 
+
+    <item
+        android:id="@+id/notes"
+        android:icon="@drawable/notes_icon"
+        android:title="Notes" />
+
+    <item
+        android:id="@+id/lacture"
+        android:icon="@drawable/vedio_icon"
+        android:title="Lacture Vedios" />
+
     <item
         android:id="@+id/logout"
         android:icon="@drawable/logout"

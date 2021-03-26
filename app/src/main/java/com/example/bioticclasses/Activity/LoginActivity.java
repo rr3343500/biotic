@@ -74,7 +74,8 @@ public class LoginActivity extends AppCompatActivity {
                                 response.body().getResult().getData().get(0).getMedium(),
                                 response.body().getResult().getData().get(0).getStuSub().toString(),
                                 response.body().getResult().getData().get(0).getMedium(),
-                                response.body().getResult().getData().get(0).getId()
+                                response.body().getResult().getData().get(0).getId(),
+                                response.body().getResult().getData().get(0).getActive()
                         );
 
                         Log.e("xzfsdf",  response.body().getResult().getData().get(0).getId());

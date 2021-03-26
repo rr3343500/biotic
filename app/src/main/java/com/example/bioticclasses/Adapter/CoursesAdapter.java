@@ -15,6 +15,7 @@ import com.example.bioticclasses.Activity.MainActivity;
 import com.example.bioticclasses.Activity.TestListActivity;
 import com.example.bioticclasses.databinding.RowCourcesLayoutBinding;
 import com.example.bioticclasses.modal.mainList.Datum;
+import com.example.bioticclasses.other.SessionManage;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,11 +25,13 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
     Context context;
     RowCourcesLayoutBinding binding;
     List<com.example.bioticclasses.modal.mainList.Datum> courseLists;
+    SessionManage sessionManage;
 
 
     public CoursesAdapter(MainActivity context, List<com.example.bioticclasses.modal.mainList.Datum> class_) {
         this.context = context;
         this.courseLists = class_;
+        sessionManage= new SessionManage(context);
     }
 
     @NonNull
@@ -47,7 +50,12 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
             if (list.getTests().isEmpty())
                 Toast.makeText(context, "No Tests", Toast.LENGTH_SHORT).show();
             else
-                context.startActivity(new Intent(context, TestListActivity.class).putExtra("pos", String.valueOf(position)));
+                if(sessionManage.active()){
+                    context.startActivity(new Intent(context, TestListActivity.class).putExtra("pos", String.valueOf(position)));
+                }else {
+                    Toast.makeText(context, "Your Account is Not Active", Toast.LENGTH_SHORT).show();
+                }
+
 
         });
         binding.subjectName.setText(list.getNameEn());
