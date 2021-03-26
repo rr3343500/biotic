@@ -36,6 +36,9 @@ public class ProfileActivity extends AppCompatActivity  implements NavigationVie
         getSupportActionBar().hide();
         drawer = binding.drawer;
         binding.home.name.setText(sessionManage.getUserDetails().get("Name"));
+        binding.home.name1.setText(sessionManage.getUserDetails().get("Name"));
+        binding.home.mobile.setText(sessionManage.getUserDetails().get("Mobile"));
+        binding.home.email.setText(sessionManage.getUserDetails().get("Email"));
     }
 
     private void ActivityAction() {

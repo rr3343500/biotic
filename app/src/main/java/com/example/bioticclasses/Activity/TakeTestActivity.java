@@ -1,10 +1,12 @@
 package com.example.bioticclasses.Activity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
@@ -407,6 +409,9 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
             timer();
             dialog.cancel();
         });
+        alertDialogBuilder.setOnKeyListener((dialog, keyCode, event) -> {
+            return keyCode == KeyEvent.KEYCODE_BACK;
+        });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
@@ -633,5 +638,57 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                 }
                 break;
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(Test){
+            if(Warning){
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setMessage("We Have Already give you a Warning. Please Submit.");
+                alertDialogBuilder.setPositiveButton("Submit",
+                        (arg0, arg1) -> {
+                            if (countDownTimer != null) countDownTimer.cancel();
+                            Test = false;
+                            startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)));
+                        });
+                alertDialogBuilder.setOnKeyListener((dialog, keyCode, event) -> {
+                    return keyCode == KeyEvent.KEYCODE_BACK;
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+            }else {
+                Warning = true;
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setMessage("Warning Don't Change Screen.");
+                alertDialogBuilder.setNegativeButton("Close", (dialog, which) -> {
+
+                    dialog.cancel();
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.setCanceledOnTouchOutside(true);
+                alertDialog.show();
+            }
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
     }
 }

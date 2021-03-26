@@ -315,7 +315,8 @@ public class SignUpActivity extends AppCompatActivity  {
         jsonObject1.addProperty("email", binding.email.getText().toString().toUpperCase());
         jsonObject1.addProperty("mobile", binding.mobile.getText().toString().toUpperCase());
         jsonObject1.addProperty("medium", "ENGLISH");
-        jsonObject1.addProperty("password", binding.password.getText().toString().toUpperCase());
+        jsonObject1.addProperty("password", binding.password.getText().toString());
+        jsonObject1.addProperty("stu_class", ClassName);
         jsonObject1.add("subjects", jsonArray);
 
         Log.e("row  json ", jsonObject1.toString());

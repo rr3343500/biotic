@@ -2,12 +2,18 @@ package com.example.bioticclasses.Activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProviders;
@@ -53,12 +59,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         sessionManage = new SessionManage(this);
         sessionManage.checkLogin();
 
         binding.navView.setNavigationItemSelectedListener(MainActivity.this);
 
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
+
+
+        View headerView= binding.navView.getHeaderView(0);
+        TextView name =headerView.findViewById(R.id.username);
+        TextView classes =headerView.findViewById(R.id.userclasses);
+        TextView mobile =headerView.findViewById(R.id.usermobile);
+         name.setText(sessionManage.getUserDetails().get("Name"));
+         mobile.setText(sessionManage.getUserDetails().get("Mobile"));
+         classes.setText(sessionManage.getUserDetails().get("Class"));
+
 
         try {
             MainList();
@@ -156,6 +174,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+    }
+
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1074502154150",
+    "project_id": "biotic-b5ca3",
+    "storage_bucket": "biotic-b5ca3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074502154150:android:31fb3f2d921e1c6bb70167",
+        "android_client_info": {
+          "package_name": "com.example.bioticclasses"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1074502154150-bm11lrupiq8njdq0h9vmlo7052uvk66h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDASyFIzRhTJ1lDbZ2ZU-p03wz9erxsHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1074502154150-bm11lrupiq8njdq0h9vmlo7052uvk66h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

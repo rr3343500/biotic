@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/purple_700"
     android:paddingLeft="20dp"
+    android:id="@+id/header"
     android:layout_height="130dp">
 
 
@@ -30,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_semi_bold"
@@ -39,15 +40,14 @@
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:id="@+id/profession"
+            android:id="@+id/userclasses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_regular"
             android:text="Student"
-            android:textColor="@color/gray"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/username"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -55,10 +55,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_regular"
             android:text="India"
-            android:textColor="@color/gray"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/usermobile"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profession"
+            app:layout_constraintTop_toBottomOf="@id/userclasses"
             tools:ignore="MissingConstraints" />
 
 

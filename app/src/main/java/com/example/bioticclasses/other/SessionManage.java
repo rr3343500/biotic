@@ -9,7 +9,11 @@ import com.example.bioticclasses.Activity.MainActivity;
 
 import java.util.HashMap;
 
-public class SessionManage {
+public class
+
+
+
+SessionManage {
 
     // Shared Preferences
     SharedPreferences pref;
