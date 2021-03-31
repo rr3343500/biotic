@@ -204,6 +204,8 @@
                android:layout_height="wrap_content"
                android:fontFamily="@font/lato_semi_bold"
                android:text="Select Subject"
+               android:ellipsize="end"
+               android:maxLines="1"
                android:id="@+id/multisubject"
                android:textColor="@color/white"/>
 

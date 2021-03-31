@@ -1,6 +1,7 @@
 package com.example.bioticclasses.Activity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -55,6 +56,7 @@ public class ViewTestActivity extends AppCompatActivity {
             public void onResponse(Call<TestShowList> call, Response<TestShowList> response) {
 
                 List<Datum> list = response.body().getResult().getData();
+                Log.e("position",list.get(pos).toString());
                 binding.recycle.setAdapter(new TestShowAdapter(list.get(pos).getResponse()));
             }
 

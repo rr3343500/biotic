@@ -33,6 +33,7 @@ import com.example.bioticclasses.other.SessionManage;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -40,8 +41,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity  implements NavigationVie
     JsonArray jsonArray;
     JSONObject jsonObject= new JSONObject();
     String[] language = {"Hindi","English"};
+    Vector<String> strings= new Vector<>();
 
 
 
@@ -78,6 +82,11 @@ public class ProfileActivity extends AppCompatActivity  implements NavigationVie
         getSupportActionBar().hide();
         SetActivityData();
         ActivityAction();
+
+
+
+
+
     }
 
     private void SetActivityData() {
@@ -139,12 +148,15 @@ public class ProfileActivity extends AppCompatActivity  implements NavigationVie
                     jsonObject.remove(cb.getTag().toString());
                 }else {
                     try {
-                        jsonObject.put(cb.getTag().toString(),cb.getText().toString());
+                        if (!findSubjects(cb.getTag().toString())){
+                            jsonObject.put(cb.getTag().toString(),cb.getText().toString());
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
                 Log.e("TAG", "showDialog: " + jsonObject.toString());
+                setSubjects();
             });
         }
 
@@ -154,7 +166,36 @@ public class ProfileActivity extends AppCompatActivity  implements NavigationVie
     }
 
 
+    Boolean findSubjects(String s){
+        Boolean finder;
+        try {
+            jsonObject.getString(s);
+            finder=true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            finder=false;
+        }
 
+        return finder;
+    }
+
+    private void setSubjects(){
+        String text="";
+        Iterator<?> keys = jsonObject.keys();
+        while (keys.hasNext()) {
+            Log.e("next", String.valueOf(keys.hasNext()));
+            try {
+                String key = String.valueOf(keys.next());
+                JsonObject finalsubject= new JsonObject();
+                finalsubject.addProperty("subj",jsonObject.getString(key));
+                text+= jsonObject.getString(key)+" ";
+                binding.home.multisubject.setText(text);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     protected void onStart() {
@@ -216,7 +257,10 @@ public class ProfileActivity extends AppCompatActivity  implements NavigationVie
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                jsonObject = new JSONObject();
+                binding.home.multisubject.setText("Select Subject");
                 if (second){
+                    subjectlist.clear();
                     ClassName= classes[position];
                     for(int i=0 ;i< subjectsList.size();i++){
                         if(subjectsList.get(i).getStuClass().trim().toUpperCase().equals(ClassName.trim().toUpperCase())){

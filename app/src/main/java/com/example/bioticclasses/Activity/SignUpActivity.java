@@ -54,6 +54,7 @@ public class SignUpActivity extends AppCompatActivity  {
     ArrayList<String>finalsubjects = new ArrayList<String>();
     BiotechInterface biotechInterface ;
     List<Subject>subjectsList= new ArrayList<>();
+    List<Subject>newlist= new ArrayList<>();
     String SubjectName="", ClassName="", Gender="" , Language="";
     SubjectAdapter subjectAdapter;
     ClassAdapter classadapter;
@@ -101,6 +102,7 @@ public class SignUpActivity extends AppCompatActivity  {
 
 
     public void showDialog(HashMap<String,String> stringArrayList){
+        Log.e("sdfsd", String.valueOf(stringArrayList.size()));
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.multiselect_dialog_layout);
@@ -125,18 +127,51 @@ public class SignUpActivity extends AppCompatActivity  {
                   jsonObject.remove(cb.getTag().toString());
                 }else {
                     try {
-                        jsonObject.put(cb.getTag().toString(),cb.getText().toString());
+                      if (!findSubjects(cb.getTag().toString())){
+                          jsonObject.put(cb.getTag().toString(),cb.getText().toString());
+                      }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
                 Log.e("TAG", "showDialog: " + jsonObject.toString());
+                setSubjects();
             });
         }
 
         MaterialButton close= dialog.findViewById(R.id.close);
         close.setOnClickListener(v -> {dialog.cancel();});
         dialog.show();
+    }
+
+    Boolean findSubjects(String s){
+        Boolean finder;
+        try {
+            jsonObject.getString(s);
+            finder=true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            finder=false;
+        }
+
+        return finder;
+    }
+
+    private void setSubjects(){
+        String text="";
+        Iterator<?>keys = jsonObject.keys();
+        while (keys.hasNext()) {
+            try {
+                String key = String.valueOf(keys.next());
+                JsonObject finalsubject= new JsonObject();
+                finalsubject.addProperty("subj",jsonObject.getString(key));
+                text+= jsonObject.getString(key)+" ";
+                binding.multisubject.setText(text);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void ActivityAction(){
@@ -164,13 +199,20 @@ public class SignUpActivity extends AppCompatActivity  {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+                jsonObject = new JSONObject();
+                binding.multisubject.setText("Select Subject");
                 if (second){
                     ClassName= classes[position];
+
+
+                    subjectlist.clear();
                     for(int i=0 ;i< subjectsList.size();i++){
                         if(subjectsList.get(i).getStuClass().trim().toUpperCase().equals(ClassName.trim().toUpperCase())){
                             subjectlist.put(subjectsList.get(i).getId(),subjectsList.get(i).getNameEn());
                         }
                     }
+
+                    Log.e("main ", String.valueOf(subjectsList.size()));
                     subjects= null;
 //                    subjects=stringArrayList.toArray(new String[stringArrayList.size()]);
 //                    subjectAdapter.clear();

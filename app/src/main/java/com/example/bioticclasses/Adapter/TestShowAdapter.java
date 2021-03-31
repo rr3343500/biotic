@@ -1,6 +1,7 @@
 package com.example.bioticclasses.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +26,9 @@ public class TestShowAdapter extends RecyclerView.Adapter<TestShowAdapter.Viewho
     Context context;
     private static final String TAG = "TestShowAdapter";
 
-    public TestShowAdapter(List<com.example.bioticclasses.modal.show_test_list.Response> response) {
+    public TestShowAdapter(List<Response> response) {
         this.response = response;
+        setHasStableIds(true);
     }
 
     @NonNull
@@ -37,11 +39,24 @@ public class TestShowAdapter extends RecyclerView.Adapter<TestShowAdapter.Viewho
         return new Viewholder(LayoutInflater.from(context).inflate(R.layout.row_my_test_question_layout, parent, false));
     }
 
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull @NotNull TestShowAdapter.Viewholder holder, int position) {
         Response list = response.get(position);
         int pos = (position + 1);
         holder.ques.setText("Q." + pos);
+
+        Log.e("assdg",list.getUop());
         switch (list.getType().toUpperCase()) {
             case "TEXT":
                 holder.question.setText(list.getQuestion());

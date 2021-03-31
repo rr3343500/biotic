@@ -177,6 +177,7 @@ SessionManage {
 
         user.put(USERID, pref.getString(USERID, null));
         user.put(ACTIVE, pref.getString(ACTIVE, null));
+        user.put(MEDIUN, pref.getString(MEDIUN, null));
 
 
         return user;

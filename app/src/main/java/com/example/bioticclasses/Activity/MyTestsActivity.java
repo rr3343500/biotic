@@ -43,8 +43,10 @@ public class MyTestsActivity extends AppCompatActivity {
         biotechInterface.getTestList(sessionManage.getUserDetails().get("userid") , sessionManage.getUserDetails().get("Class")).enqueue(new Callback<TestShowList>() {
             @Override
             public void onResponse(Call<TestShowList> call, Response<TestShowList> response) {
+                if(response.isSuccessful()){
+                    binding.recycle.setAdapter(new MytestAdapter(MyTestsActivity.this, response.body().getResult().getData()));
+                }
 
-                binding.recycle.setAdapter(new MytestAdapter(MyTestsActivity.this, response.body().getResult().getData()));
             }
 
             @Override
