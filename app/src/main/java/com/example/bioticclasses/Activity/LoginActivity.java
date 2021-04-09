@@ -6,18 +6,21 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.ActivityLoginBinding;
-import com.example.bioticclasses.modal.login.Signin;
-import com.example.bioticclasses.modal.signup.Signup;
+import com.example.bioticclasses.modal.login.Login;
+import com.example.bioticclasses.other.NetworkCheck;
 import com.example.bioticclasses.other.SessionManage;
 import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,78 +50,110 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void ActivityAction(){
-        binding.SinnupBtn.setOnClickListener(v -> { startActivity(new Intent(LoginActivity.this , SignUpActivity.class)); });
-        binding.signinBtn.setOnClickListener(v -> {
+        binding.forget.setOnClickListener(v -> { startActivity(new Intent(LoginActivity.this , ForgetPassword.class)); });
+        binding.signup.setOnClickListener(v -> { startActivity(new Intent(LoginActivity.this , SignUpActivity.class)); });
+        binding.button.setOnClickListener(v -> {
           if(Validate()){
-              SigIn();
+              if(new NetworkCheck().haveNetworkConnection(LoginActivity.this)){
+                  SigIn();
+              }else {
+                  Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+              }
+
           }
         });
     }
 
 
     void SigIn(){
+        binding.constraintLayout.setAlpha((float) 0.2);
+        binding.progress.setVisibility(View.VISIBLE);
         JsonObject jsonObject= new JsonObject();
-        jsonObject.addProperty("mobile",binding.mobile.getText().toString());
-        jsonObject.addProperty("password",binding.password.getText().toString());
+        jsonObject.addProperty("mobile",binding.inputmobile.getText().toString());
+        jsonObject.addProperty("password",binding.inputpassword.getText().toString());
 
         Log.e("row  json ", jsonObject.toString());
-        biotechInterface.LOGIN_CALL(jsonObject).enqueue(new Callback<Signin>() {
+        biotechInterface.LOGIN_CALL(jsonObject).enqueue(new Callback<Login>() {
             @Override
-            public void onResponse(Call<Signin> call, Response<Signin> response) {
+            public void onResponse(Call<Login> call, Response<Login> response) {
                 if (response.isSuccessful()){
                     Log.e("sadsfs",response.body().getResult().getMessage());
                     Log.e("sadsfs", String.valueOf(response.body().getResult().getErrorCode()));
                     Log.e("sadsfs", String.valueOf(response.body().getResult().getError()));
                     if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
+
+                        JSONObject jsonObject= new JSONObject();
+                        Log.e("sfsdf", String.valueOf(response.body().getResult().getData().get(0).getStuSub().size()));
+                        for(int i=0; i<response.body().getResult().getData().get(0).getStuSub().size();i++){
+                            Log.e("sfsdf",response.body().getResult().getData().get(0).getStuSub().get(i).getId());
+                            try {
+                                jsonObject.put(response.body().getResult().getData().get(0).getStuSub().get(i).getId(),response.body().getResult().getData().get(0).getStuSub().get(i).getSubj());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        Log.e("dfsdsd",  response.body().getResult().getData().get(0).getStuClas());
                         sessionManage.createLoginSession(response.body().getResult().getData().get(0).getNameEn(),
                                 response.body().getResult().getData().get(0).getEmail(),
                                 response.body().getResult().getData().get(0).getMobile(),
-                                response.body().getResult().getData().get(0).getMedium(),
-                                response.body().getResult().getData().get(0).getStuSub().toString(),
+                                response.body().getResult().getData().get(0).getStuClas(),
+                                jsonObject.toString(),
                                 response.body().getResult().getData().get(0).getMedium(),
                                 response.body().getResult().getData().get(0).getId(),
-                                response.body().getResult().getData().get(0).getActive()
+                                response.body().getResult().getData().get(0).getActive(),
+                                response.body().getResult().getData().get(0).getImgName(),
+                                response.body().getResult().getData().get(0).getPassword(),
+                                "MALE"
+
+
                         );
 
                         Log.e("xzfsdf",  response.body().getResult().getData().get(0).getId());
                         if (sessionManage.Checkingcredential()){
-                            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                            binding.constraintLayout.setAlpha(1);
+                            binding.progress.setVisibility(View.GONE);
                         }
 
                     }
                     else {
                         Toast.makeText(LoginActivity.this, response.body().getResult().getMessage(), Toast.LENGTH_SHORT).show();
+                        binding.constraintLayout.setAlpha(1);
+                        binding.progress.setVisibility(View.GONE);
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<Signin> call, Throwable t) {
+            public void onFailure(Call<Login> call, Throwable t) {
                 Log.e("sadsfs",t.getMessage());
+                binding.constraintLayout.setAlpha(1);
+                binding.progress.setVisibility(View.GONE);
             }
         });
     }
 
     private boolean Validate(){
-        Log.e("length", String.valueOf(binding.mobile.getText().toString().length()));
+        Log.e("length", String.valueOf(binding.inputmobile.getText().toString().length()));
         Boolean responce =true;
 
-        if(binding.mobile.getText().toString().isEmpty() || binding.mobile.getText().toString().length()< 10){
-            binding.emailTextInputLayout.setError("Invalid Mobile Number ");
-            binding.emailTextInputLayout.setErrorEnabled(true);
+        if(binding.inputmobile.getText().toString().isEmpty() || binding.inputmobile.getText().toString().length()< 10){
+            binding.inputmobile.setError("Invalid Mobile Number ");
+//            binding.inputmobile.setErrorEnabled(true);
             responce = false;
         }else {
-            binding.emailTextInputLayout.setError(null);
-            binding.emailTextInputLayout.setErrorEnabled(false);
+            binding.inputmobile.setError(null);
+//            binding.emailTextInputLayout.setErrorEnabled(false);
             responce = true;
         }
-        if(binding.password.getText().toString().isEmpty()){
-            binding.passwordTextInputLayout.setError("password is empty");
-            binding.passwordTextInputLayout.setErrorEnabled(true);
+        if(binding.inputpassword.getText().toString().isEmpty()){
+            binding.inputpassword.setError("password is empty");
+//            binding.passwordTextInputLayout.setErrorEnabled(true);
             responce = false;
         }else {
-            binding.passwordTextInputLayout.setError(null);
-            binding.passwordTextInputLayout.setErrorEnabled(false);
+            binding.inputpassword.setError(null);
+//            binding.passwordTextInputLayout.setErrorEnabled(false);
             responce = true;
         }
 

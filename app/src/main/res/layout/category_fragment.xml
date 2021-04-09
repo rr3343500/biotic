@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="20dp"
+    android:layout_height="match_parent"
+    tools:context=".fragments.category.CategoryFragment">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:text="All List"
+            android:id="@+id/all"
+            android:fontFamily="@font/montserrat_regular"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_black"
+            android:textSize="16dp"
+            tools:ignore="MissingConstraints" />
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="5dp"
+        android:id="@+id/time"
+        tools:ignore="MissingConstraints">
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:orientation="horizontal"
+          android:gravity="center_vertical"
+          android:paddingTop="2dp"
+          android:paddingBottom="3dp"
+          android:paddingLeft="10dp"
+          android:paddingRight="10dp"
+          android:layout_height="wrap_content">
+
+          <com.google.android.material.textview.MaterialTextView
+              android:layout_width="wrap_content"
+              android:text="Time"
+              android:fontFamily="@font/montserrat_regular"
+              android:layout_height="wrap_content"
+              android:textColor="@color/light_black"
+              android:textSize="10dp"
+              tools:ignore="MissingConstraints" />
+          <ImageView
+              android:layout_width="15dp"
+              android:layout_height="15dp"
+              android:src="@drawable/arrow_bottom_black"/>
+
+      </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/time"
+        app:stackFromEnd="false"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,4 +25,45 @@
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+
+
+        <fragment
+            android:id="@+id/home"
+            android:name="com.example.bioticclasses.fragments.home.HomeFragment"
+            android:label="@string/first_fragment_label"
+            tools:layout="@layout/fragment_home">
+
+            <action
+                android:id="@+id/action_navigation_home_to_navigation_category2"
+                app:destination="@id/navigation_category" />
+        </fragment>
+
+
+    <fragment
+        android:id="@+id/navigation_category"
+        android:name="com.example.bioticclasses.fragments.category.CategoryFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/category_fragment">
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/mytest"
+        android:name="com.example.bioticclasses.fragments.mytest.MyTestFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/my_test_fragment">
+
+    </fragment>
+    <fragment
+        android:id="@+id/account"
+        android:name="com.example.bioticclasses.fragments.account.AccountFragment"
+        android:label="AccountFragment" />
+    <fragment
+        android:id="@+id/notes"
+        android:name="com.example.bioticclasses.fragments.notes.FragmentNotes"
+        android:label="fragment_notes_fragment"
+        tools:layout="@layout/fragment_notes_fragment" />
+
+
 </navigation>

@@ -19,4 +19,28 @@
     <color name="lightorangeColor">#FFA3A4</color>
     <color name="ultralightorangeColor">#FEEEEE</color>
     <color name="dark_green">#4CAF50</color>
+
+
+
+    <color name="theme_pink">#F34F7B</color>
+    <color name="hint_gray">#7F7F7F</color>
+    <color name="theme_pink_dark">#F0496C</color>
+    <color name="light_black">#4D4D4D</color>
+    <color name="light_gray">#A19D9E</color>
+    <color name="very_light_black">#443C3E</color>
+    <color name="mat_black">#1A1A1A</color>
+    <color name="icon_gray">#8D8D8D</color>
+    <color name="home_background">#F2F2F2</color>
+    <color name="bottom_nav_color">#E04F70</color>
+    <color name="nav_active">#CC3D5F</color>
+    <color name="test_background">#E5E5E5</color>
+    <color name="question_color">#808080</color>
+    <color name="correct">#197B30</color>
+    <color name="incorrect">#E04F70</color>
+    <color name="fill">#fd89c0</color>
+    <color name="home_icom_black_color">#443C3E</color>
+
+
+
+
 </resources>

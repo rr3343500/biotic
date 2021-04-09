@@ -2,7 +2,6 @@
 package com.example.bioticclasses.modal.signup;
 
 import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -26,12 +25,18 @@ public class Data {
     @SerializedName("password")
     @Expose
     private String password;
-    @SerializedName("stu_sub")
-    @Expose
-    private List<StuSub> stuSub = null;
     @SerializedName("medium")
     @Expose
     private String medium;
+    @SerializedName("img_name")
+    @Expose
+    private String imgName;
+    @SerializedName("img_path")
+    @Expose
+    private String imgPath;
+    @SerializedName("stu_sub")
+    @Expose
+    private List<StuSub> stuSub = null;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
@@ -90,20 +95,36 @@ public class Data {
         this.password = password;
     }
 
-    public List<StuSub> getStuSub() {
-        return stuSub;
-    }
-
-    public void setStuSub(List<StuSub> stuSub) {
-        this.stuSub = stuSub;
-    }
-
     public String getMedium() {
         return medium;
     }
 
     public void setMedium(String medium) {
         this.medium = medium;
+    }
+
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    public List<StuSub> getStuSub() {
+        return stuSub;
+    }
+
+    public void setStuSub(List<StuSub> stuSub) {
+        this.stuSub = stuSub;
     }
 
     public String getCreatedAt() {

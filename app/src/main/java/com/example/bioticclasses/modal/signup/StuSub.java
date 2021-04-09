@@ -4,11 +4,12 @@ package com.example.bioticclasses.modal.signup;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+
 public class StuSub {
 
     @SerializedName("sid")
     @Expose
-    private String sid;
+    private String _id;
     @SerializedName("id")
     @Expose
     private String id;
@@ -20,11 +21,11 @@ public class StuSub {
     private String createdAt;
 
     public String get_id() {
-        return sid;
+        return _id;
     }
 
     public void set_id(String sid) {
-        this.sid = sid;
+        this._id = sid;
     }
 
     public String getId() {

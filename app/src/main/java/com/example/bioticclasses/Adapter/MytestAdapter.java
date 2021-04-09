@@ -27,7 +27,7 @@ public class MytestAdapter extends RecyclerView.Adapter<MytestAdapter.Viewholder
     int subPosition;
 
 
-    public MytestAdapter(MyTestsActivity context, List<Datum> tests) {
+    public MytestAdapter(Context context, List<Datum> tests) {
         this.context = context;
         this.tests = tests;
     }

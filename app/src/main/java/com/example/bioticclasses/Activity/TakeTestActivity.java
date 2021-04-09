@@ -3,12 +3,14 @@ package com.example.bioticclasses.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,10 +21,10 @@ import com.example.bioticclasses.Adapter.QuestionAdapter;
 import com.example.bioticclasses.List.QuestionList;
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.databinding.TakeTestLayoutBinding;
+import com.example.bioticclasses.fragments.category.CategoryViewModel;
 import com.example.bioticclasses.global.GlobalList;
-import com.example.bioticclasses.modal.mainList.Question;
-import com.example.bioticclasses.modal.mainList.Result;
-import com.example.bioticclasses.viewModel.MainActivityViewModel;
+import com.example.bioticclasses.modal.testlist.Result;
+import com.example.bioticclasses.modal.testlist.Question;
 import com.google.android.material.card.MaterialCardView;
 
 import org.json.JSONException;
@@ -46,16 +48,17 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
     Boolean Warning = false;
     CountDownTimer countDownTimer;
     String msg;
-    MainActivityViewModel mainActivityViewModel;
+    CategoryViewModel mainActivityViewModel;
     List<Question> list;
     int SubPos, TestPos;
     private static final String TAG = "TakeTestActivity";
-    com.example.bioticclasses.modal.mainList.Test timecheck;
+    com.example.bioticclasses.modal.testlist.Datum timecheck;
     AlertDialog alertDialog;
     Calendar todayDate = Calendar.getInstance();
     Calendar nextDate = Calendar.getInstance();
     long todatTimeMili, NextTimeMili;
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    private long takingtime;
     QuestionAdapter.ChangeQuestion changeQuestion;
     private static long START_TIME_IN_MILLIS = 600000;
     AlertDialog alertDialog1;
@@ -68,13 +71,18 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         getSupportActionBar().hide();
         answersheet = new JSONObject();
 
-        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        mainActivityViewModel = ViewModelProviders.of(this).get(CategoryViewModel.class);
         SubPos = Integer.parseInt(getIntent().getStringExtra("subPosition"));
         TestPos = Integer.parseInt(getIntent().getStringExtra("testPos"));
 
-        Result result = ((GlobalList) getApplicationContext()).result;
-        list = result.getData().get(SubPos).getTests().get(TestPos).getQuestions();
-        timecheck = result.getData().get(SubPos).getTests().get(TestPos);
+        Result result = (Result) ((GlobalList) getApplicationContext()).testlist;
+//        mainActivityViewModel.getCatList().observe(this,data -> {
+//            list =  data.get(TestPos).getQuestions();
+//            timecheck = data.get(TestPos);
+//        });
+
+        list = result.getData().get(TestPos).getQuestions();
+        timecheck = result.getData().get(TestPos);
 
         binding.mainview.Ans1Layout.setOnClickListener(this);
         binding.mainview.Ans2Layout.setOnClickListener(this);
@@ -90,6 +98,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
 
     private void setActivityData() {
 
+        setQuestionNo(question+1, list.size());
         for (int i = 1; i <= list.size(); i++) {
             questionLists.add(new QuestionList("your question no is  " + i, "patato" + i, "tomato" + i, "onion" + i, "chilli" + i));
         }
@@ -185,7 +194,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
 
             if (countDownTimer != null) countDownTimer.cancel();
             Test = false;
-            startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)));
+            startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("time",START_TIME_IN_MILLIS).putExtra("remainnig",takingtime));
             finish();
         });
     }
@@ -222,10 +231,11 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
             START_TIME_IN_MILLIS = NextTimeMili - todatTimeMili;
             Log.e(TAG, "timer: mili sec" + mTimeLeftInMillis);
 
-            countDownTimer = new CountDownTimer(7200000, 1000) {
+            countDownTimer = new CountDownTimer(START_TIME_IN_MILLIS, 1000) {
 
                 public void onTick(long millisUntilFinished) {
                     mTimeLeftInMillis = millisUntilFinished;
+                    takingtime= START_TIME_IN_MILLIS-mTimeLeftInMillis;
                     updateCountDownText();
 //                    binding.mainview.time.setText("00:" + millisUntilFinished / 1000);
                 }
@@ -252,7 +262,6 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
     }
 
     private void Next() {
-
         action = false;
         clearResponse();
 
@@ -281,6 +290,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         binding.mainview.t4.setText(list.get(question).getOp4());
 //        binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
         binding.mainview.ans4.setTag("op4");
+        setQuestionNo(question+1, list.size());
         if (!searchJson(String.valueOf(question)).isEmpty()) {
             RadioButton button = binding.mainview.newoption.findViewWithTag(searchJson(String.valueOf(question)));
             if (button != null) {
@@ -325,6 +335,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         binding.mainview.t4.setText(list.get(question).getOp4());
 //        binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
         binding.mainview.ans4.setTag("op4");
+        setQuestionNo(question+1, list.size());
         if (!searchJson(String.valueOf(question)).isEmpty()) {
             String s = searchJson(String.valueOf(question));
             RadioButton button = binding.mainview.newoption.findViewWithTag(s);
@@ -378,7 +389,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         alertDialogBuilder.setMessage("Time Up Please Submit");
         alertDialogBuilder.setPositiveButton("Submit",
                 (arg0, arg1) -> {
-                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)));
+                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",START_TIME_IN_MILLIS).putExtra("remainnig",takingtime));
                     finish();
                 });
         alertDialog = alertDialogBuilder.create();
@@ -393,7 +404,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                 (arg0, arg1) -> {
                     if (countDownTimer != null) countDownTimer.cancel();
                     Test = false;
-                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)));
+                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",START_TIME_IN_MILLIS).putExtra("remainnig",takingtime));
                 });
         alertDialogBuilder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -415,6 +426,8 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
+//        Button buttonbackground = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+//        buttonbackground.setBackgroundColor(Color.BLACK);
     }
 
     public void OnOptionChecked(View view) {
@@ -508,7 +521,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         this.question = position;
         action = false;
         clearResponse();
-        if (question == questionLists.size() - 1) {
+        if (question == list.size() - 1) {
             binding.mainview.next.setEnabled(false);
             binding.mainview.prev.setEnabled(true);
             binding.mainview.submit.setVisibility(View.VISIBLE);
@@ -522,21 +535,22 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
             Loading();
             binding.mainview.submit.setVisibility(View.GONE);
         }
-        binding.mainview.question.setText(questionLists.get(question).getQues());
+        binding.mainview.question.setText(list.get(question).getQuestion());
         int snoCount = question + 1;
         binding.mainview.ques.setText("Q." + snoCount);
-        binding.mainview.t1.setText(questionLists.get(question).getOption1());
+        binding.mainview.t1.setText(list.get(question).getOp1());
 //        binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
         binding.mainview.ans1.setTag("op1");
-        binding.mainview.t2.setText(questionLists.get(question).getOption2());
+        binding.mainview.t2.setText(list.get(question).getOp2());
 //        binding.mainview.ans2.setTag(questionLists.get(question).getOption2());
         binding.mainview.ans2.setTag("op2");
-        binding.mainview.t3.setText(questionLists.get(question).getOption3());
+        binding.mainview.t3.setText(list.get(question).getOp3());
 //        binding.mainview.ans3.setTag(questionLists.get(question).getOption3());
         binding.mainview.ans3.setTag("op3");
-        binding.mainview.t4.setText(questionLists.get(question).getOption4());
+        binding.mainview.t4.setText(list.get(question).getOp4());
 //        binding.mainview.ans4.setTag(questionLists.get(question).getOption4());
         binding.mainview.ans4.setTag("op4");
+        setQuestionNo(question+1, list.size());
         if (!searchJson(String.valueOf(question)).isEmpty()) {
             RadioButton button = binding.mainview.newoption.findViewWithTag(searchJson(String.valueOf(question)));
             if (button != null) {
@@ -657,7 +671,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                         (arg0, arg1) -> {
                             if (countDownTimer != null) countDownTimer.cancel();
                             Test = false;
-                            startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)));
+                            startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",START_TIME_IN_MILLIS).putExtra("remainnig",takingtime));
                         });
                 alertDialogBuilder.setOnKeyListener((dialog, keyCode, event) -> {
                     return keyCode == KeyEvent.KEYCODE_BACK;
@@ -690,5 +704,9 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
+    }
+
+    private void setQuestionNo(int current , int tot){
+        binding.mainview.no.setText("Q."+current+ " / " + tot);
     }
 }

@@ -14,7 +14,7 @@ import com.example.bioticclasses.Activity.TakeTestActivity;
 import com.example.bioticclasses.List.CourseList;
 import com.example.bioticclasses.List.QuestionList;
 import com.example.bioticclasses.databinding.RowQuestionLayoutBinding;
-import com.example.bioticclasses.modal.mainList.Question;
+import com.example.bioticclasses.modal.testlist.Question;
 import com.google.android.material.card.MaterialCardView;
 
 

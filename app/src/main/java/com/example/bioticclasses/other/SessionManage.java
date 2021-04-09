@@ -3,9 +3,12 @@ package com.example.bioticclasses.other;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 
 import com.example.bioticclasses.Activity.LoginActivity;
 import com.example.bioticclasses.Activity.MainActivity;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -76,6 +79,10 @@ SessionManage {
     public static final String MOBILE = "Mobile";
     public static final String MEDIUN = "Medium";
     public static final String ACTIVE = "Active";
+    public static final String CURRENTSUBJECT = "CurrentSubject";
+    public static final String IMAGE = "Image";
+    public static final String PASSWORD = "Password";
+    public static final String GENDER = "Gender";
 
 
     // Constructor
@@ -118,7 +125,7 @@ SessionManage {
      * Create login session
      */
 //    public void createLoginSession(String name, String email, String mobile, String photo){     modified due to photo not available
-    public void createLoginSession(String name, String email, String mobile, String class1, String subject,String medium, String Userid, String active) {
+    public void createLoginSession(String name, String email, String mobile, String class1, String subject,String medium, String Userid, String active, String image, String password,String gender) {
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
@@ -128,6 +135,9 @@ SessionManage {
         editor.putString(MEDIUN, medium);
         editor.putString(USERID, Userid);
         editor.putString(ACTIVE, active);
+        editor.putString(IMAGE, image);
+        editor.putString(PASSWORD, password);
+        editor.putString(GENDER, gender);
         editor.commit();
     }
 
@@ -178,6 +188,10 @@ SessionManage {
         user.put(USERID, pref.getString(USERID, null));
         user.put(ACTIVE, pref.getString(ACTIVE, null));
         user.put(MEDIUN, pref.getString(MEDIUN, null));
+        user.put(CURRENTSUBJECT, pref.getString(CURRENTSUBJECT, null));
+        user.put(IMAGE, pref.getString(IMAGE, null));
+        user.put(PASSWORD, pref.getString(PASSWORD, null));
+        user.put(GENDER, pref.getString(GENDER, null));
 
 
         return user;
@@ -224,6 +238,11 @@ SessionManage {
             status=true;
         }
         return status;
+    }
+
+    public void SetCurrentSubject(String jsonObject){
+        editor.putString(CURRENTSUBJECT, jsonObject);
+        editor.commit();
     }
 
 

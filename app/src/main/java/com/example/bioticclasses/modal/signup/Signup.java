@@ -1,6 +1,7 @@
 
 package com.example.bioticclasses.modal.signup;
 
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

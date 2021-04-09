@@ -1,10 +1,11 @@
 
-package com.example.bioticclasses.modal.login;
+package com.example.bioticclasses.modal.testlist;
+
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Signin {
+public class TestList {
 
     @SerializedName("result")
     @Expose

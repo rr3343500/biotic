@@ -17,11 +17,13 @@ import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.ActivityScoreBinding;
 import com.example.bioticclasses.global.GlobalList;
-import com.example.bioticclasses.modal.mainList.Question;
-import com.example.bioticclasses.modal.mainList.Result;
-import com.example.bioticclasses.modal.mainList.Test;
+import com.example.bioticclasses.modal.testlist.Question;
+import com.example.bioticclasses.modal.testlist.Result;
+import com.example.bioticclasses.modal.testlist.Question;
 import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
 import com.example.bioticclasses.modal.testresult.TestResult;
+import com.example.bioticclasses.piechart.Piechart;
+import com.example.bioticclasses.piechart.PiechartHelper;
 import com.example.bioticclasses.other.SessionManage;
 import com.example.bioticclasses.viewModel.MainActivityViewModel;
 import com.google.gson.Gson;
@@ -55,24 +57,22 @@ public class ScoreActivity extends AppCompatActivity {
     BiotechInterface biotechInterface;
     SessionManage sessionManage;
     Result result;
-    PieView pieView;
+    Piechart pieView;
+    double totaltime,timetaking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityScoreBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setTitle("Score Details");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().hide();
 
-        result = ((GlobalList) getApplicationContext()).result;
+        result = ((GlobalList) getApplicationContext()).testlist;
 
 
-        textView = (TextView) findViewById(R.id.textView);
-         pieView = (PieView) findViewById(R.id.pie_view);
         pos = Integer.parseInt(getIntent().getStringExtra("pos"));
         TestPos = Integer.parseInt(getIntent().getStringExtra("TestPos"));
-        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+//        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
         sessionManage = new SessionManage(this);
 
@@ -83,6 +83,17 @@ public class ScoreActivity extends AppCompatActivity {
         }
         calculateTest();
 
+//        Log.e("dfdsfs", getIntent().getStringExtra("totaltime"));
+//        Log.e("dfdsfs", getIntent().getStringExtra("remainnig"));
+//        totaltime = Double.parseDouble(getIntent().getStringExtra("totaltime"));
+//        timetaking = Double.parseDouble(getIntent().getStringExtra("remainnig"));
+//
+//        binding.totaltime.setText(String.valueOf(totaltime/60000));
+//        binding.takingtime.setText(String.valueOf(timetaking/60000));
+//
+//        double timeper =  (timetaking/totaltime)*100;
+//
+//        binding.timeprogress.setProgress(Float.parseFloat(String.valueOf(timeper)),true);
 
     }
 
@@ -94,7 +105,7 @@ public class ScoreActivity extends AppCompatActivity {
         while (iterator.hasNext()) {
             String key = (String) iterator.next();
             try {
-                Question Copt = result.getData().get(pos).getTests().get(TestPos).getQuestions().get(Integer.parseInt(key));
+                Question Copt = result.getData().get(TestPos).getQuestions().get(Integer.parseInt(key));
                 if (answersheet.getString(key).trim().toUpperCase().equals(Copt.getCop().trim().toUpperCase())) {
                     correctAnswer++;
                 } else {
@@ -117,7 +128,7 @@ public class ScoreActivity extends AppCompatActivity {
             }
 
         }
-        AnswerSheet(result.getData().get(pos).getTests().get(TestPos).getQuestions().size(), result.getData().get(pos).getTests().get(TestPos).getCoorectMarks(), result.getData().get(pos).getTests().get(TestPos).getWrongMarks(), result.getData().get(pos).getTests());
+        AnswerSheet(result.getData().get(TestPos).getQuestions().size(), result.getData().get(TestPos).getCoorectMarks(), result.getData().get(TestPos).getWrongMarks(), result.getData().get(pos).getQuestions());
 
 
 
@@ -157,14 +168,14 @@ public class ScoreActivity extends AppCompatActivity {
         });*/
     }
 
-    private void AnswerSheet(int totalQuestion, int coorect_marks_1_question, int wrong_marks_1_question, List<Test> test) {
+    private void AnswerSheet(int totalQuestion, int coorect_marks_1_question, int wrong_marks_1_question, List<Question> test) {
 //        Log.e(TAG, "calculateTest: correctAnswer" + correctAnswer);
 //        Log.e(TAG, "calculateTest: wrongAnser" + wrongAnser);
 //
 //        Log.e(TAG, "calculateTest: totalQuestion" + totalQuestion);
 //        Log.e(TAG, "calculateTest: coorect_marks_1_question" + coorect_marks_1_question);
 //        Log.e(TAG, "calculateTest: wrong_marks_1_question" + wrong_marks_1_question);
-        List<Question> questionList = result.getData().get(pos).getTests().get(TestPos).getQuestions();
+        List<Question> questionList = result.getData().get(TestPos).getQuestions();
         for (int i = 0; i < questionList.size(); i++) {
             Question Copt = questionList.get(i);
             try {
@@ -209,22 +220,43 @@ public class ScoreActivity extends AppCompatActivity {
 
         }
 
+        double attemptques= correctAnswer + wrongAnser;
+        double totalques= totalQuestion;
 
-        binding.attemQuestion.setText(String.valueOf(correctAnswer + wrongAnser));
-        binding.NoQuestion.setText(String.valueOf(totalQuestion));
-        binding.wrongAnswer.setText(String.valueOf(wrongAnser));
-        binding.correctAnswer.setText(String.valueOf(correctAnswer));
-        binding.totalMarks.setText(String.valueOf((correctAnswer * coorect_marks_1_question) - (wrongAnser * wrong_marks_1_question)));
+        double attper= (attemptques/totalques)*100;
+        binding.attemptprogress.setProgress(Float.valueOf(String.valueOf(attper)),true);
+
+        binding.attques.setText(String.valueOf(correctAnswer + wrongAnser));
+        binding.totques.setText(String.valueOf(totalQuestion));
+        binding.incorrect.setText(String.valueOf(wrongAnser)+" Incorrect");
+        binding.correct.setText(String.valueOf(correctAnswer)+" Correct");
+        double obtained= (correctAnswer * coorect_marks_1_question) - (wrongAnser * wrong_marks_1_question);
+        binding.marksobtained.setText(String.valueOf(obtained));
+
+
+
 
 
         int totalMarks = totalQuestion * coorect_marks_1_question;
         int leaveQue = totalQuestion - (correctAnswer + wrongAnser);
 
 
-        passjsonObject.addProperty("test_name", test.get(TestPos).getHeading());
+        double obper= (obtained /totalMarks)*100;
+        if(obper<0){
+            binding.scoreprogress.setProgress(0,true);
+        }else{
+            binding.scoreprogress.setProgress(Float.valueOf(String.valueOf(obper)),true);
+        }
+
+
+        binding.totmark.setText(String.valueOf(totalMarks));
+
+        binding.unanswered.setText(String.valueOf(leaveQue)+" UnAnswered");
+
+        passjsonObject.addProperty("test_name",result.getData().get(pos).getHeading());
         passjsonObject.addProperty("user_id", sessionManage.getUserDetails().get("userid"));
         passjsonObject.addProperty("user_name", sessionManage.getUserDetails().get("Name"));
-        passjsonObject.addProperty("test_id", test.get(TestPos).getId());
+        passjsonObject.addProperty("test_id", result.getData().get(TestPos).getId());
         passjsonObject.addProperty("total_ques", totalQuestion);
         passjsonObject.addProperty("total_marks", String.valueOf(totalMarks));
         passjsonObject.addProperty("marks_obtain", String.valueOf((correctAnswer * coorect_marks_1_question) - (wrongAnser * wrong_marks_1_question)));
@@ -234,9 +266,9 @@ public class ScoreActivity extends AppCompatActivity {
         passjsonObject.add("response", jsonElements);
 
         Log.e(TAG, "AnswerSheet: " + passjsonObject.toString());
-        TestSubmit( test.get(TestPos).getId());
+        TestSubmit( result.getData().get(TestPos).getId());
 
-        set(pieView, totalQuestion,correctAnswer,wrongAnser);
+        set(totalQuestion,correctAnswer,wrongAnser);
     }
 
     private void TestSubmit(String id) {
@@ -267,59 +299,43 @@ public class ScoreActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    private void randomSet(PieView pieView) {
-        ArrayList<PieHelper> pieHelperArrayList = new ArrayList<PieHelper>();
-        ArrayList<Integer> intList = new ArrayList<Integer>();
-        int totalNum = (int) (5 * Math.random()) + 5;
 
-        int totalInt = 0;
-        for (int i = 0; i < totalNum; i++) {
-            int ranInt = (int) (Math.random() * 10) + 1;
-            intList.add(ranInt);
-            totalInt += ranInt;
-        }
-        for (int i = 0; i < totalNum; i++) {
-            pieHelperArrayList.add(new PieHelper(100f * intList.get(i) / totalInt));
-        }
 
-        pieView.selectedPie(PieView.NO_SELECTED_INDEX);
-        pieView.showPercentLabel(true);
-        pieView.setDate(pieHelperArrayList);
-    }
-
-    private void set(PieView pieView, double total1,int attempt, int notvisited ) {
+    private void set(double total1,int attempt, int notvisited ) {
          double unvisited=   total1-(correctAnswer+wrongAnser);
 
          double per1=   unvisited / total1;
          double perun=   per1 * 100;
 
-        double percor=    (correctAnswer / total1) * 100;
+         double percor=    (correctAnswer / total1) * 100;
 
-        double perwro = (wrongAnser / total1) * 100;
+         double perwro = (wrongAnser / total1) * 100;
 
 
 
-        ArrayList<PieHelper> pieHelperArrayList = new ArrayList<>();
-        pieHelperArrayList.add(new PieHelper((float) percor, Color.GREEN));
-        pieHelperArrayList.add(new PieHelper((float) perwro, Color.RED));
-        pieHelperArrayList.add(new PieHelper((float) perun, Color.GRAY));
-//        pieHelperArrayList.add(new PieHelper(12));
-//        pieHelperArrayList.add(new PieHelper(32));
-        pieView.showPercentLabel(false);
-        pieView.setDate(pieHelperArrayList);
-        pieView.setOnPieClickListener(index -> {
-            if (index != PieView.NO_SELECTED_INDEX) {
-                textView.setText(index + " selected");
-            } else {
-                textView.setText("No selected pie");
-            }
-        });
-        pieView.selectedPie(2);
+
+
+//        ArrayList<PiechartHelper> pieHelperArrayList = new ArrayList<>();
+//        pieHelperArrayList.add(new PiechartHelper((float) percor, "Attempt", Color.GREEN));
+//        pieHelperArrayList.add(new PiechartHelper((float) perwro, "Wrong", Color.RED));
+//        pieHelperArrayList.add(new PiechartHelper((float) perun, "Unvisited",Color.GRAY));
+////        pieHelperArrayList.add(new PieHelper(12));
+////        pieHelperArrayList.add(new PieHelper(32));
+//        pieView.showPercentLabel(false);
+//        pieView.setDate(pieHelperArrayList);
+//        pieView.setOnPieClickListener(index -> {
+//            if (index != PieView.NO_SELECTED_INDEX) {
+//                textView.setText(index + " selected");
+//            } else {
+//                textView.setText("No selected pie");
+//            }
+//        });
+//        pieView.selectedPie(2);
     }
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(ScoreActivity.this, TestListActivity.class).putExtra("pos", String.valueOf(pos)));
+        startActivity(new Intent(ScoreActivity.this, HomeActivity.class).putExtra("pos", String.valueOf(pos)));
         finish();
     }
 
@@ -332,8 +348,23 @@ public class ScoreActivity extends AppCompatActivity {
           public void onResponse(Call<TestResult> call, Response<TestResult> response) {
               if (response.isSuccessful()) {
                   if (!response.body().getResult().getError() && response.body().getResult().getErrorCode() == 200) {
-                   binding.recycle.setAdapter(new RankAdapter(ScoreActivity.this,response.body().getResult().getData()));
+                   binding.renkrecycle.setAdapter(new RankAdapter(ScoreActivity.this,response.body().getResult().getData()));
                    binding.rankview.setVisibility(View.VISIBLE);
+
+                   double totalstu= response.body().getResult().getData().size();
+                   double stupos =0;
+                   for (int i=1; i<= response.body().getResult().getData().size();i++){
+                       if(sessionManage.getUserDetails().get("userid").equals(response.body().getResult().getData().get(i).getUserId())){
+                           stupos = i;
+                           break;
+                       }
+                   }
+                   double rankper =  (stupos/totalstu)*100;
+                      binding.scoreprogress.setProgress(Float.valueOf(String.valueOf(rankper)),true);
+                      binding.totalstu.setText(String.valueOf((int)totalstu));
+                      binding.stupos.setText(String.valueOf((int)stupos));
+
+
                   }
               }
           }

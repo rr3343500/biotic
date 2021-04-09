@@ -19,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.bioticclasses.Adapter.CoursesAdapter;
+import com.example.bioticclasses.Adapter.HomeAdapter;
 import com.example.bioticclasses.Adapter.SliderAdapter;
 import com.example.bioticclasses.List.CourseList;
 import com.example.bioticclasses.List.SliderList;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void MainList() throws Exception {
         mainActivityViewModel.getMainList().observe(this, data -> {
-            binding.home.recycle.setAdapter(new CoursesAdapter(this, data));
+//            binding.home.recycle.setAdapter(new HomeAdapter(this));
         });
     }
 
@@ -112,10 +113,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.home.sidebarMenu.setOnClickListener(v -> {
             openDrawer();
         });
-
-        binding.home.bottom.profile.setOnClickListener(v -> {
-            startActivity( new Intent(MainActivity.this, ProfileActivity.class));
-        });
+//
+//        binding.home.bottom.profile.setOnClickListener(v -> {
+//            startActivity( new Intent(MainActivity.this, ProfileActivity.class));
+//        });
     }
 
     private void openDrawer() {

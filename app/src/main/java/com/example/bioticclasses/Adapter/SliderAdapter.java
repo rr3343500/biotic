@@ -60,6 +60,7 @@ public class SliderAdapter  extends SliderViewAdapter<SliderAdapter.SliderAdapte
         Glide.with(viewHolder.itemView)
                 .load(ApiClient.Image_URL+sliderItem.getUrl())
                 .fitCenter()
+                .placeholder(context.getResources().getDrawable(R.drawable.placeholder))
                 .into(viewHolder.imageViewBackground);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/drawer"
+    android:background="@color/home_background"
     android:layout_height="match_parent"
-    tools:context=".Activity.MainActivity"
-    android:background="@color/ultralightorangeColor">
+    tools:context=".Activity.MainActivity">
 
    <include layout="@layout/home_layout"
        android:id="@+id/home"
        android:layout_height="match_parent"
        android:layout_width="match_parent"/>
+
 
    <com.google.android.material.navigation.NavigationView
        android:id="@+id/nav_view"

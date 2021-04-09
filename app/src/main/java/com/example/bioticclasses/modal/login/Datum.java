@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+
 public class Datum {
 
     @SerializedName("active")
@@ -20,18 +21,30 @@ public class Datum {
     @SerializedName("mobile")
     @Expose
     private String mobile;
+    @SerializedName("gender")
+    @Expose
+    private String gender;
     @SerializedName("email")
     @Expose
     private String email;
     @SerializedName("password")
     @Expose
     private String password;
-    @SerializedName("stu_sub")
+    @SerializedName("stu_clas")
     @Expose
-    private List<StuSub> stuSub = null;
+    private String stuClas;
     @SerializedName("medium")
     @Expose
     private String medium;
+    @SerializedName("img_name")
+    @Expose
+    private String imgName;
+    @SerializedName("img_path")
+    @Expose
+    private String imgPath;
+    @SerializedName("stu_sub")
+    @Expose
+    private List<StuSub> stuSub = null;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
@@ -74,6 +87,14 @@ public class Datum {
         this.mobile = mobile;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -90,12 +111,12 @@ public class Datum {
         this.password = password;
     }
 
-    public List<StuSub> getStuSub() {
-        return stuSub;
+    public String getStuClas() {
+        return stuClas;
     }
 
-    public void setStuSub(List<StuSub> stuSub) {
-        this.stuSub = stuSub;
+    public void setStuClas(String stuClas) {
+        this.stuClas = stuClas;
     }
 
     public String getMedium() {
@@ -104,6 +125,30 @@ public class Datum {
 
     public void setMedium(String medium) {
         this.medium = medium;
+    }
+
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    public List<StuSub> getStuSub() {
+        return stuSub;
+    }
+
+    public void setStuSub(List<StuSub> stuSub) {
+        this.stuSub = stuSub;
     }
 
     public String getCreatedAt() {

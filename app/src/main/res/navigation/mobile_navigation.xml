@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="com.example.bioticclasses.fragments.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_category"
+            app:destination="@id/navigation_category" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.bioticclasses.fragments.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.example.bioticclasses.fragments.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+
+
+    <fragment
+        android:id="@+id/navigation_category"
+        android:name="com.example.bioticclasses.fragments.category.CategoryFragment"
+        tools:layout="@layout/category_fragment" />
+
+    <fragment
+        android:id="@+id/mytest"
+        android:name="com.example.bioticclasses.fragments.mytest.MyTestFragment"
+        tools:layout="@layout/my_test_fragment" />
+
+
+    <fragment
+        android:id="@+id/notes"
+        android:name="com.example.bioticclasses.fragments.notes.FragmentNotes"
+        tools:layout="@layout/fragment_notes_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_vedio_lacture"
+        android:name="com.example.bioticclasses.fragments.vediolacture.FragmentVedioLacture"
+        tools:layout="@layout/fragment_vedio_lacture_fragment" />
+
+    <fragment
+        android:id="@+id/account"
+        android:name="com.example.bioticclasses.fragments.account.AccountFragment"
+        tools:layout="@layout/account_fragment" />
+</navigation>

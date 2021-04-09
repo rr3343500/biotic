@@ -5,6 +5,7 @@
     android:layout_width="380dp"
     android:layout_gravity="center"
     android:paddingTop="20dp"
+    android:background="@color/theme_pink"
     android:layout_height="500dp">
 
 

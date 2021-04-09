@@ -1,40 +1,44 @@
 package com.example.bioticclasses.Service;
 
 import com.example.bioticclasses.modal.banner.Banner;
-import com.example.bioticclasses.modal.login.Signin;
+import com.example.bioticclasses.modal.category.Category;
+import com.example.bioticclasses.modal.login.Login;
 import com.example.bioticclasses.modal.mainList.MainList;
 import com.example.bioticclasses.modal.mytest.MyTest;
+import com.example.bioticclasses.modal.notes.Notes;
 import com.example.bioticclasses.modal.show_test_list.TestShowList;
 import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.SubjectClass;
 import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
+import com.example.bioticclasses.modal.testlist.TestList;
 import com.example.bioticclasses.modal.testresult.TestResult;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface BiotechInterface {
-
-    @Headers({
-            "Accept: application/json",
-            "Content-Type: application/json"
-    })
     @POST("add_new_user")
-    Call<Signup> SIGNUP_CALL(@Body JsonObject jsonObject);
+    @Multipart
+    Call<Signup> SIGNUP_CALL(@Part MultipartBody.Part file, @Part("name_en") RequestBody s , @Part("email") RequestBody s1, @Part("mobile") RequestBody s2, @Part("medium") RequestBody s3,
+                             @Part("class") RequestBody s4, @Part("password") RequestBody s5, @Part("subjects") RequestBody s6 ,@Part("gender") RequestBody s7);
 
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json"
     })
     @POST("signin")
-    Call<Signin> LOGIN_CALL(@Body JsonObject jsonObject);
+    Call<Login> LOGIN_CALL(@Body JsonObject jsonObject);
 
     @Headers({
             "Accept: application/json",
@@ -77,8 +81,21 @@ public interface BiotechInterface {
             "Accept: application/json",
             "Content-Type: application/json"
     })
+
+
     @POST("test_result")
     Call<TestResult> TEST_RESULT_CALL(@Body JsonObject jsonObject);
+
+
+    @POST("fetch_category")
+    Call<Category> CATEGORY_CALL();
+
+
+    @POST("fetch_test2_bysubcat_id")
+    Call<TestList> CATEGORYTestListCall(@Body JsonObject jsonObject);
+
+    @POST("fetch_notes")
+    Call<Notes> NOTES_CALL(@Body JsonObject jsonObject);
 
 }
 

@@ -3,6 +3,7 @@ package com.example.bioticclasses.Adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,10 +38,11 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RankAdapter.ViewHolder holder, int position) {
-           holder.score.setText("Score - "+resultList.get(position).getMarksObtain());
+           holder.score.setText(resultList.get(position).getMarksObtain()+"/"+resultList.get(position).getTotalMarks());
            int Rank= position+1;
            holder.rank.setText(String.valueOf(Rank));
            holder.materialTextView.setText(resultList.get(position).getUserName());
+
     }
 
     @Override
@@ -49,11 +51,12 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        MaterialTextView materialTextView,rank,score;
+        MaterialTextView materialTextView,rank,score ;
+        ImageView imageView;
         public ViewHolder(@NonNull @NotNull RowRankLayoutBinding itemView) {
             super(itemView.getRoot());
             materialTextView= itemView.materialTextView;
-            rank= itemView.rank;
+            rank= itemView.index;
             score= itemView.score;
         }
     }
