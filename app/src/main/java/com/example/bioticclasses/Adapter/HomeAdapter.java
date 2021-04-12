@@ -56,6 +56,7 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                 .fitCenter()
                 .placeholder(context.getResources().getDrawable(R.drawable.placeholder))
                 .into(holder.imageView);
+
         holder.name.setText(categoryList.get(position).getName());
         holder.desc.setText(categoryList.get(position).getDes());
         holder.cardView.setOnClickListener(v -> {
