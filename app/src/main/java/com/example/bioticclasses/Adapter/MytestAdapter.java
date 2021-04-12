@@ -8,11 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bioticclasses.Activity.MyTestsActivity;
 import com.example.bioticclasses.Activity.ViewTestActivity;
 import com.example.bioticclasses.List.CourseList;
 import com.example.bioticclasses.databinding.RowMytestlistLayoutBinding;
-import com.example.bioticclasses.modal.show_test_list.Datum;
+import com.example.bioticclasses.modal.show_test_list.ShowTestDatum;
 import com.google.android.material.button.MaterialButton;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,11 +22,11 @@ public class MytestAdapter extends RecyclerView.Adapter<MytestAdapter.Viewholder
     Context context;
     RowMytestlistLayoutBinding binding;
     List<CourseList> courseLists;
-    List<Datum> tests;
+    List<ShowTestDatum> tests;
     int subPosition;
 
 
-    public MytestAdapter(Context context, List<Datum> tests) {
+    public MytestAdapter(Context context, List<ShowTestDatum> tests) {
         this.context = context;
         this.tests = tests;
     }
@@ -44,7 +43,7 @@ public class MytestAdapter extends RecyclerView.Adapter<MytestAdapter.Viewholder
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull Viewholder holder, int position) {
-        Datum list = tests.get(position);
+        ShowTestDatum list = tests.get(position);
         binding.totalmarks.setText("Total Marks : "+list.getTotalMarks().toString());
         binding.obtainedmarks.setText("Marks Obtained : " + list.getMarksObtain().toString());
         if (list.getTestName() != null) {binding.name.setText(list.getTestName().trim());}

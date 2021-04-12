@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.modal.show_test_list.TestShowList;
-import com.example.bioticclasses.modal.show_test_list.Datum;
+import com.example.bioticclasses.modal.show_test_list.ShowTestDatum;
 import com.example.bioticclasses.other.SessionManage;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import retrofit2.Response;
 
 public class MyTestRepo {
 
-    public  MutableLiveData<List<Datum>>listMutableLiveData= new MutableLiveData<>();
+    public  MutableLiveData<List<ShowTestDatum>>listMutableLiveData= new MutableLiveData<>();
     static BiotechInterface biotechInterface;
     SessionManage sessionManage;
     Context context;
@@ -39,7 +39,7 @@ public class MyTestRepo {
     }
 
 
-    public LiveData<List<Datum>> listLiveData() {
+    public LiveData<List<ShowTestDatum>> listLiveData() {
 
         if (listMutableLiveData.getValue() == null) {
             try {
@@ -47,7 +47,7 @@ public class MyTestRepo {
                     @Override
                     public void onResponse(Call<TestShowList> call, Response<TestShowList> response) {
                         if(response.isSuccessful()){
-                            listMutableLiveData.setValue(response.body().getResult().getData());
+                            listMutableLiveData.postValue(response.body().getResult().getData());
                         }
 
                     }

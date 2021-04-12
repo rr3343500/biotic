@@ -2,6 +2,7 @@ package com.example.bioticclasses.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -80,6 +81,7 @@ public class SignUpActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         binding= ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         sessionManage= new SessionManage(this);
         face = Typeface.createFromAsset(getAssets(), "fonts/montserrat_regular.ttf");
         getSupportActionBar().hide();
@@ -509,7 +511,7 @@ public class SignUpActivity extends AppCompatActivity  {
                         sessionManage.createLoginSession(response.body().getResult().getData().getNameEn(),
                                 response.body().getResult().getData().getEmail(),
                                 response.body().getResult().getData().getMobile(),
-                                String.valueOf(response.body().getResult().getData().getClass()),
+                                String.valueOf(response.body().getResult().getData().getStu_clas()),
                                 jsonObject.toString(),
                                 response.body().getResult().getData().getMedium(),
                                 response.body().getResult().getData().getId(),

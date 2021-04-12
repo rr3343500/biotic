@@ -74,8 +74,18 @@
               <ImageView
                   android:layout_width="15dp"
                   android:layout_height="15dp"
+                  android:visibility="gone"
+                  android:id="@+id/arrow"
                   android:layout_gravity="center"
                   android:src="@drawable/white_right_arrow"/>
+
+              <ImageView
+                  android:layout_width="20dp"
+                  android:layout_height="20dp"
+                  android:id="@+id/eye"
+                  android:visibility="gone"
+                  android:layout_gravity="center"
+                  android:src="@drawable/eye_icon"/>
 
           </com.google.android.material.card.MaterialCardView>
 

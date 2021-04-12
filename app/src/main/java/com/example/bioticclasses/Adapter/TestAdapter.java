@@ -14,7 +14,7 @@ import com.example.bioticclasses.Activity.TestListActivity;
 import com.example.bioticclasses.List.CourseList;
 import com.example.bioticclasses.databinding.RowTestListLayoutBinding;
 import com.example.bioticclasses.modal.mainList.Test;
-import com.example.bioticclasses.modal.show_test_list.Datum;
+import com.example.bioticclasses.modal.show_test_list.ShowTestDatum;
 import com.example.bioticclasses.modal.show_test_list.TestShowList;
 import com.google.android.material.button.MaterialButton;
 
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class TestAdapter extends RecyclerView.Adapter<TestAdapter.Viewholder> {
-    private final List<Datum> data;
+    private final List<ShowTestDatum> data;
     Context context;
     RowTestListLayoutBinding binding;
     List<CourseList> courseLists;
@@ -39,7 +39,7 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.Viewholder> {
 //        this.testShowLists=testShowLists;
 //    }
 
-    public TestAdapter(TestListActivity context, List<Test> tests, int position, List<Datum> data) {
+    public TestAdapter(TestListActivity context, List<Test> tests, int position, List<ShowTestDatum> data) {
         this.context = context;
         this.tests = tests;
         this.subPosition = subPosition;

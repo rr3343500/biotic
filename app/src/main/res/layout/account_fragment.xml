@@ -213,7 +213,7 @@
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/montserrat_regular"
                         android:hint="Password"
-                        android:inputType="textPassword"
+                        android:inputType="text"
                         android:maxLines="1"
                         android:maxLength="15"
                         android:id="@+id/inputpassword"
@@ -301,6 +301,7 @@
                     android:divider="@android:color/transparent"
                     android:dividerHeight="0.0px"
                     android:elevation="8dp"
+                    android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/spinnerview"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="3dp"
@@ -384,5 +385,24 @@
         </RelativeLayout>
 
     </ScrollView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:id="@+id/progress"
+     android:layout_centerInParent="true"
+        app:cardCornerRadius="20dp"
+        android:padding="20dp"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+
+        <com.example.bioticclasses.other.CustomGifView
+            android:id="@+id/gifview"
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

@@ -53,12 +53,12 @@ public class CategoryRepo {
     }
 
 
-    public  LiveData<List<Datum>> getCategory() {
+    public  LiveData<List<Datum>> getCategory(String cat) {
 
         sessionManage.getUserDetails().get("Subject");
             try {
                 sessionManage.getUserDetails().get("Subject");
-                setLiveData();
+                setLiveData(cat);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -79,7 +79,7 @@ public class CategoryRepo {
     }
 
 
-    private  void setLiveData() {
+    private  void setLiveData(String cat) {
         try {
             JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("CurrentSubject")) ;
             Iterator<?> keys = jsonObject.keys();
@@ -88,14 +88,14 @@ public class CategoryRepo {
                 JsonObject finalsubject= new JsonObject();
 //                finalsubject.addProperty("subject_id","606daed1aa5f48522a2170cb");
                 finalsubject.addProperty("subject_id",key);
-                finalsubject.addProperty("stu_clas",sessionManage.getUserDetails().get("Class"));
+                finalsubject.addProperty("cat_name",cat);
                 biotechInterface.CATEGORYTestListCall(finalsubject).enqueue(new Callback<TestList>() {
                     @Override
                     public void onResponse(Call<TestList> call, Response<TestList> response) {
                         if(response.isSuccessful()){
                             if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
                                 Log.e(TAG, "onResponse: " + response.body().getResult().getData().size() );
-                                listMutableLiveData.setValue(response.body().getResult().getData());
+                                listMutableLiveData.postValue(response.body().getResult().getData());
                                 ((GlobalList)context.getApplicationContext()).setTestlist(response.body().getResult());
                             }
                         }
@@ -127,13 +127,14 @@ public class CategoryRepo {
 //                finalsubject.addProperty("subject_id","606daed1aa5f48522a2170cb");
                 finalsubject.addProperty("subject_id",key);
                 finalsubject.addProperty("stu_clas",sessionManage.getUserDetails().get("Class"));
+                Log.e("dfsfsf",sessionManage.getUserDetails().get("Class"));
                 biotechInterface.NOTES_CALL(finalsubject).enqueue(new Callback<Notes>() {
                     @Override
                     public void onResponse(Call<Notes> call, Response<Notes> response) {
                         if(response.isSuccessful()){
                             if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
                                 Log.e(TAG, "onResponse: " + response.body().getResult().getData().size() );
-                                noteslist.setValue(response.body().getResult().getData());
+                                noteslist.postValue(response.body().getResult().getData());
                             }
                         }
                     }

@@ -3,6 +3,7 @@ package com.example.bioticclasses.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bioticclasses.Activity.TakeTestActivity;
 import com.example.bioticclasses.databinding.RowCourcesLayoutBinding;
+import com.example.bioticclasses.modal.show_test_list.ShowTestDatum;
 import com.example.bioticclasses.modal.testlist.Datum;
 import com.example.bioticclasses.other.SessionManage;
 import com.google.android.material.card.MaterialCardView;
@@ -27,13 +29,15 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
     Context context;
     RowCourcesLayoutBinding binding;
     List<Datum> testLists;
+    List<ShowTestDatum> myTests;
 
 
 
-    public CoursesAdapter(Context context,  List<Datum> testLists ) {
+    public CoursesAdapter(Context context,  List<Datum> testLists ,List<ShowTestDatum> myTests ) {
         this.context = context;
 //        this.courseLists = class_;
         this.testLists= testLists;
+        this.myTests=myTests;
     }
 
     @NonNull
@@ -49,16 +53,40 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
 
         holder.name.setText(testLists.get(position).getHeading());
         holder.desc.setText(testLists.get(position).getDescription());
-        binding.start.setOnClickListener(v -> {
-            if(testLists.get(position).getQuestions().isEmpty()){
-                Snackbar snackbar = Snackbar
-                        .make(v, "No Question Add Yet", Snackbar.LENGTH_LONG);
-                snackbar.show();
+
+
+
+            Boolean State= false;
+            for(int i=0 ; i< myTests.size(); i++) {
+                if(myTests.get(i).getTestId().trim().toUpperCase().equals(testLists.get(position).getId().trim().toUpperCase())){State=true;}
+            }
+            if(State){
+                holder.start.setOnClickListener(v -> {
+                    Toast.makeText(context, "You Have Already Given Test", Toast.LENGTH_SHORT).show();
+                });
+                 holder.eye.setVisibility(View.VISIBLE);
             }else {
-                context.startActivity(new Intent(context, TakeTestActivity.class).putExtra("subPosition", String.valueOf(position)).putExtra("testPos", String.valueOf(position)));
+                holder.arrow.setVisibility(View.VISIBLE);
+                holder.start.setOnClickListener(v -> {
+
+                        if(testLists.get(position).getQuestions().isEmpty()){
+                            Snackbar snackbar = Snackbar
+                                    .make(v, "No Question Add Yet", Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }else {
+                            context.startActivity(new Intent(context, TakeTestActivity.class).putExtra("subPosition", String.valueOf(position)).putExtra("testPos", String.valueOf(position)));
+                        }
+
+
+                });
+
+
             }
 
-        });
+
+
+
+
 
 //        Datum list = courseLists.get(position);
 //        holder.mainview.setOnClickListener(v -> {
@@ -84,7 +112,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        ImageView eye,arrow;
         RelativeLayout mainview;
         TextView name,desc;
         MaterialCardView start;
@@ -95,6 +123,8 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
             name= binding.subjectName;
             desc= binding.desc;
             start= binding.start;
+            eye= binding.eye;
+            arrow= binding.arrow;
         }
     }
 }

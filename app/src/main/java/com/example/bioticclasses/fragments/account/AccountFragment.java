@@ -28,10 +28,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bioticclasses.Activity.HomeActivity;
+import com.example.bioticclasses.Activity.SignUpActivity;
 import com.example.bioticclasses.R;
+import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.AccountFragmentBinding;
+import com.example.bioticclasses.modal.account.Account;
+import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.Subject;
+import com.example.bioticclasses.other.NetworkCheck;
 import com.example.bioticclasses.other.SessionManage;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.button.MaterialButton;
@@ -48,6 +54,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class AccountFragment extends Fragment {
 
     private AccountViewModel mViewModel;
@@ -63,7 +76,7 @@ public class AccountFragment extends Fragment {
     String SubjectName="", ClassName="", Gender="" , Language="";
     SubjectAdapter subjectAdapter;
     ClassAdapter classadapter;
-    Boolean first=false, second=false, third=false,fourth=false;
+    Boolean first=false, second=false, third=false,fourth=false ,action = true;
     JsonArray jsonArray;
     JSONObject jsonObject= new JSONObject();
     SessionManage sessionManage;
@@ -71,12 +84,14 @@ public class AccountFragment extends Fragment {
     Typeface face;
     private Uri fileUri;
     TextView title;
+    MultipartBody.Part filePart= null;
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = AccountFragmentBinding.inflate(inflater,container,false);
         sessionManage= new SessionManage(getActivity());
+        biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
         face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/montserrat_regular.ttf");
         return binding.getRoot();
     }
@@ -110,7 +125,7 @@ public class AccountFragment extends Fragment {
         binding.inputemail.setText(sessionManage.getUserDetails().get("Email"));
         binding.inputmobile.setText(sessionManage.getUserDetails().get("Mobile"));
         binding.inputmobile.setText(sessionManage.getUserDetails().get("Mobile"));
-//        binding.inputpassword.setText(sessionManage.getUserDetails().get("Password"));
+        binding.inputpassword.setText(sessionManage.getUserDetails().get("Password"));
 
 
 
@@ -120,6 +135,7 @@ public class AccountFragment extends Fragment {
         adapter.add(sessionManage.getUserDetails().get("Gender"));
         binding.gender2.setAdapter(adapter);
         binding.gender2.setSelection(adapter.getCount());
+        Gender =sessionManage.getUserDetails().get("Gender");
         classadapter = new ClassAdapter(getActivity(), android.R.layout.simple_list_item_1);
         subjectAdapter = new SubjectAdapter(getActivity(), android.R.layout.simple_list_item_1);
         LanguageAdapter languageAdapter = new LanguageAdapter(getActivity(), android.R.layout.simple_list_item_1);
@@ -127,13 +143,27 @@ public class AccountFragment extends Fragment {
         languageAdapter.add(sessionManage.getUserDetails().get("Medium"));
         binding.meduim1.setAdapter(languageAdapter);
         binding.meduim1.setSelection(languageAdapter.getCount());
+        Language=sessionManage.getUserDetails().get("Medium");
     }
 
     private void FragmentAction(){
+               binding.button.setOnClickListener(v -> {
+            if(Validate()){
+                if(new NetworkCheck().haveNetworkConnection(getActivity())){
+                    updateProfile();
+                }else {
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
         binding.upload.setOnClickListener(v -> {
+            action= false;
             ImagePicker.Companion.with(this)
                     .crop()
-                    .compress(1024)
+                    .compress(64)
                     .maxResultSize(1080, 1080)
                     .start();
         });
@@ -161,39 +191,39 @@ public class AccountFragment extends Fragment {
         binding.classes2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.hint_gray));
-                ((TextView) parent.getChildAt(0)).setTextSize(14);
-                ((TextView) parent.getChildAt(0)).setTypeface(face);
-                ((TextView) parent.getChildAt(0)).setPadding(0,0,0,0);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ((TextView) parent.getChildAt(0)).setLetterSpacing(0);
-                }
-
-                jsonObject = new JSONObject();
-                binding.multisubject.setText("Select Subject");
-                if (second){
-                    ClassName= classes[position];
-
-
-                    subjectlist.clear();
-                    for(int i=0 ;i< subjectsList.size();i++){
-                        if(subjectsList.get(i).getStuClass().trim().toUpperCase().equals(ClassName.trim().toUpperCase())){
-                            subjectlist.put(subjectsList.get(i).getId(),subjectsList.get(i).getNameEn());
-                        }
+                if(action){
+                    ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.hint_gray));
+                    ((TextView) parent.getChildAt(0)).setTextSize(14);
+                    ((TextView) parent.getChildAt(0)).setTypeface(face);
+                    ((TextView) parent.getChildAt(0)).setPadding(0,0,0,0);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        ((TextView) parent.getChildAt(0)).setLetterSpacing(0);
                     }
 
-                    Log.e("main ", String.valueOf(subjectsList.size()));
-                    subjects= null;
+                    jsonObject = new JSONObject();
+                    binding.multisubject.setText("Select Subject");
+                    if (second){
+                        ClassName= classes[position];
+                        subjectlist.clear();
+                        for(int i=0 ;i< subjectsList.size();i++){
+                            if(subjectsList.get(i).getStuClass().trim().toUpperCase().equals(ClassName.trim().toUpperCase())){
+                                subjectlist.put(subjectsList.get(i).getId(),subjectsList.get(i).getNameEn());
+                            }
+                        }
+
+                        Log.e("main ", String.valueOf(subjectsList.size()));
+                        subjects= null;
 //                    subjects=stringArrayList.toArray(new String[stringArrayList.size()]);
 //                    subjectAdapter.clear();
 //                    subjectAdapter.addAll(subjects);
 //                    subjectAdapter.add("Select Subject");
 //                    binding.subject.setAdapter(subjectAdapter);
 //                    binding.subject.setSelection(subjectAdapter.getCount());
-                    binding.subjectview.setVisibility(View.VISIBLE);
+                        binding.subjectview.setVisibility(View.VISIBLE);
 
-                }else {
-                    second=true;
+                    }else {
+                        second=true;
+                    }
                 }
 
             }
@@ -207,7 +237,6 @@ public class AccountFragment extends Fragment {
         binding.subjectview.setOnClickListener(v -> {
             showDialog(subjectlist);
         });
-
         binding.meduim1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -236,9 +265,10 @@ public class AccountFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-             fileUri = data.getData();
-             binding.image.setImageURI(fileUri);
-             File file =  ImagePicker.Companion.getFile(data);
+            fileUri = data.getData();
+            binding.image.setImageURI(fileUri);
+            File file =  ImagePicker.Companion.getFile(data);
+            filePart = MultipartBody.Part.createFormData("file", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
 
 
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -246,6 +276,7 @@ public class AccountFragment extends Fragment {
         } else {
             Toast.makeText(getActivity(), "Task Cancelled", Toast.LENGTH_SHORT).show();
         }
+        action=true;
     }
 
     public void showDialog(HashMap<String,String> stringArrayList){
@@ -323,6 +354,8 @@ public class AccountFragment extends Fragment {
     }
 
 
+
+
     private boolean Validate(){
 
         Boolean responce =true;
@@ -361,18 +394,18 @@ public class AccountFragment extends Fragment {
             responce = true;
         }
 
-        if(ClassName.isEmpty()){
-            Toast.makeText(getActivity(), "Select Classs", Toast.LENGTH_SHORT).show();
-            responce = false;
-        }else {
-            responce = true;
-        }
-        if(jsonObject.toString().isEmpty()){
-            Toast.makeText(getActivity(), "Select Subject", Toast.LENGTH_SHORT).show();
-            responce = false;
-        }else {
-            responce = true;
-        }
+//        if(ClassName.isEmpty()){
+//            Toast.makeText(getActivity(), "Select Classs", Toast.LENGTH_SHORT).show();
+//            responce = false;
+//        }else {
+//            responce = true;
+//        }
+//        if(jsonObject.toString().isEmpty()){
+//            Toast.makeText(getActivity(), "Select Subject", Toast.LENGTH_SHORT).show();
+//            responce = false;
+//        }else {
+//            responce = true;
+//        }
         if(Language.isEmpty()){
             Toast.makeText(getActivity(), "Select Medium", Toast.LENGTH_SHORT).show();
             responce = false;
@@ -381,6 +414,99 @@ public class AccountFragment extends Fragment {
         }
 
         return responce;
+    }
+
+
+    private void updateProfile(){
+        binding.mainview.setAlpha((float) 0.2);
+        binding.progress.setVisibility(View.VISIBLE);
+        JsonObject jsonObject1 = new JsonObject();
+        jsonObject1.addProperty("name_en", binding.inputname.getText().toString().toUpperCase());
+        jsonObject1.addProperty("email", binding.inputemail.getText().toString().toUpperCase());
+        jsonObject1.addProperty("mobile", binding.inputmobile.getText().toString());
+        jsonObject1.addProperty("medium", Language.toUpperCase());
+        jsonObject1.addProperty("password", binding.inputpassword.getText().toString());
+        jsonObject1.addProperty("stu_class", ClassName);
+        jsonArray= new JsonArray();
+
+        Iterator<?>keys = jsonObject.keys();
+        while (keys.hasNext()) {
+            try {
+                String key = String.valueOf(keys.next());
+                JsonObject finalsubject= new JsonObject();
+                finalsubject.addProperty("id",key);
+                finalsubject.addProperty("subj",jsonObject.getString(key));
+                jsonArray.add(finalsubject);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        jsonObject1.add("subjects", jsonArray);
+
+
+
+
+        Log.e("row  json ", jsonObject1.toString());
+
+
+
+
+        RequestBody name = RequestBody.create(MediaType.parse("multipart/form-data"),  binding.inputname.getText().toString());
+        RequestBody email = RequestBody.create(MediaType.parse("multipart/form-data"),  binding.inputemail.getText().toString());
+        RequestBody mobile = RequestBody.create(MediaType.parse("multipart/form-data"),  binding.inputmobile.getText().toString());
+        RequestBody password = RequestBody.create(MediaType.parse("multipart/form-data"),  binding.inputpassword.getText().toString());
+        RequestBody meduim = RequestBody.create(MediaType.parse("multipart/form-data"),  Language.toUpperCase());
+        RequestBody classs = RequestBody.create(MediaType.parse("multipart/form-data"), ClassName);
+        RequestBody userid = RequestBody.create(MediaType.parse("multipart/form-data"),  sessionManage.getUserDetails().get("userid"));
+        RequestBody gender = RequestBody.create(MediaType.parse("multipart/form-data"),  Gender);
+
+        biotechInterface.ACCOUNT_CALL(filePart,userid,name, mobile,email,meduim,password,gender).enqueue(new Callback<Account>() {
+            //        biotechInterface.SIGNUP_CALL(filePart,binding.inputname.getText().toString().toUpperCase(),binding.inputemail.getText().toString().toUpperCase(), binding.inputmobile.getText().toString(),
+//                Language.toUpperCase(),ClassName, binding.inputpassword.getText().toString(),jsonArray.toString()).enqueue(new Callback<Signup>() {
+            @Override
+            public void onResponse(Call<Account> call, Response<Account> response) {
+                if (response.isSuccessful()){
+                    Log.e("sadsfs",response.body().getResult().getMessage());
+                    Log.e("sadsfs", String.valueOf(response.body().getResult().getErrorCode()));
+                    Log.e("sadsfs", String.valueOf(response.body().getResult().getError()));
+                    if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
+
+                        sessionManage.updatedetails(
+                                binding.inputname.getText().toString(),
+                                binding.inputmobile.getText().toString(),
+                                binding.inputemail.getText().toString(),
+                                binding.inputpassword.getText().toString(),
+                                Language.toUpperCase(),
+                                Gender,
+                                ""
+                        );
+
+                        binding.mainview.setAlpha((float) 0.2);
+                        binding.progress.setVisibility(View.GONE);
+
+
+                    }
+                    else {
+                        binding.mainview.setAlpha((float) 1);
+                        binding.progress.setVisibility(View.GONE);
+                    }
+                }else {
+                    binding.mainview.setAlpha((float) 1);
+                    binding.progress.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Account> call, Throwable t) {
+                Log.e("sadsfs",t.getMessage());
+
+                binding.mainview.setAlpha((float) 1);
+                binding.progress.setVisibility(View.GONE);
+            }
+        });
+
+
     }
 
     public class GenderAdapter extends ArrayAdapter<String> {

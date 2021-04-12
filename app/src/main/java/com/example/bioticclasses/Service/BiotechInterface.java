@@ -1,5 +1,6 @@
 package com.example.bioticclasses.Service;
 
+import com.example.bioticclasses.modal.account.Account;
 import com.example.bioticclasses.modal.banner.Banner;
 import com.example.bioticclasses.modal.category.Category;
 import com.example.bioticclasses.modal.login.Login;
@@ -35,6 +36,13 @@ public interface BiotechInterface {
     @Multipart
     Call<Signup> SIGNUP_CALL(@Part MultipartBody.Part file, @Part("name_en") RequestBody s , @Part("email") RequestBody s1, @Part("mobile") RequestBody s2, @Part("medium") RequestBody s3,
                              @Part("class") RequestBody s4, @Part("password") RequestBody s5, @Part("subjects") RequestBody s6 ,@Part("gender") RequestBody s7);
+
+
+
+    @POST("update_user")
+    @Multipart
+    Call<Account>ACCOUNT_CALL(@Part MultipartBody.Part file, @Part("user_id") RequestBody s , @Part("name_en") RequestBody s1, @Part("mobile") RequestBody s2, @Part("email") RequestBody s3,
+                              @Part("medium") RequestBody s4, @Part("password") RequestBody s5, @Part("gender") RequestBody s7);
 
     @Headers({
             "Accept: application/json",

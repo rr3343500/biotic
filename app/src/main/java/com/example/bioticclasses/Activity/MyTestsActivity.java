@@ -5,13 +5,10 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bioticclasses.Adapter.MytestAdapter;
-import com.example.bioticclasses.Adapter.TestShowAdapter;
 import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.ActivityMyTestsBinding;
 import com.example.bioticclasses.modal.mytest.MyTest;
-import com.example.bioticclasses.modal.show_test_list.Datum;
-import com.example.bioticclasses.modal.show_test_list.Result;
 import com.example.bioticclasses.modal.show_test_list.TestShowList;
 import com.example.bioticclasses.other.SessionManage;
 

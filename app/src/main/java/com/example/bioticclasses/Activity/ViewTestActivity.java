@@ -10,7 +10,7 @@ import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.ActivityViewTestBinding;
 import com.example.bioticclasses.modal.mytest.MyTest;
-import com.example.bioticclasses.modal.show_test_list.Datum;
+import com.example.bioticclasses.modal.show_test_list.ShowTestDatum;
 import com.example.bioticclasses.modal.show_test_list.TestShowList;
 import com.example.bioticclasses.other.SessionManage;
 
@@ -55,7 +55,7 @@ public class ViewTestActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<TestShowList> call, Response<TestShowList> response) {
 
-                List<Datum> list = response.body().getResult().getData();
+                List<ShowTestDatum> list = response.body().getResult().getData();
                 Log.e("position",list.get(pos).toString());
                 binding.recycle.setAdapter(new TestShowAdapter(list.get(pos).getResponse()));
             }

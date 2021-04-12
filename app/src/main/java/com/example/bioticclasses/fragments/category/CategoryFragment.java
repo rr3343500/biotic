@@ -23,6 +23,7 @@ import com.example.bioticclasses.R;
 import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.CategoryFragmentBinding;
+import com.example.bioticclasses.fragments.mytest.MyTestViewModel;
 import com.example.bioticclasses.modal.testlist.TestList;
 import com.example.bioticclasses.other.SessionManage;
 import com.google.gson.JsonObject;
@@ -39,6 +40,7 @@ import retrofit2.Response;
 public class CategoryFragment extends Fragment {
 
     CategoryViewModel categoryViewModel;
+    MyTestViewModel myTestViewModel;
     CategoryFragmentBinding binding;
     TextView title;
     SessionManage  sessionManage;
@@ -69,25 +71,81 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+//        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+//        myTestViewModel = new ViewModelProvider(this).get(MyTestViewModel.class);
+
+        myTestViewModel  = ViewModelProviders.of(getActivity()).get(MyTestViewModel.class);
+        categoryViewModel  = ViewModelProviders.of(getActivity()).get(CategoryViewModel.class);
 
 
         switch (bundle.get("type").toString())
         {
             case "Dpt":
                 title.setText("Tests");
-                categoryViewModel.getCatList().observe(getActivity(),data -> {
-                    Log.e(TAG, "onActivityCreated: " + data.size() );
-                    binding.recycle.setAdapter(new CoursesAdapter(getActivity(),data));
-                });
+                if(categoryViewModel!=null){
+
+
+                    myTestViewModel.getTestlist().observe(getActivity(), showTestData -> {
+                        categoryViewModel.getCatList(bundle.get("type").toString()).observe(getActivity(),data -> {
+                            Log.e(TAG, "onActivityCreated: " + data.size() );
+                            if(data.isEmpty()){
+                                binding.msg.setVisibility(View.VISIBLE);
+                                binding.recycle.setVisibility(View.GONE);
+                            }else {
+                                binding.msg.setVisibility(View.GONE);
+                                binding.recycle.setVisibility(View.VISIBLE);
+                                binding.recycle.setAdapter(new CoursesAdapter(getActivity(),data ,showTestData));
+                            }
+
+                        });
+
+                    });
+
+
+
+                }
+
                 break;
 
             case "Notes":
                 title.setText("Notes");
-                categoryViewModel.getNotesList().observe(getActivity(),data -> {
-                    Log.e(TAG, "onActivityCreated: " + data.size() );
-                    binding.recycle.setAdapter(new NotesAdapter(getActivity(),data));
-                });
+                if(categoryViewModel!=null) {
+                    categoryViewModel.getNotesList().observe(getActivity(), data -> {
+                        Log.e(TAG, "onActivityCreated: " + data.size());
+                        if (data.isEmpty()) {
+                            binding.msg.setVisibility(View.VISIBLE);
+                            binding.recycle.setVisibility(View.GONE);
+                        } else {
+                            binding.msg.setVisibility(View.GONE);
+                            binding.recycle.setVisibility(View.VISIBLE);
+                            binding.recycle.setAdapter(new NotesAdapter(getActivity(), data));
+                        }
+                    });
+                }
+                break;
+
+            case "Test Paper":
+                title.setText("Tests");
+                if(categoryViewModel!=null) {
+
+                    myTestViewModel.getTestlist().observe(getActivity(), showTestData -> {
+
+                    categoryViewModel.getCatList(bundle.get("type").toString()).observe(getActivity(), data -> {
+
+                            Log.e(TAG, "onActivityCreated: " + data.size());
+                            if (data.isEmpty()) {
+                                binding.msg.setVisibility(View.VISIBLE);
+                                binding.recycle.setVisibility(View.GONE);
+                            } else {
+                                binding.msg.setVisibility(View.GONE);
+                                binding.recycle.setVisibility(View.VISIBLE);
+                                binding.recycle.setAdapter(new CoursesAdapter(getActivity(), data, showTestData));
+                            }
+                        });
+                    });
+
+
+                }
                 break;
 
         }

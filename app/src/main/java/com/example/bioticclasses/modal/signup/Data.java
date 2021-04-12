@@ -46,6 +46,17 @@ public class Data {
     @SerializedName("__v")
     @Expose
     private Integer v;
+    @SerializedName("stu_clas")
+    @Expose
+    private String stu_clas;
+
+    public String getStu_clas(){
+        return stu_clas;
+    }
+
+    public void setStu_clas(String stu_clas){
+        this.stu_clas=stu_clas;
+    }
 
     public String getActive() {
         return active;

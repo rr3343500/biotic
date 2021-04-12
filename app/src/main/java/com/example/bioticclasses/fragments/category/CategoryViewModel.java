@@ -36,8 +36,8 @@ public class CategoryViewModel extends AndroidViewModel {
 //        return CategoryRepo.getMainList();
 //    }
 
-    public LiveData<List<Datum>> getCatList() {
-        return CategoryRepo.getCategory();
+    public LiveData<List<Datum>> getCatList(String cat) {
+        return CategoryRepo.getCategory(cat);
     }
     public LiveData<List<DataNotes>> getNotesList() { return CategoryRepo.getNotes();
     }

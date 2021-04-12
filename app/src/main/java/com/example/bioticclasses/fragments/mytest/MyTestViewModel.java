@@ -6,9 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.example.bioticclasses.modal.show_test_list.Datum;
+import com.example.bioticclasses.modal.show_test_list.ShowTestDatum;
 import com.example.bioticclasses.repositories.MyTestRepo;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +31,7 @@ public class MyTestViewModel extends AndroidViewModel {
 //        return CategoryRepo.getMainList();
 //    }
 
-    public LiveData<List<Datum>> getTestlist() {
+    public LiveData<List<ShowTestDatum>> getTestlist() {
         return myTestRepo.listLiveData();
     }
 }

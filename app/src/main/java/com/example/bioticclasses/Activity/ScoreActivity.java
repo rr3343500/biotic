@@ -335,7 +335,7 @@ public class ScoreActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(ScoreActivity.this, HomeActivity.class).putExtra("pos", String.valueOf(pos)));
+        startActivity(new Intent(ScoreActivity.this, HomeActivity.class).putExtra("pos", String.valueOf(pos)).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         finish();
     }
 

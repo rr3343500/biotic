@@ -87,96 +87,106 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        InitializeFragment();
-        try {
-            SetActivityData();
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+//        if( getIntent().getBooleanExtra("Exit me", false)){
+//            finish();
+//        }
+        sessionManage = new SessionManage(this);
+        if(sessionManage.checkLogin()){
+            InitializeFragment();
+            try {
+                SetActivityData();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            ActivityAction();
         }
-        ActivityAction();
+
+
 
     }
 
 
-     void InitializeFragment(){
-         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-         getSupportActionBar().hide();
-         sessionManage = new SessionManage(this);
-         sessionManage.checkLogin();
-
-         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+    void InitializeFragment(){
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        getSupportActionBar().hide();
 
 
-         BottomNavigationView navView = findViewById(R.id.bottom_nav);
+        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
+
+        BottomNavigationView navView = findViewById(R.id.bottom_nav);
 //         navView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
 
-         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                 .build();
-         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
-         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-         NavigationUI.setupWithNavController(binding.navView, navController);
-         NavigationUI.setupWithNavController(navView, navController);
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                .build();
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(binding.navView, navController);
+        NavigationUI.setupWithNavController(navView, navController);
 
-         binding.navView.setNavigationItemSelectedListener(item -> {
-             switch (item.getItemId()) {
-                 case R.id.profile:
-                     navController.navigate(R.id.account);
-                     break;
-                 case R.id.test:
-                     navController.navigate(R.id.mytest);
-                     break;
-                 case R.id.logout:
-                     sessionManage.logoutUser();
-                     finish();
-                     break;
-                 case R.id.lacture:
-                     navController.navigate(R.id.navigation_vedio_lacture);
-                     break;
-                 case R.id.notes:
-                     navController.navigate(R.id.notes);
-                     break;
-                 case R.id.account:
-                     navController.navigate(R.id.account);
-                     break;
-                 case R.id.home:
-                     navController.navigate(R.id.home);
-                     break;
+        binding.navView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.profile:
+                    navController.navigate(R.id.account);
+                    break;
+                case R.id.test:
+                    navController.navigate(R.id.mytest);
+                    break;
+                case R.id.logout:
+                    sessionManage.logoutUser();
+                    finish();
+                    break;
+                case R.id.lacture:
+                    navController.navigate(R.id.navigation_vedio_lacture);
+                    break;
+                case R.id.notes:
+                    Bundle bundle= new Bundle();
+                    bundle.putString("type","Notes");
+                    navController.navigate(R.id.navigation_category,bundle);
+                    break;
+                case R.id.account:
+                    navController.navigate(R.id.account);
+                    break;
+                case R.id.home:
+                    navController.navigate(R.id.home);
+                    break;
 
-             }
-             return false;
-         });
+            }
+            return false;
+        });
 
 
-         View headerView= binding.navView.getHeaderView(0);
-         TextView name =headerView.findViewById(R.id.username);
-         TextView classes =headerView.findViewById(R.id.userclasses);
-         TextView mobile =headerView.findViewById(R.id.usermobile);
-         CircleImageView image =headerView.findViewById(R.id.profileimg);
-         name.setText(sessionManage.getUserDetails().get("Name"));
-         mobile.setText(sessionManage.getUserDetails().get("Mobile"));
-         classes.setText(sessionManage.getUserDetails().get("Medium"));
-         Glide.with(this)
-                 .load(Image_URL+sessionManage.getUserDetails().get("Image"))
-                 .placeholder(R.drawable.men)
-                 .error(R.drawable.men)
-                 .into(image);
-     }
+        View headerView= binding.navView.getHeaderView(0);
+        TextView name =headerView.findViewById(R.id.username);
+        TextView classes =headerView.findViewById(R.id.userclasses);
+        TextView mobile =headerView.findViewById(R.id.usermobile);
+        CircleImageView image =headerView.findViewById(R.id.profileimg);
+        name.setText(sessionManage.getUserDetails().get("Name"));
+        mobile.setText(sessionManage.getUserDetails().get("Mobile"));
+        classes.setText(sessionManage.getUserDetails().get("Medium"));
+        Glide.with(this)
+                .load(Image_URL+sessionManage.getUserDetails().get("Image"))
+                .placeholder(R.drawable.men)
+                .error(R.drawable.men)
+                .into(image);
+    }
 
     private void SetActivityData() throws JSONException {
         getSupportActionBar().hide();
         drawer = binding.drawer;
-//        if(sessionManage.getUserDetails().get("CurrentSubject")!=null){
-//            JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("CurrentSubject")) ;
-//            Iterator<?> keys = jsonObject.keys();
-//            String key = String.valueOf(keys.next());
-//            binding.home.subjectname.setText((CharSequence) jsonObject.get(key));
-//        }else {
-//            JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("Subject")) ;
-//            Iterator<?> keys = jsonObject.keys();
-//            String key = String.valueOf(keys.next());
-//            binding.home.subjectname.setText((CharSequence) jsonObject.get(key));
-//        }
+        if(sessionManage.getUserDetails().get("CurrentSubject")!=null){
+            JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("CurrentSubject")) ;
+            Iterator<?> keys = jsonObject.keys();
+            String key = String.valueOf(keys.next());
+            binding.home.subjectname.setText((CharSequence) jsonObject.get(key));
+        }else {
+            JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("Subject")) ;
+            Iterator<?> keys = jsonObject.keys();
+            String key = String.valueOf(keys.next());
+            binding.home.subjectname.setText((CharSequence) jsonObject.get(key));
+        }
     }
 
     private void ActivityAction() {
@@ -236,7 +246,7 @@ public class HomeActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     if(getCurrentVisibleFragment()){
-                       navController.navigate(R.id.navigation_category,loginFragment.getArguments());
+                        navController.navigate(R.id.navigation_category,loginFragment.getArguments());
                     }else {
                         Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
                     }
@@ -290,5 +300,8 @@ public class HomeActivity extends AppCompatActivity {
         }
 
     }
+
+
+
 
 }

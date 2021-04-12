@@ -142,7 +142,19 @@ SessionManage {
     }
 
 
-    public void checkLogin() {
+    public void updatedetails(String name, String mobile, String email,String password,String medium,String gender,String image ) {
+        editor.putString(NAME, name);
+        editor.putString(EMAIL, email);
+        editor.putString(MOBILE, mobile);
+        editor.putString(MEDIUN, medium);
+        editor.putString(IMAGE, image);
+        editor.putString(PASSWORD, password);
+        editor.putString(GENDER, gender);
+        editor.commit();
+    }
+
+    public Boolean checkLogin() {
+       Boolean  responce = true;
         // Check login status
         if (!this.isLoggedIn()) {
             // user is not logged in redirect him to Login Activity
@@ -155,7 +167,9 @@ SessionManage {
 
             // Staring Login Activity
             context.startActivity(i);
+            responce= false;
         }
+        return responce;
 
     }
 
@@ -203,6 +217,7 @@ SessionManage {
     public void logoutUser() {
         // Clearing all data from Shared Preferences
         editor.putBoolean(IS_LOGIN, false);
+        editor.clear();
         editor.commit();
 
         // After logout redirect user to Login Activity

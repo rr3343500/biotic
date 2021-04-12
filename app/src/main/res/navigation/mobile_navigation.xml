@@ -31,7 +31,31 @@
     <fragment
         android:id="@+id/navigation_category"
         android:name="com.example.bioticclasses.fragments.category.CategoryFragment"
-        tools:layout="@layout/category_fragment" />
+        tools:layout="@layout/category_fragment" >
+
+        <argument
+            android:name="type"
+            android:defaultValue="Notes"
+            app:argType="string"
+            app:nullable="true" />
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/notes"
+        android:name="com.example.bioticclasses.fragments.category.CategoryFragment"
+        tools:layout="@layout/category_fragment" >
+
+        <argument
+            android:name="type"
+            android:defaultValue="Notes"
+            app:argType="string"
+            app:nullable="true" />
+
+
+    </fragment>
 
     <fragment
         android:id="@+id/mytest"
@@ -39,10 +63,7 @@
         tools:layout="@layout/my_test_fragment" />
 
 
-    <fragment
-        android:id="@+id/notes"
-        android:name="com.example.bioticclasses.fragments.notes.FragmentNotes"
-        tools:layout="@layout/fragment_notes_fragment" />
+
 
     <fragment
         android:id="@+id/navigation_vedio_lacture"

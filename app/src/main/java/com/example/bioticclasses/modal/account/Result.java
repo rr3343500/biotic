@@ -1,15 +1,15 @@
 
-package com.example.bioticclasses.modal.show_test_list;
+package com.example.bioticclasses.modal.account;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 
 public class Result {
 
     @SerializedName("data")
     @Expose
-    private List<ShowTestDatum> data = null;
+    private Data data;
     @SerializedName("error")
     @Expose
     private Boolean error;
@@ -20,11 +20,11 @@ public class Result {
     @Expose
     private String message;
 
-    public List<ShowTestDatum> getData() {
+    public Data getData() {
         return data;
     }
 
-    public void setData(List<ShowTestDatum> data) {
+    public void setData(Data data) {
         this.data = data;
     }
 
