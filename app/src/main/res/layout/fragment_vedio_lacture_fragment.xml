@@ -4,15 +4,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainLayout"
+    android:orientation="vertical"
     tools:context=".fragments.vediolacture.FragmentVedioLacture">
 
-  <view
-      android:id="@+id/youtubePlay"
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/videoRecyclerView"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
       app:layout_constraintTop_toTopOf="parent"
-      class="com.google.android.youtube.player.YouTubePlayerView"/>
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent" />
 
+
+
+  <com.google.android.material.card.MaterialCardView
+      android:layout_width="wrap_content"
+      android:id="@+id/progress"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:cardCornerRadius="20dp"
+      android:padding="20dp"
+      android:layout_height="wrap_content">
+
+    <com.example.bioticclasses.other.CustomGifView
+        android:id="@+id/gifview"
+        android:layout_margin="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+  </com.google.android.material.card.MaterialCardView>
+
+  <com.google.android.material.textview.MaterialTextView
+      android:id="@+id/noDataFound"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="No data found"
+      android:textStyle="bold"
+      android:visibility="gone"
+      android:fontFamily="@font/montserrat_semibold"
+      android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

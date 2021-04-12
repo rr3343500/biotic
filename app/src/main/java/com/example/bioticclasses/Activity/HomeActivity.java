@@ -166,17 +166,17 @@ public class HomeActivity extends AppCompatActivity {
     private void SetActivityData() throws JSONException {
         getSupportActionBar().hide();
         drawer = binding.drawer;
-        if(sessionManage.getUserDetails().get("CurrentSubject")!=null){
-            JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("CurrentSubject")) ;
-            Iterator<?> keys = jsonObject.keys();
-            String key = String.valueOf(keys.next());
-            binding.home.subjectname.setText((CharSequence) jsonObject.get(key));
-        }else {
-            JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("Subject")) ;
-            Iterator<?> keys = jsonObject.keys();
-            String key = String.valueOf(keys.next());
-            binding.home.subjectname.setText((CharSequence) jsonObject.get(key));
-        }
+//        if(sessionManage.getUserDetails().get("CurrentSubject")!=null){
+//            JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("CurrentSubject")) ;
+//            Iterator<?> keys = jsonObject.keys();
+//            String key = String.valueOf(keys.next());
+//            binding.home.subjectname.setText((CharSequence) jsonObject.get(key));
+//        }else {
+//            JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("Subject")) ;
+//            Iterator<?> keys = jsonObject.keys();
+//            String key = String.valueOf(keys.next());
+//            binding.home.subjectname.setText((CharSequence) jsonObject.get(key));
+//        }
     }
 
     private void ActivityAction() {

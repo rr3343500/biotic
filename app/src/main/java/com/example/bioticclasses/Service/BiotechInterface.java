@@ -12,7 +12,10 @@ import com.example.bioticclasses.modal.subjectclass.SubjectClass;
 import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
 import com.example.bioticclasses.modal.testlist.TestList;
 import com.example.bioticclasses.modal.testresult.TestResult;
+import com.example.bioticclasses.modal.video.VideoList;
 import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -97,6 +100,8 @@ public interface BiotechInterface {
     @POST("fetch_notes")
     Call<Notes> NOTES_CALL(@Body JsonObject jsonObject);
 
+    @POST("fetch_lecture")
+    Call<VideoList> VIDEO_LIST_CALL(@Body JsonObject jsonObject);
 }
 
 

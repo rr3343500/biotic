@@ -1,35 +1,50 @@
 package com.example.bioticclasses.fragments.vediolacture;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.bioticclasses.Adapter.VideoAdapter;
 import com.example.bioticclasses.R;
-import com.example.bioticclasses.Service.YoutubeConfig;
+import com.example.bioticclasses.Service.ApiClient;
+import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.FragmentVedioLactureFragmentBinding;
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
+import com.example.bioticclasses.modal.video.VideoList;
+import com.example.bioticclasses.other.SessionManage;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
-import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class FragmentVedioLacture extends Fragment  {
+import java.util.Iterator;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class FragmentVedioLacture extends Fragment {
     FragmentVedioLactureFragmentBinding binding;
     private FragmentVedioLactureViewModel mViewModel;
     TextView title;
-    YouTubePlayer.OnInitializedListener onInitializedListener;
-    YouTubePlayerView inital;
-    YouTubePlayerView initialize;
+    private static final String TAG = "FragmentVedioLacture";
+    private YouTubePlayerView youTubeView;
+    private static final int RECOVERY_DIALOG_REQUEST = 1;
+    String YOUTUBE_VIDEO_CODE = "Vx7YkKpt-J4";
+    BiotechInterface biotechInterface;
+    SessionManage sessionManage;
+    JsonObject finalsubject;
+
 
     public static FragmentVedioLacture newInstance() {
         return new FragmentVedioLacture();
@@ -48,37 +63,120 @@ public class FragmentVedioLacture extends Fragment  {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(FragmentVedioLactureViewModel.class);
         // TODO: Use the ViewModel
+        biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
+        sessionManage = new SessionManage(requireContext());
+
+        if (sessionManage.getUserDetails().get("CurrentSubject") != null) {
+            try {
+                JSONObject jsonObject = new JSONObject(sessionManage.getUserDetails().get("CurrentSubject"));
+                Iterator<?> keys = jsonObject.keys();
+                while (keys.hasNext()) {
+                    String key = String.valueOf(keys.next());
+                    finalsubject = new JsonObject();
+//                finalsubject.addProperty("subject_id","606daed1aa5f48522a2170cb");
+                    finalsubject.addProperty("subject_id", key);
+                    finalsubject.addProperty("stu_clas", sessionManage.getUserDetails().get("Class"));
+
+                }
+
+                video();
+            } catch (JSONException e) {
+                Log.e(TAG, "video: " + e.getMessage());
+                binding.progress.setVisibility(View.GONE);
+            }
+
+        } else {
+
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(sessionManage.getUserDetails().get("Subject"));
+                Iterator<?> keys = jsonObject.keys();
+                String key = String.valueOf(keys.next());
+                while (keys.hasNext()) {
+                    String key1 = String.valueOf(keys.next());
+                    finalsubject = new JsonObject();
+                    finalsubject.addProperty("subject_id", key1);
+                    finalsubject.addProperty("stu_clas", sessionManage.getUserDetails().get("Class"));
+                    break;
+                }
+
+                video();
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
 
     }
 
 
-    @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-
-        initialize = (YouTubePlayerView) view.findViewById(R.id.youtubePlay);
-
-        onInitializedListener = new YouTubePlayer.OnInitializedListener() {
+    private void video() {
+        biotechInterface.VIDEO_LIST_CALL(finalsubject).enqueue(new Callback<VideoList>() {
             @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.loadVideo("5sYsSrvWnqQ");
+            public void onResponse(Call<VideoList> call, Response<VideoList> response) {
+                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+                if (response.isSuccessful()) {
+                    if (!response.body().getResult().getError()) {
+                        binding.videoRecyclerView.setAdapter(new VideoAdapter(response.body().getResult().getData()));
+                        binding.progress.setVisibility(View.GONE);
+                        return;
+                    }
+                    Toast.makeText(requireContext(), response.body().getResult().getMessage(), Toast.LENGTH_SHORT).show();
+                    binding.noDataFound.setVisibility(View.VISIBLE);
+                    binding.progress.setVisibility(View.GONE);
+                    return;
+                }
+                binding.noDataFound.setVisibility(View.VISIBLE);
+                binding.progress.setVisibility(View.GONE);
+                Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
+            public void onFailure(Call<VideoList> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+                binding.noDataFound.setVisibility(View.VISIBLE);
+                binding.progress.setVisibility(View.GONE);
             }
-        };
+        });
+    }
 
+    private void Defvideo(String key) {
+        biotechInterface.VIDEO_LIST_CALL(finalsubject).enqueue(new Callback<VideoList>() {
+            @Override
+            public void onResponse(Call<VideoList> call, Response<VideoList> response) {
+                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+                if (response.isSuccessful()) {
+                    if (!response.body().getResult().getError()) {
+                        binding.videoRecyclerView.setAdapter(new VideoAdapter(response.body().getResult().getData()));
+                        binding.progress.setVisibility(View.GONE);
+                        return;
+                    }
+                    Toast.makeText(requireContext(), response.body().getResult().getMessage(), Toast.LENGTH_SHORT).show();
+                    binding.noDataFound.setVisibility(View.VISIBLE);
+                    binding.progress.setVisibility(View.GONE);
+                    return;
+                }
+                binding.noDataFound.setVisibility(View.VISIBLE);
+                binding.progress.setVisibility(View.GONE);
+                Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show();
+            }
 
-//        inital.initialize(YoutubeConfig.getApiKey() , onInitializedListener);
-
-
+            @Override
+            public void onFailure(Call<VideoList> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+                binding.noDataFound.setVisibility(View.VISIBLE);
+                binding.progress.setVisibility(View.GONE);
+            }
+        });
     }
 
 
 }
+
 
 
 
