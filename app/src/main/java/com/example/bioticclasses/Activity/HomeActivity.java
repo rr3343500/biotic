@@ -31,6 +31,8 @@ import com.example.bioticclasses.global.GlobalList;
 import com.example.bioticclasses.modal.testlist.TestList;
 import com.example.bioticclasses.other.SessionManage;
 import com.example.bioticclasses.viewModel.MainActivityViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -52,6 +54,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
@@ -89,6 +92,20 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("global").addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<Void> task) {
+
+                String msg = "Successfull";
+                if (!task.isSuccessful()) {
+                    msg = "Failed";
+                }
+                Log.e(TAG, "onComplete: " + msg);
+            }
+        });
+
+
 
 //        if( getIntent().getBooleanExtra("Exit me", false)){
 //            finish();
