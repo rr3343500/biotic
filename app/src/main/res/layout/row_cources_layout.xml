@@ -95,6 +95,14 @@
                   android:layout_gravity="center"
                   android:src="@drawable/check_icon"/>
 
+              <ImageView
+                  android:layout_width="20dp"
+                  android:layout_height="20dp"
+                  android:id="@+id/download"
+                  android:visibility="gone"
+                  android:layout_gravity="center"
+                  android:src="@drawable/download_icon"/>
+
           </com.google.android.material.card.MaterialCardView>
 
 

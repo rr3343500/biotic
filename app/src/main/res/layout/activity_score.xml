@@ -20,6 +20,17 @@
             android:id="@+id/head"
             tools:ignore="MissingConstraints">
 
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/back"
+                android:layout_marginBottom="15dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/left_arrow" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:text="Result"

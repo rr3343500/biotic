@@ -88,6 +88,8 @@ public class AccountFragment extends Fragment {
     Typeface face;
     private Uri fileUri;
     TextView title;
+    GenderAdapter adapter;
+    LanguageAdapter languageAdapter;
     MultipartBody.Part filePart= null;
 
 
@@ -152,7 +154,7 @@ public class AccountFragment extends Fragment {
 
 
 
-        GenderAdapter adapter = new GenderAdapter(getActivity(), android.R.layout.simple_list_item_1);
+        adapter = new GenderAdapter(getActivity(), android.R.layout.simple_list_item_1);
         adapter.addAll(spinnerValue);
         adapter.add(sessionManage.getUserDetails().get("Gender"));
         binding.gender2.setAdapter(adapter);
@@ -160,7 +162,7 @@ public class AccountFragment extends Fragment {
         Gender =sessionManage.getUserDetails().get("Gender");
         classadapter = new ClassAdapter(getActivity(), android.R.layout.simple_list_item_1);
         subjectAdapter = new SubjectAdapter(getActivity(), android.R.layout.simple_list_item_1);
-        LanguageAdapter languageAdapter = new LanguageAdapter(getActivity(), android.R.layout.simple_list_item_1);
+        languageAdapter = new LanguageAdapter(getActivity(), android.R.layout.simple_list_item_1);
         languageAdapter.addAll(language);
         languageAdapter.add(sessionManage.getUserDetails().get("Medium"));
         binding.meduim1.setAdapter(languageAdapter);
@@ -507,6 +509,21 @@ public class AccountFragment extends Fragment {
                                 response.body().getResult().getData().getGender(),
                                 response.body().getResult().getData().getImgName()
                         );
+
+                        binding.viewinputname.setText(response.body().getResult().getData().getNameEn());
+                        binding.viewinputemail.setText(response.body().getResult().getData().getEmail());
+                        binding.viewinputmobile.setText(response.body().getResult().getData().getMobile());
+                        binding.viewinputpassword.setText(response.body().getResult().getData().getPassword());
+                        binding.viewgender2.setText(response.body().getResult().getData().getGender());
+                        binding.viewmeduim1.setText(response.body().getResult().getData().getMedium());
+
+                        Glide.with(getActivity())
+                                .load(Image_URL+response.body().getResult().getData().getImgName())
+                                .placeholder(R.drawable.men)
+                                .error(R.drawable.men)
+                                .into(binding.viewimage);
+
+
 
                         binding.mainview.setAlpha((float) 1);
                         binding.progress.setVisibility(View.GONE);

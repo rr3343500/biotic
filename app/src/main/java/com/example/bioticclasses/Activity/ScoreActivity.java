@@ -108,6 +108,10 @@ public class ScoreActivity extends AppCompatActivity {
             binding.timeprogress.setProgress(Float.parseFloat(String.valueOf(timeper)), true);
         }
 
+        binding.back.setOnClickListener(v -> {
+            onBackPressed();
+        });
+
     }
 
 

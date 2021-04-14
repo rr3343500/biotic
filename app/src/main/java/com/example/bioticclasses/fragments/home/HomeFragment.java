@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
         sessionManage= new SessionManage(getActivity());
         biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
         SetFragmentData();
-//        Requestprofile();
+        Requestprofile();
         return root;
     }
 
@@ -128,18 +128,23 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()){
                     if (!response.body().getResult().getError() && response.body().getResult().getErrorCode() == 200) {
+                        if (response.body().getResult().getData() != null) {
+                            if (response.body().getResult().getData().getActive().toUpperCase().equals("NO")) {
 
-                        if (response.body().getResult().getData().getActive().toUpperCase().equals("YES")) {
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                                alertDialogBuilder.setMessage("Your are under Varification");
+                                alertDialogBuilder.setPositiveButton("Exit",
+                                        (arg0, arg1) -> {
+                                            getActivity().moveTaskToBack(true);
+                                            getActivity().finish();
+                                        });
+                                alertDialog = alertDialogBuilder.create();
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                alertDialog.setCancelable(false);
+                                alertDialog.show();
+                            }
 
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                            alertDialogBuilder.setMessage("You are under varification.");
-                            alertDialog = alertDialogBuilder.create();
-                            alertDialog.setCanceledOnTouchOutside(false);
-                            alertDialog.setCancelable(false);
-                            alertDialog.show();
-
-                         }
-
+                        }
                     }
                 }
             }

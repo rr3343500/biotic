@@ -83,7 +83,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
 
         list = result.getData().get(TestPos).getQuestions();
         timecheck = result.getData().get(TestPos);
-
+        binding.mainview.sub.setText(result.getData().get(TestPos).getHeading());
         binding.mainview.Ans1Layout.setOnClickListener(this);
         binding.mainview.Ans2Layout.setOnClickListener(this);
         binding.mainview.Ans3Layout.setOnClickListener(this);

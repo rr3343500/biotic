@@ -53,7 +53,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
         holder.name.setText(dataNotes.get(position).getName());
         holder.desc.setText(dataNotes.get(position).getDes());
-        holder.eye.setVisibility(View.VISIBLE);
+        holder.dowload.setVisibility(View.VISIBLE);
         binding.start.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.Image_URL+dataNotes.get(position).getFileName()));
             context.startActivity(browserIntent);
@@ -66,7 +66,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView arrow,eye;
+        ImageView arrow,eye,dowload;
         RelativeLayout mainview;
         TextView name,desc;
         MaterialCardView start;
@@ -78,6 +78,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
             start= binding.start;
             arrow=binding.arrow;
             eye= binding.eye;
+            dowload= binding.download;
         }
     }
 }

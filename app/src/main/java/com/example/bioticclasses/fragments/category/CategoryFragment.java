@@ -112,9 +112,11 @@ public class CategoryFragment extends Fragment {
                             if(data.isEmpty()){
                                 binding.msg.setVisibility(View.VISIBLE);
                                 binding.recycle.setVisibility(View.GONE);
+                                binding.progress.setVisibility(View.GONE);
                             }else {
                                 binding.msg.setVisibility(View.GONE);
                                 binding.recycle.setVisibility(View.VISIBLE);
+                                binding.progress.setVisibility(View.GONE);
                                 binding.recycle.setAdapter(new CoursesAdapter(getActivity(),data ,showTestData));
                             }
 
@@ -136,9 +138,11 @@ public class CategoryFragment extends Fragment {
                         if (data.isEmpty()) {
                             binding.msg.setVisibility(View.VISIBLE);
                             binding.recycle.setVisibility(View.GONE);
+                            binding.progress.setVisibility(View.GONE);
                         } else {
                             binding.msg.setVisibility(View.GONE);
                             binding.recycle.setVisibility(View.VISIBLE);
+                            binding.progress.setVisibility(View.GONE);
                             binding.recycle.setAdapter(new NotesAdapter(getActivity(), data));
                         }
                     });
@@ -157,9 +161,11 @@ public class CategoryFragment extends Fragment {
                             if (data.isEmpty()) {
                                 binding.msg.setVisibility(View.VISIBLE);
                                 binding.recycle.setVisibility(View.GONE);
+                                binding.progress.setVisibility(View.GONE);
                             } else {
                                 binding.msg.setVisibility(View.GONE);
                                 binding.recycle.setVisibility(View.VISIBLE);
+                                binding.progress.setVisibility(View.GONE);
                                 binding.recycle.setAdapter(new CoursesAdapter(getActivity(), data, showTestData));
                             }
                         });
@@ -254,9 +260,11 @@ public class CategoryFragment extends Fragment {
                               if(list.isEmpty()){
                                   binding.msg.setVisibility(View.VISIBLE);
                                   binding.recycle.setVisibility(View.GONE);
+                                  binding.progress.setVisibility(View.GONE);
                               }else {
                                   binding.msg.setVisibility(View.GONE);
                                   binding.recycle.setVisibility(View.VISIBLE);
+                                  binding.progress.setVisibility(View.GONE);
                                   binding.recycle.setAdapter(new CoursesAdapter(getActivity(),list ,showTestData));
                               }
 
@@ -283,9 +291,11 @@ public class CategoryFragment extends Fragment {
                               if (list.isEmpty()) {
                                   binding.msg.setVisibility(View.VISIBLE);
                                   binding.recycle.setVisibility(View.GONE);
+                                  binding.progress.setVisibility(View.GONE);
                               } else {
                                   binding.msg.setVisibility(View.GONE);
                                   binding.recycle.setVisibility(View.VISIBLE);
+                                  binding.progress.setVisibility(View.GONE);
                                   binding.recycle.setAdapter(new CoursesAdapter(getActivity(), list, showTestData));
                               }
                           });
