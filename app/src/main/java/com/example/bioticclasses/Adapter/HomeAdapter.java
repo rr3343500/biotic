@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -59,12 +60,27 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         holder.name.setText(categoryList.get(position).getName());
         holder.desc.setText(categoryList.get(position).getDes());
-        holder.cardView.setOnClickListener(v -> {
-          navController= Navigation.findNavController(v);
-            Bundle bundle= new Bundle();
-            bundle.putString("type",categoryList.get(position).getName());
-             navController.navigate(R.id.navigation_category,bundle);
-       });
+
+        if(categoryList.get(position).getName().equals("Online Class")){
+            holder.cardView.setOnClickListener(v -> {
+                Toast.makeText(context, "This feature coming soon!", Toast.LENGTH_SHORT).show();
+            });
+        }else {
+            if(categoryList.get(position).getName().equals("Videos")){
+                holder.cardView.setOnClickListener(v -> {
+                    navController= Navigation.findNavController(v);
+                    navController.navigate(R.id.navigation_vedio_lacture);
+                });
+            }else {
+                holder.cardView.setOnClickListener(v -> {
+                    navController= Navigation.findNavController(v);
+                    Bundle bundle= new Bundle();
+                    bundle.putString("type",categoryList.get(position).getName());
+                    navController.navigate(R.id.navigation_category,bundle);
+                });
+            }
+        }
+
     }
 
     @Override

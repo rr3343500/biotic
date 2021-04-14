@@ -1,11 +1,13 @@
 package com.example.bioticclasses.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import com.example.bioticclasses.databinding.ActivityLoginBinding;
 import com.example.bioticclasses.modal.login.Login;
 import com.example.bioticclasses.other.NetworkCheck;
 import com.example.bioticclasses.other.SessionManage;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -31,12 +34,14 @@ public class LoginActivity extends AppCompatActivity {
      SessionManage sessionManage;
      BiotechInterface biotechInterface ;
      boolean doubleBackToExitPressedOnce = false;
+    private boolean showPsw= true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding= ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         sessionManage= new SessionManage(this);
         biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
 
@@ -50,6 +55,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void ActivityAction(){
+        binding.showpass.setOnClickListener(v -> {
+            if (showPsw) {
+                binding.inputpassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                showPsw = false;
+            } else {
+                binding.inputpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                showPsw= true;
+            }
+        });
+
         binding.forget.setOnClickListener(v -> { startActivity(new Intent(LoginActivity.this , ForgetPassword.class)); });
         binding.signup.setOnClickListener(v -> { startActivity(new Intent(LoginActivity.this , SignUpActivity.class)); });
         binding.button.setOnClickListener(v -> {
@@ -109,8 +124,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         );
 
-                        Log.e("xzfsdf",  response.body().getResult().getData().get(0).getId());
-                        if (sessionManage.Checkingcredential()){
+                        Log.e("xzfsdf",  response.body().getResult().getData().get(0).getActive());
+                        if (sessionManage.Checkingcredential() ){
                             startActivity(new Intent(LoginActivity.this,HomeActivity.class));
                             binding.constraintLayout.setAlpha(1);
                             binding.progress.setVisibility(View.GONE);

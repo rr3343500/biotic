@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.bioticclasses.Activity.HomeActivity;
 import com.example.bioticclasses.Activity.SignUpActivity;
 import com.example.bioticclasses.R;
@@ -37,6 +38,7 @@ import com.example.bioticclasses.databinding.AccountFragmentBinding;
 import com.example.bioticclasses.modal.account.Account;
 import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.Subject;
+import com.example.bioticclasses.modal.userprofile.UserProfile;
 import com.example.bioticclasses.other.NetworkCheck;
 import com.example.bioticclasses.other.SessionManage;
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -60,6 +62,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.bioticclasses.Service.ApiClient.Image_URL;
 
 public class AccountFragment extends Fragment {
 
@@ -126,7 +130,25 @@ public class AccountFragment extends Fragment {
         binding.inputmobile.setText(sessionManage.getUserDetails().get("Mobile"));
         binding.inputmobile.setText(sessionManage.getUserDetails().get("Mobile"));
         binding.inputpassword.setText(sessionManage.getUserDetails().get("Password"));
+        Glide.with(getActivity())
+                .load(Image_URL+sessionManage.getUserDetails().get("Image"))
+                .placeholder(R.drawable.men)
+                .error(R.drawable.men)
+                .into(binding.image);
 
+        binding.viewinputname.setText(sessionManage.getUserDetails().get("Name"));
+        binding.viewinputemail.setText(sessionManage.getUserDetails().get("Email"));
+        binding.viewinputmobile.setText(sessionManage.getUserDetails().get("Mobile"));
+        binding.viewinputmobile.setText(sessionManage.getUserDetails().get("Mobile"));
+        binding.viewinputpassword.setText(sessionManage.getUserDetails().get("Password"));
+        binding.viewgender2.setText(sessionManage.getUserDetails().get("Gender"));
+        binding.viewmeduim1.setText(sessionManage.getUserDetails().get("Medium"));
+
+        Glide.with(getActivity())
+                .load(Image_URL+sessionManage.getUserDetails().get("Image"))
+                .placeholder(R.drawable.men)
+                .error(R.drawable.men)
+                .into(binding.viewimage);
 
 
 
@@ -147,6 +169,12 @@ public class AccountFragment extends Fragment {
     }
 
     private void FragmentAction(){
+
+        binding.viewupload.setOnClickListener(v -> {
+            binding.staticview.setVisibility(View.GONE);
+            binding.dynamicview.setVisibility(View.VISIBLE);
+        });
+
                binding.button.setOnClickListener(v -> {
             if(Validate()){
                 if(new NetworkCheck().haveNetworkConnection(getActivity())){
@@ -461,11 +489,9 @@ public class AccountFragment extends Fragment {
         RequestBody userid = RequestBody.create(MediaType.parse("multipart/form-data"),  sessionManage.getUserDetails().get("userid"));
         RequestBody gender = RequestBody.create(MediaType.parse("multipart/form-data"),  Gender);
 
-        biotechInterface.ACCOUNT_CALL(filePart,userid,name, mobile,email,meduim,password,gender).enqueue(new Callback<Account>() {
-            //        biotechInterface.SIGNUP_CALL(filePart,binding.inputname.getText().toString().toUpperCase(),binding.inputemail.getText().toString().toUpperCase(), binding.inputmobile.getText().toString(),
-//                Language.toUpperCase(),ClassName, binding.inputpassword.getText().toString(),jsonArray.toString()).enqueue(new Callback<Signup>() {
+        biotechInterface.ACCOUNT_CALL(filePart,userid,name, mobile,email,meduim,password,gender).enqueue(new Callback<UserProfile>() {
             @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
+            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()){
                     Log.e("sadsfs",response.body().getResult().getMessage());
                     Log.e("sadsfs", String.valueOf(response.body().getResult().getErrorCode()));
@@ -473,17 +499,19 @@ public class AccountFragment extends Fragment {
                     if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
 
                         sessionManage.updatedetails(
-                                binding.inputname.getText().toString(),
-                                binding.inputmobile.getText().toString(),
-                                binding.inputemail.getText().toString(),
-                                binding.inputpassword.getText().toString(),
-                                Language.toUpperCase(),
-                                Gender,
-                                ""
+                                response.body().getResult().getData().getNameEn(),
+                                response.body().getResult().getData().getMobile(),
+                                response.body().getResult().getData().getEmail(),
+                                response.body().getResult().getData().getPassword(),
+                                response.body().getResult().getData().getMedium(),
+                                response.body().getResult().getData().getGender(),
+                                response.body().getResult().getData().getImgName()
                         );
 
-                        binding.mainview.setAlpha((float) 0.2);
+                        binding.mainview.setAlpha((float) 1);
                         binding.progress.setVisibility(View.GONE);
+                        binding.dynamicview.setVisibility(View.GONE);
+                        binding.staticview.setVisibility(View.VISIBLE);
 
 
                     }
@@ -498,7 +526,7 @@ public class AccountFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Account> call, Throwable t) {
+            public void onFailure(Call<UserProfile> call, Throwable t) {
                 Log.e("sadsfs",t.getMessage());
 
                 binding.mainview.setAlpha((float) 1);

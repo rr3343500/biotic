@@ -121,8 +121,14 @@ public class FragmentVedioLacture extends Fragment {
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
                 if (response.isSuccessful()) {
                     if (!response.body().getResult().getError()) {
-                        binding.videoRecyclerView.setAdapter(new VideoAdapter(response.body().getResult().getData()));
-                        binding.progress.setVisibility(View.GONE);
+                        if(response.body().getResult().getData().isEmpty()){
+                            binding.noDataFound.setVisibility(View.VISIBLE);
+                            binding.progress.setVisibility(View.GONE);
+                        }else {
+                            binding.videoRecyclerView.setAdapter(new VideoAdapter(response.body().getResult().getData()));
+                            binding.progress.setVisibility(View.GONE);
+                        }
+
                         return;
                     }
                     Toast.makeText(requireContext(), response.body().getResult().getMessage(), Toast.LENGTH_SHORT).show();

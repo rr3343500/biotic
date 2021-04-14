@@ -87,6 +87,14 @@
                   android:layout_gravity="center"
                   android:src="@drawable/eye_icon"/>
 
+              <ImageView
+                  android:layout_width="20dp"
+                  android:layout_height="20dp"
+                  android:id="@+id/check"
+                  android:visibility="gone"
+                  android:layout_gravity="center"
+                  android:src="@drawable/check_icon"/>
+
           </com.google.android.material.card.MaterialCardView>
 
 

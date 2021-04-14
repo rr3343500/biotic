@@ -13,6 +13,9 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -34,6 +37,7 @@ import com.example.bioticclasses.other.NetworkCheck;
 import com.example.bioticclasses.other.SessionManage;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -75,6 +79,7 @@ public class SignUpActivity extends AppCompatActivity  {
     Typeface face;
     private Uri fileUri;
     MultipartBody.Part filePart= null;
+    private boolean showPsw= true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,16 +216,31 @@ public class SignUpActivity extends AppCompatActivity  {
 
     private void ActivityAction(){
 
+
+        binding.showpass.setOnClickListener(v -> {
+            if (showPsw) {
+                binding.inputpassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                showPsw = false;
+            } else {
+                binding.inputpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                showPsw= true;
+            }
+        });
+
+
+
         binding.upload.setOnClickListener(v -> {
             action= false;
-            ImagePicker.Companion.with(this)
+            ImagePicker.Companion.with(SignUpActivity.this)
                     .crop()
                     .compress(64)
                     .maxResultSize(1080, 1080)
                     .start();
         });
 
-        binding.login.setOnClickListener(v -> startActivity(new Intent(this, LoginActivity.class)));
+        binding.login.setOnClickListener(v ->
+                startActivity(new Intent(this, LoginActivity.class))
+        );
 
         binding.button.setOnClickListener(v -> {
             if(Validate()){
@@ -519,8 +539,8 @@ public class SignUpActivity extends AppCompatActivity  {
                                 response.body().getResult().getData().getImgName(),
                                 response.body().getResult().getData().getPassword(),
                                 Gender
-
                         );
+                        Log.e("xzfsdf",  response.body().getResult().getData().getActive());
                         if (sessionManage.Checkingcredential()){
                             startActivity(new Intent(SignUpActivity.this,HomeActivity.class));
                             binding.mainview.setAlpha((float) 0.2);

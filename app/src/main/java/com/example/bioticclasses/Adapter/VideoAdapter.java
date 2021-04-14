@@ -3,6 +3,7 @@ package com.example.bioticclasses.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -45,6 +46,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.Viewbinding>
         Datum list = data.get(position);
         holder.name.setText(list.getName());
         holder.desc.setText(list.getDes());
+        holder.arrow.setVisibility(View.VISIBLE);
         binding.start.setOnClickListener(v -> {
             context.startActivity(new Intent(context, YoutubePlayerActivity.class).putExtra("id", String.valueOf(list.getVedioLink())));
         });
@@ -57,7 +59,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.Viewbinding>
 
     public class Viewbinding extends RecyclerView.ViewHolder {
 
-        ImageView imageView;
+        ImageView arrow;
         RelativeLayout mainview;
         TextView name, desc;
         MaterialCardView start;
@@ -69,6 +71,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.Viewbinding>
             name = binding.subjectName;
             desc = binding.desc;
             start = binding.start;
+            arrow= binding.arrow;
         }
     }
 }

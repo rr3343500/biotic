@@ -36,6 +36,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import im.dacer.androidcharts.PieHelper;
 import im.dacer.androidcharts.PieView;
@@ -46,7 +47,7 @@ import retrofit2.Response;
 public class ScoreActivity extends AppCompatActivity {
 
     private TextView textView;
-    int pos, TestPos;
+    int pos, TestPos ,no_of_correct=0,no_of_wrong=0;
     JSONObject answersheet;
     private static final String TAG = "ScoreActivity";
     int correctAnswer = 0, wrongAnser = 0;
@@ -83,17 +84,29 @@ public class ScoreActivity extends AppCompatActivity {
         }
         calculateTest();
 
-//        Log.e("dfdsfs", getIntent().getStringExtra("totaltime"));
-//        Log.e("dfdsfs", getIntent().getStringExtra("remainnig"));
-//        totaltime = Double.parseDouble(getIntent().getStringExtra("totaltime"));
-//        timetaking = Double.parseDouble(getIntent().getStringExtra("remainnig"));
-//
-//        binding.totaltime.setText(String.valueOf(totaltime/60000));
-//        binding.takingtime.setText(String.valueOf(timetaking/60000));
-//
-//        double timeper =  (timetaking/totaltime)*100;
-//
-//        binding.timeprogress.setProgress(Float.parseFloat(String.valueOf(timeper)),true);
+        if(getIntent().getStringExtra("type").equals("NO")) {
+            binding.totaltime.setText("Unlimited");
+            binding.takingtime.setText("No Limit");
+        }
+        else {
+            Log.e("dfdsfs", getIntent().getStringExtra("totaltime"));
+            Log.e("dfdsfs", getIntent().getStringExtra("remainnig"));
+            totaltime = Double.parseDouble(getIntent().getStringExtra("totaltime"));
+            timetaking = Double.parseDouble(getIntent().getStringExtra("remainnig"));
+            int minutes = (int) ((timetaking / (1000 * 60)) % 60);
+            int seconds = (int) (timetaking / 1000) % 60;
+            int hours = (int) ((timetaking / (1000 * 60 * 60)) % 24);
+            String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
+
+
+
+            int finaltotaltime= (int) (totaltime / 60000);
+            int finaltakjingtime= (int) (timetaking / 60000);
+            binding.totaltime.setText(String.valueOf(finaltotaltime)+"m");
+            binding.takingtime.setText(timeLeftFormatted);
+            double timeper = (timetaking / totaltime) * 100;
+            binding.timeprogress.setProgress(Float.parseFloat(String.valueOf(timeper)), true);
+        }
 
     }
 
@@ -128,7 +141,18 @@ public class ScoreActivity extends AppCompatActivity {
             }
 
         }
-        AnswerSheet(result.getData().get(TestPos).getQuestions().size(), result.getData().get(TestPos).getCoorectMarks(), result.getData().get(TestPos).getWrongMarks(), result.getData().get(pos).getQuestions());
+        Log.e(TAG, "calculateTest: "+ result.getData().get(TestPos).getQuestions().size());
+        Log.e(TAG, "calculateTest: "+ result.getData().get(TestPos).getCoorectMarks());
+        Log.e(TAG, "calculateTest: "+  result.getData().get(TestPos).getWrongMarks());
+        Log.e(TAG, "calculateTest: "+  result.getData().get(pos).getQuestions());
+
+        if(result.getData().get(TestPos).getCoorectMarks()!=null){
+            no_of_correct= result.getData().get(TestPos).getCoorectMarks();
+        }
+        if(result.getData().get(TestPos).getWrongMarks()!=null){
+            no_of_wrong=  result.getData().get(TestPos).getWrongMarks();
+        }
+        AnswerSheet(result.getData().get(TestPos).getQuestions().size(), no_of_correct, no_of_wrong, result.getData().get(pos).getQuestions());
 
 
 
@@ -354,13 +378,14 @@ public class ScoreActivity extends AppCompatActivity {
                    double totalstu= response.body().getResult().getData().size();
                    double stupos =0;
                    for (int i=1; i<= response.body().getResult().getData().size();i++){
+                       Log.e(sessionManage.getUserDetails().get("userid") +"==", response.body().getResult().getData().get(i).getUserId());
                        if(sessionManage.getUserDetails().get("userid").equals(response.body().getResult().getData().get(i).getUserId())){
                            stupos = i;
                            break;
                        }
                    }
                    double rankper =  (stupos/totalstu)*100;
-                      binding.scoreprogress.setProgress(Float.valueOf(String.valueOf(rankper)),true);
+                      binding.rankprograss.setProgress(Float.valueOf(String.valueOf(rankper)),true);
                       binding.totalstu.setText(String.valueOf((int)totalstu));
                       binding.stupos.setText(String.valueOf((int)stupos));
 

@@ -36,6 +36,8 @@ public class CategoryRepo {
     static BiotechInterface biotechInterface;
     SessionManage sessionManage;
     Context context;
+    JSONObject jsonObject,jsonObject1;
+    JsonObject finalsubject,finalsubject1;
     public static CategoryRepo ourInstance;
     private static final String TAG = "CategoryRepo";
 
@@ -80,80 +82,117 @@ public class CategoryRepo {
 
 
     private  void setLiveData(String cat) {
-        try {
-            JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("CurrentSubject")) ;
-            Iterator<?> keys = jsonObject.keys();
-            while (keys.hasNext()) {
-                String key = String.valueOf(keys.next());
-                JsonObject finalsubject= new JsonObject();
+        if(sessionManage.getUserDetails().get("CurrentSubject")!=null) {
+            try {
+                jsonObject = new JSONObject(sessionManage.getUserDetails().get("CurrentSubject"));
+                Iterator<?> keys = jsonObject.keys();
+                while (keys.hasNext()) {
+                    String key = String.valueOf(keys.next());
+                    finalsubject = new JsonObject();
 //                finalsubject.addProperty("subject_id","606daed1aa5f48522a2170cb");
-                finalsubject.addProperty("subject_id",key);
-                finalsubject.addProperty("cat_name",cat);
-                biotechInterface.CATEGORYTestListCall(finalsubject).enqueue(new Callback<TestList>() {
-                    @Override
-                    public void onResponse(Call<TestList> call, Response<TestList> response) {
-                        if(response.isSuccessful()){
-                            if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
-                                Log.e(TAG, "onResponse: " + response.body().getResult().getData().size() );
-                                listMutableLiveData.postValue(response.body().getResult().getData());
-                                ((GlobalList)context.getApplicationContext()).setTestlist(response.body().getResult());
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<TestList> call, Throwable t) {
-                        Log.e("afsdfds",t.getMessage());
-                    }
-                });
-
-                break;
+                    finalsubject.addProperty("subject_id", key);
+                    finalsubject.addProperty("cat_name", cat);
+                    break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        }else {
+            try {
+                jsonObject = new JSONObject(sessionManage.getUserDetails().get("Subject"));
+                Iterator<?> keys = jsonObject.keys();
+                while (keys.hasNext()) {
+                    String key = String.valueOf(keys.next());
+                    finalsubject = new JsonObject();
+//                finalsubject.addProperty("subject_id","606daed1aa5f48522a2170cb");
+                    finalsubject.addProperty("subject_id", key);
+                    finalsubject.addProperty("cat_name", cat);
+                    break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
+
+
+        biotechInterface.CATEGORYTestListCall(finalsubject).enqueue(new Callback<TestList>() {
+            @Override
+            public void onResponse(Call<TestList> call, Response<TestList> response) {
+                if(response.isSuccessful()){
+                    if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
+                        Log.e(TAG, "onResponse: " + response.body().getResult().getData().size() );
+                        listMutableLiveData.postValue(response.body().getResult().getData());
+                        ((GlobalList)context.getApplicationContext()).setTestlist(response.body().getResult());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<TestList> call, Throwable t) {
+                Log.e("afsdfds",t.getMessage());
+            }
+        });
+
+
 
     }
 
 
     private  void setNotesData() {
-        try {
-            JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("CurrentSubject")) ;
-            Iterator<?> keys = jsonObject.keys();
-            while (keys.hasNext()) {
-                String key = String.valueOf(keys.next());
-                JsonObject finalsubject= new JsonObject();
+        if(sessionManage.getUserDetails().get("CurrentSubject")!=null) {
+            try {
+                Log.e(TAG, "setNotesData: "+sessionManage.getUserDetails().get("CurrentSubject") );
+                jsonObject1 = new JSONObject(sessionManage.getUserDetails().get("CurrentSubject"));
+                Iterator<?> keys = jsonObject1.keys();
+                while (keys.hasNext()) {
+                    String key = String.valueOf(keys.next());
+                    finalsubject1 = new JsonObject();
 //                finalsubject.addProperty("subject_id","606daed1aa5f48522a2170cb");
-                finalsubject.addProperty("subject_id",key);
-                finalsubject.addProperty("stu_clas",sessionManage.getUserDetails().get("Class"));
-                Log.e("dfsfsf",sessionManage.getUserDetails().get("Class"));
-                biotechInterface.NOTES_CALL(finalsubject).enqueue(new Callback<Notes>() {
-                    @Override
-                    public void onResponse(Call<Notes> call, Response<Notes> response) {
-                        if(response.isSuccessful()){
-                            if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
-                                Log.e(TAG, "onResponse: " + response.body().getResult().getData().size() );
-                                noteslist.postValue(response.body().getResult().getData());
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Notes> call, Throwable t) {
-
-                    }
-                });
-
-
-
-
-
-                break;
+                    finalsubject1.addProperty("subject_id", key);
+                    finalsubject1.addProperty("stu_clas", sessionManage.getUserDetails().get("Class"));
+                    Log.e("dfsfsf", sessionManage.getUserDetails().get("Class"));
+                    break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        }else {
+            try {
+                jsonObject1 = new JSONObject(sessionManage.getUserDetails().get("Subject"));
+                Iterator<?> keys = jsonObject1.keys();
+                while (keys.hasNext()) {
+                    String key = String.valueOf(keys.next());
+                    finalsubject1 = new JsonObject();
+//                finalsubject.addProperty("subject_id","606daed1aa5f48522a2170cb");
+                    finalsubject1.addProperty("subject_id", key);
+                    finalsubject1.addProperty("stu_clas", sessionManage.getUserDetails().get("Class"));
+                    Log.e("dfsfsf", sessionManage.getUserDetails().get("Class"));
+                    break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
+
+        biotechInterface.NOTES_CALL(finalsubject1).enqueue(new Callback<Notes>() {
+            @Override
+            public void onResponse(Call<Notes> call, Response<Notes> response) {
+                if(response.isSuccessful()){
+                    if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
+                        Log.e(TAG, "onResponse: " + response.body().getResult().getData().size() );
+                        noteslist.postValue(response.body().getResult().getData());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Notes> call, Throwable t) {
+                Log.e(TAG, "onFailure: "+t.getMessage() );
+            }
+        });
 
     }
 

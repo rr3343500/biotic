@@ -194,7 +194,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
 
             if (countDownTimer != null) countDownTimer.cancel();
             Test = false;
-            startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("time",START_TIME_IN_MILLIS).putExtra("remainnig",takingtime));
+            startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime", String.valueOf(START_TIME_IN_MILLIS)).putExtra("remainnig", String.valueOf(takingtime)).putExtra("type",timecheck.getTimeLimit().trim()));
             finish();
         });
     }
@@ -389,11 +389,12 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         alertDialogBuilder.setMessage("Time Up Please Submit");
         alertDialogBuilder.setPositiveButton("Submit",
                 (arg0, arg1) -> {
-                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",START_TIME_IN_MILLIS).putExtra("remainnig",takingtime));
+                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",String.valueOf(START_TIME_IN_MILLIS)).putExtra("remainnig",String.valueOf(takingtime)).putExtra("type",timecheck.getTimeLimit().trim()));
                     finish();
                 });
         alertDialog = alertDialogBuilder.create();
         alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
         alertDialog.show();
     }
 
@@ -404,7 +405,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                 (arg0, arg1) -> {
                     if (countDownTimer != null) countDownTimer.cancel();
                     Test = false;
-                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",START_TIME_IN_MILLIS).putExtra("remainnig",takingtime));
+                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",String.valueOf(START_TIME_IN_MILLIS)).putExtra("remainnig",String.valueOf(takingtime)).putExtra("type",timecheck.getTimeLimit().trim()));
                 });
         alertDialogBuilder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -671,13 +672,14 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
                         (arg0, arg1) -> {
                             if (countDownTimer != null) countDownTimer.cancel();
                             Test = false;
-                            startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",START_TIME_IN_MILLIS).putExtra("remainnig",takingtime));
+                            startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",String.valueOf(START_TIME_IN_MILLIS)).putExtra("remainnig",String.valueOf(takingtime)).putExtra("type",timecheck.getTimeLimit().trim()));
                         });
                 alertDialogBuilder.setOnKeyListener((dialog, keyCode, event) -> {
                     return keyCode == KeyEvent.KEYCODE_BACK;
                 });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.setCancelable(false);
                 alertDialog.show();
             }else {
                 Warning = true;

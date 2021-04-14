@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.fragments.category.CategoryFragment;
+import com.example.bioticclasses.fragments.vediolacture.FragmentVedioLacture;
 import com.example.bioticclasses.global.GlobalList;
 import com.example.bioticclasses.modal.testlist.TestList;
 import com.example.bioticclasses.other.SessionManage;
@@ -87,6 +88,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
 //        if( getIntent().getBooleanExtra("Exit me", false)){
 //            finish();
@@ -108,7 +110,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
     void InitializeFragment(){
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         getSupportActionBar().hide();
 
 
@@ -140,6 +142,7 @@ public class HomeActivity extends AppCompatActivity {
                     break;
                 case R.id.lacture:
                     navController.navigate(R.id.navigation_vedio_lacture);
+                    openDrawer();
                     break;
                 case R.id.notes:
                     Bundle bundle= new Bundle();
@@ -248,6 +251,11 @@ public class HomeActivity extends AppCompatActivity {
                     if(getCurrentVisibleFragment()){
                         navController.navigate(R.id.navigation_category,loginFragment.getArguments());
                     }else {
+//                        Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
+                    }
+                    if(getcurrentfragmentislacture()){
+                        navController.navigate(R.id.navigation_vedio_lacture);
+                    }else {
                         Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
                     }
                     dialog.cancel();
@@ -302,6 +310,24 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    private Boolean getcurrentfragmentislacture() {
+        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().getPrimaryNavigationFragment();
+        FragmentManager fragmentManager = navHostFragment.getChildFragmentManager();
+        loginFragment = fragmentManager.getPrimaryNavigationFragment();
+        loginFragment.getArguments();
+        if(loginFragment instanceof FragmentVedioLacture){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+
+
+    private void checkprofile(){
+
+    }
 
 
 }

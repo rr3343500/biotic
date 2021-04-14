@@ -20,8 +20,6 @@
             android:id="@+id/head"
             tools:ignore="MissingConstraints">
 
-
-
             <TextView
                 android:layout_width="wrap_content"
                 android:text="Result"
@@ -33,6 +31,7 @@
                 android:layout_centerInParent="true"
                 android:textColor="@color/light_black"
                 android:layout_height="wrap_content"/>
+
 
         </RelativeLayout>
 
@@ -118,7 +117,7 @@
                                     app:pcv_animDuration="800"
                                     app:pcv_animInterpolator="anticipate_overshoot"
                                     android:background="@color/test_background"
-                                    app:pcv_progress="10"
+                                    app:pcv_progress="0"
                                     app:pcv_progressColor="@color/fill"
                                     app:pcv_backgroundBarColor="@color/white"
                                     app:pcv_progressBarThickness="10dp"
@@ -212,7 +211,7 @@
                                     app:pcv_animDuration="800"
                                     app:pcv_animInterpolator="anticipate_overshoot"
                                     android:background="@color/test_background"
-                                    app:pcv_progress="10"
+                                    app:pcv_progress="0"
                                     app:pcv_progressColor="@color/fill"
                                     app:pcv_backgroundBarColor="@color/white"
                                     app:pcv_progressBarThickness="10dp"
@@ -442,7 +441,7 @@
                                     app:pcv_animDuration="800"
                                     app:pcv_animInterpolator="anticipate_overshoot"
                                     android:background="@color/white"
-                                    app:pcv_progress="10"
+                                    app:pcv_progress="0"
                                     app:pcv_progressColor="@color/fill"
                                     app:pcv_backgroundBarColor="@color/white"
                                     app:pcv_progressBarThickness="5dp"
@@ -546,7 +545,7 @@
                                     app:pcv_animDuration="800"
                                     app:pcv_animInterpolator="anticipate_overshoot"
                                     android:background="@color/white"
-                                    app:pcv_progress="10"
+                                    app:pcv_progress="0"
                                     app:pcv_progressColor="@color/fill"
                                     app:pcv_backgroundBarColor="@color/white"
                                     app:pcv_progressBarThickness="5dp"
@@ -580,9 +579,10 @@
                                         android:fontFamily="@font/montserrat_regular"
                                         android:textStyle="bold"
                                         android:textSize="12dp"
+                                        android:layout_marginTop="10dp"
                                         android:layout_alignParentBottom="true"
                                         android:layout_centerInParent="true"
-                                        android:letterSpacing="0"
+                                        android:letterSpacing="-0.03"
                                         android:textColor="@color/question_color"
                                         android:layout_height="wrap_content"
                                         tools:ignore="MissingConstraints" />

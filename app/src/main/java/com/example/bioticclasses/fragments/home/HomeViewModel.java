@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.bioticclasses.modal.banner.Datum;
 import com.example.bioticclasses.modal.category.CatDatum;
+import com.example.bioticclasses.modal.userprofile.Data;
 import com.example.bioticclasses.repositories.HomeFragmentRep;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,5 +35,9 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<CatDatum>> getCatList() {
         return HomeFragmentRep.getCatlist();
+    }
+
+    public LiveData<Data> data() {
+        return HomeFragmentRep.getData();
     }
 }

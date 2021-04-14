@@ -33,6 +33,7 @@ public class ViewTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityViewTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().hide();
 
         biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
         sessionManage = new SessionManage(this);

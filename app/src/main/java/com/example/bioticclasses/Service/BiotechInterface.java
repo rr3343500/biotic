@@ -13,6 +13,7 @@ import com.example.bioticclasses.modal.subjectclass.SubjectClass;
 import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
 import com.example.bioticclasses.modal.testlist.TestList;
 import com.example.bioticclasses.modal.testresult.TestResult;
+import com.example.bioticclasses.modal.userprofile.UserProfile;
 import com.example.bioticclasses.modal.video.VideoList;
 import com.google.gson.JsonObject;
 
@@ -39,9 +40,9 @@ public interface BiotechInterface {
 
 
 
-    @POST("update_user")
+    @POST("user_update")
     @Multipart
-    Call<Account>ACCOUNT_CALL(@Part MultipartBody.Part file, @Part("user_id") RequestBody s , @Part("name_en") RequestBody s1, @Part("mobile") RequestBody s2, @Part("email") RequestBody s3,
+    Call<UserProfile>ACCOUNT_CALL(@Part MultipartBody.Part file, @Part("user_id") RequestBody s , @Part("name_en") RequestBody s1, @Part("mobile") RequestBody s2, @Part("email") RequestBody s3,
                               @Part("medium") RequestBody s4, @Part("password") RequestBody s5, @Part("gender") RequestBody s7);
 
     @Headers({
@@ -110,6 +111,16 @@ public interface BiotechInterface {
 
     @POST("fetch_lecture")
     Call<VideoList> VIDEO_LIST_CALL(@Body JsonObject jsonObject);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST("user_detail")
+    Call<UserProfile> USER_PROFILE_CALL(@Body JsonObject jsonObject);
+
+
+
 }
 
 

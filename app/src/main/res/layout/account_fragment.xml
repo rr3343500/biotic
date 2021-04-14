@@ -11,249 +11,722 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_marginBottom="60dp"
+        android:scrollbars="none"
         android:layout_height="match_parent">
 
 
-        <RelativeLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
 
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:paddingTop="40dp"
-                android:id="@+id/account"
-                android:layout_height="wrap_content">
+                android:id="@+id/staticview"
+                android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:layout_width="100dp"
-                    android:layout_height="112dp"
-                    android:id="@+id/imageview"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="MissingConstraints">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:paddingTop="40dp"
+                    android:id="@+id/viewaccount"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
                         android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:id="@+id/image"
-                        app:civ_border_color="@color/white"
-                        app:civ_border_width="1dp"
-                        android:src="@drawable/ic_man"
+                        android:layout_height="112dp"
+                        android:id="@+id/viewimageview"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="MissingConstraints">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:id="@+id/viewimage"
+                            app:civ_border_color="@color/white"
+                            app:civ_border_width="1dp"
+                            android:src="@drawable/ic_man"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:ignore="MissingConstraints" />
+
+
+
+                    </RelativeLayout>
+
+
+                    <!--                <TextView-->
+                    <!--                    android:id="@+id/name"-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:fontFamily="@font/montserrat_bold"-->
+                    <!--                    android:text="Rajat Singh"-->
+                    <!--                    android:layout_marginTop="10dp"-->
+                    <!--                    android:textColor="@color/white"-->
+                    <!--                    android:textStyle="bold"-->
+                    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                    app:layout_constraintTop_toBottomOf="@id/imageview" />-->
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/viewupload"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/edit_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/viewimageview"
                         tools:ignore="MissingConstraints" />
 
-                    <ImageView
+<!--                    <ImageView-->
+<!--                        android:id="@+id/viewupload"-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_alignParentRight="true"-->
+<!--                        android:layout_alignParentBottom="true"-->
+<!--                        android:scaleType="fitXY"-->
+<!--                        android:src="@drawable/edit_icon"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:background="@color/theme_pink"-->
+<!--                        android:layout_marginRight="10dp"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/viewborder"
+                    android:background="@color/gray"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:layout_below="@id/viewaccount"/>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/viewmainview"
+                    android:layout_margin="20dp"
+                    android:layout_below="@id/viewborder"
+                    android:paddingTop="10dp"
+                    android:layout_height="wrap_content">
+
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewname1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false"
+                        tools:ignore="MissingConstraints">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Name"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:id="@+id/viewinputname"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewmobile1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/viewname1"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Mobile Number"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:maxLines="1"
+                            android:id="@+id/viewinputmobile"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewemail1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/viewmobile1"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Email ID"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:id="@+id/viewinputemail"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewpass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/viewemail1"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Password"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:maxLength="15"
+                            android:id="@+id/viewinputpassword"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/viewspinnerview"
+                        android:weightSum="2"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/viewpass"
+                        android:layout_height="50dp">
+
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/viewgender1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_margin="2dp"
+                            android:divider="@android:color/transparent"
+                            android:dividerHeight="0.0px"
+                            android:elevation="8dp"
+                            app:cardCornerRadius="5dp"
+                            app:cardElevation="3dp"
+                            app:cardPreventCornerOverlap="false">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:backgroundTint="@color/white"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:maxLines="1"
+                                android:maxLength="15"
+                                android:id="@+id/viewgender2"
+                                android:textColorHint="@color/hint_gray"
+                                android:textSize="30px" />
+
+
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:divider="@android:color/transparent"
+                            android:dividerHeight="0.0px"
+                            android:elevation="8dp"
+                            android:layout_margin="2dp"
+                            app:cardCornerRadius="5dp"
+                            app:cardElevation="3dp"
+                            app:cardPreventCornerOverlap="false">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:backgroundTint="@color/white"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:maxLines="1"
+                                android:maxLength="15"
+                                android:id="@+id/viewmeduim1"
+                                android:textColorHint="@color/hint_gray"
+                                android:textSize="30px" />
+
+
+                        </com.google.android.material.card.MaterialCardView>
+
+
+
+                    </LinearLayout>
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewclasss"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="20dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/viewspinnerview"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <Spinner
+                            android:id="@+id/viewclasses2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="start"
+                            android:popupBackground="@color/theme_pink"
+                            android:theme="@style/mySpinnerItemStyle"
+                            android:textAlignment="textStart"
+                            app:layout_constraintTop_toBottomOf="@id/language" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewsubjectview"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="20dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/viewclasss"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Select Subject"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:id="@+id/viewmultisubject"
+                            android:textColor="@color/hint_gray"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/viewbutton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:id="@+id/upload"
-                        android:layout_alignParentBottom="true"
-                        android:src="@drawable/profile_upload_icon"/>
+                        android:layout_marginTop="30dp"
+                        android:backgroundTint="@color/theme_pink_dark"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Update Profile"
+                        android:textColor="@color/white"
+                        android:textSize="14dp"
+                        android:textAllCaps="false"
+                        android:letterSpacing="0"
+                        android:textStyle="bold"
+                        app:cornerRadius="5dp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/viewsubjectview" />
 
 
-                </RelativeLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-<!--                <TextView-->
-<!--                    android:id="@+id/name"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:fontFamily="@font/montserrat_bold"-->
-<!--                    android:text="Rajat Singh"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/imageview" />-->
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <View
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:id="@+id/border"
-                android:background="@color/gray"
-                android:layout_marginTop="10dp"
+                android:id="@+id/dynamicview"
                 android:visibility="gone"
-                android:layout_below="@id/account"/>
+                android:layout_height="match_parent">
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:id="@+id/mainview"
-                android:layout_margin="20dp"
-                android:layout_below="@id/border"
-                android:paddingTop="10dp"
-                android:layout_height="wrap_content">
-
-
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/name1"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginRight="5dp"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="0.0px"
-                    android:elevation="8dp"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="3dp"
-                    app:cardPreventCornerOverlap="false"
-                    tools:ignore="MissingConstraints">
+                    android:paddingTop="40dp"
+                    android:id="@+id/account"
+                    android:layout_height="wrap_content">
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:hint="Name"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:id="@+id/inputname"
-                        android:textColorHint="@color/hint_gray"
-                        android:textSize="30px" />
+                    <RelativeLayout
+                        android:layout_width="100dp"
+                        android:layout_height="112dp"
+                        android:id="@+id/imageview"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="MissingConstraints">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:id="@+id/image"
+                            app:civ_border_color="@color/white"
+                            app:civ_border_width="1dp"
+                            android:src="@drawable/ic_man"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:ignore="MissingConstraints" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:id="@+id/upload"
+                            android:layout_alignParentBottom="true"
+                            android:src="@drawable/profile_upload_icon"/>
 
 
-                </com.google.android.material.card.MaterialCardView>
+                    </RelativeLayout>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/mobile1"
+
+                    <!--                <TextView-->
+                    <!--                    android:id="@+id/name"-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:fontFamily="@font/montserrat_bold"-->
+                    <!--                    android:text="Rajat Singh"-->
+                    <!--                    android:layout_marginTop="10dp"-->
+                    <!--                    android:textColor="@color/white"-->
+                    <!--                    android:textStyle="bold"-->
+                    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                    app:layout_constraintTop_toBottomOf="@id/imageview" />-->
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="5dp"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="0.0px"
-                    android:elevation="8dp"
-                    app:cardCornerRadius="5dp"
-                    app:layout_constraintTop_toBottomOf="@id/name1"
-                    app:cardElevation="3dp"
-                    app:cardPreventCornerOverlap="false">
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:hint="Mobile Number"
-                        android:inputType="number"
-                        android:maxLength="10"
-                        android:maxLines="1"
-                        android:id="@+id/inputmobile"
-                        android:textColorHint="@color/hint_gray"
-                        android:textSize="30px" />
+                    android:layout_height="1dp"
+                    android:id="@+id/border"
+                    android:background="@color/gray"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:layout_below="@id/account"/>
 
 
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/email1"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="5dp"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="0.0px"
-                    android:elevation="8dp"
-                    app:cardCornerRadius="5dp"
-                    app:layout_constraintTop_toBottomOf="@id/mobile1"
-                    app:cardElevation="3dp"
-                    app:cardPreventCornerOverlap="false">
+                    android:id="@+id/mainview"
+                    android:layout_margin="20dp"
+                    android:layout_below="@id/border"
+                    android:paddingTop="10dp"
+                    android:layout_height="wrap_content">
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:hint="Email ID"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
-                        android:id="@+id/inputemail"
-                        android:textColorHint="@color/hint_gray"
-                        android:textSize="30px" />
-
-
-                </com.google.android.material.card.MaterialCardView>
-
-
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/pass"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="5dp"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="0.0px"
-                    android:elevation="8dp"
-                    app:cardCornerRadius="5dp"
-                    app:layout_constraintTop_toBottomOf="@id/email1"
-                    app:cardElevation="3dp"
-                    app:cardPreventCornerOverlap="false">
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:hint="Password"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:maxLength="15"
-                        android:id="@+id/inputpassword"
-                        android:textColorHint="@color/hint_gray"
-                        android:textSize="30px" />
-
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/spinnerview"
-                    android:weightSum="2"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
-                    app:layout_constraintTop_toBottomOf="@id/pass"
-                    android:layout_height="50dp">
 
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/gender1"
+                        android:id="@+id/name1"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_margin="2dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginRight="5dp"
                         android:divider="@android:color/transparent"
                         android:dividerHeight="0.0px"
                         android:elevation="8dp"
                         app:cardCornerRadius="5dp"
                         app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false"
+                        tools:ignore="MissingConstraints">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Name"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:id="@+id/inputname"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/mobile1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/name1"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Mobile Number"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:maxLines="1"
+                            android:id="@+id/inputmobile"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/email1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/mobile1"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Email ID"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:id="@+id/inputemail"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/email1"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Password"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:maxLength="15"
+                            android:id="@+id/inputpassword"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/spinnerview"
+                        android:weightSum="2"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/pass"
+                        android:layout_height="50dp">
+
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/gender1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_margin="2dp"
+                            android:divider="@android:color/transparent"
+                            android:dividerHeight="0.0px"
+                            android:elevation="8dp"
+                            app:cardCornerRadius="5dp"
+                            app:cardElevation="3dp"
+                            app:cardPreventCornerOverlap="false">
+
+                            <Spinner
+                                android:id="@+id/gender2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="start"
+                                android:theme="@style/mySpinnerItemStyle"
+                                android:popupBackground="@color/theme_pink"
+                                android:textAlignment="textStart"
+                                app:layout_constraintTop_toBottomOf="@id/language" />
+
+
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:divider="@android:color/transparent"
+                            android:dividerHeight="0.0px"
+                            android:elevation="8dp"
+                            android:layout_margin="2dp"
+                            app:cardCornerRadius="5dp"
+                            app:cardElevation="3dp"
+                            app:cardPreventCornerOverlap="false">
+
+                            <Spinner
+                                android:id="@+id/meduim1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="start"
+                                android:popupBackground="@color/theme_pink"
+                                android:theme="@style/mySpinnerItemStyle"
+                                android:textAlignment="textStart"
+                                app:layout_constraintTop_toBottomOf="@id/language" />
+
+
+                        </com.google.android.material.card.MaterialCardView>
+
+
+
+                    </LinearLayout>
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/classs"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="20dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/spinnerview"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="3dp"
                         app:cardPreventCornerOverlap="false">
 
                         <Spinner
-                            android:id="@+id/gender2"
+                            android:id="@+id/classes2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="start"
-                            android:theme="@style/mySpinnerItemStyle"
                             android:popupBackground="@color/theme_pink"
+                            android:theme="@style/mySpinnerItemStyle"
                             android:textAlignment="textStart"
                             app:layout_constraintTop_toBottomOf="@id/language" />
 
@@ -261,120 +734,60 @@
                     </com.google.android.material.card.MaterialCardView>
 
 
+
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/subjectview"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="20dp"
                         android:divider="@android:color/transparent"
                         android:dividerHeight="0.0px"
                         android:elevation="8dp"
-                        android:layout_margin="2dp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/classs"
                         app:cardCornerRadius="5dp"
                         app:cardElevation="3dp"
                         app:cardPreventCornerOverlap="false">
 
-                        <Spinner
-                            android:id="@+id/meduim1"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="start"
-                            android:popupBackground="@color/theme_pink"
-                            android:theme="@style/mySpinnerItemStyle"
-                            android:textAlignment="textStart"
-                            app:layout_constraintTop_toBottomOf="@id/language" />
-
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:text="Select Subject"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:id="@+id/multisubject"
+                            android:textColor="@color/hint_gray"/>
 
                     </com.google.android.material.card.MaterialCardView>
 
 
 
-                </LinearLayout>
-
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/classs"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="20dp"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="0.0px"
-                    android:elevation="8dp"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/spinnerview"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="3dp"
-                    app:cardPreventCornerOverlap="false">
-
-                    <Spinner
-                        android:id="@+id/classes2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="start"
-                        android:popupBackground="@color/theme_pink"
-                        android:theme="@style/mySpinnerItemStyle"
-                        android:textAlignment="textStart"
-                        app:layout_constraintTop_toBottomOf="@id/language" />
-
-
-                </com.google.android.material.card.MaterialCardView>
-
-
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/subjectview"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="20dp"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="0.0px"
-                    android:elevation="8dp"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/classs"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="3dp"
-                    app:cardPreventCornerOverlap="false">
-
-                    <TextView
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:backgroundTint="@color/theme_pink_dark"
                         android:fontFamily="@font/montserrat_regular"
-                        android:text="Select Subject"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginLeft="10dp"
-                        android:layout_gravity="center_vertical"
-                        android:id="@+id/multisubject"
-                        android:textColor="@color/hint_gray"/>
-
-                </com.google.android.material.card.MaterialCardView>
-
-
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:backgroundTint="@color/theme_pink_dark"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:text="Update Profile"
-                    android:textColor="@color/white"
-                    android:textSize="14dp"
-                    android:textAllCaps="false"
-                    android:letterSpacing="0"
-                    android:textStyle="bold"
-                    app:cornerRadius="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/subjectview" />
+                        android:text="Update Profile"
+                        android:textColor="@color/white"
+                        android:textSize="14dp"
+                        android:textAllCaps="false"
+                        android:letterSpacing="0"
+                        android:textStyle="bold"
+                        app:cornerRadius="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/subjectview" />
 
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
@@ -382,7 +795,16 @@
 
 
 
-        </RelativeLayout>
+            </RelativeLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+
 
     </ScrollView>
 

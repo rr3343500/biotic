@@ -54,11 +54,12 @@
             android:layout_height="wrap_content"
             android:text="View"
             android:padding="5dp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:id="@+id/viewtest"
-            android:backgroundTint="@color/lightorangeColor"
+            android:backgroundTint="@color/theme_pink"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:drawableRight="@drawable/eye_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
 

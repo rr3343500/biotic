@@ -64,7 +64,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
                 holder.start.setOnClickListener(v -> {
                     Toast.makeText(context, "You Have Already Given Test", Toast.LENGTH_SHORT).show();
                 });
-                 holder.eye.setVisibility(View.VISIBLE);
+                 holder.check.setVisibility(View.VISIBLE);
             }else {
                 holder.arrow.setVisibility(View.VISIBLE);
                 holder.start.setOnClickListener(v -> {
@@ -76,8 +76,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
                         }else {
                             context.startActivity(new Intent(context, TakeTestActivity.class).putExtra("subPosition", String.valueOf(position)).putExtra("testPos", String.valueOf(position)));
                         }
-
-
                 });
 
 
@@ -112,7 +110,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        ImageView eye,arrow;
+        ImageView eye,arrow,check;
         RelativeLayout mainview;
         TextView name,desc;
         MaterialCardView start;
@@ -125,6 +123,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.Viewhold
             start= binding.start;
             eye= binding.eye;
             arrow= binding.arrow;
+            check= binding.check;
         }
     }
 }
