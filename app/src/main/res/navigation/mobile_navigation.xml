@@ -74,4 +74,9 @@
         android:id="@+id/account"
         android:name="com.example.bioticclasses.fragments.account.AccountFragment"
         tools:layout="@layout/account_fragment" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.bioticclasses.fragments.fees.PaymentFragment"
+        android:label="payment_fragment"
+        tools:layout="@layout/payment_fragment" />
 </navigation>

@@ -120,6 +120,10 @@ public interface BiotechInterface {
     Call<UserProfile> USER_PROFILE_CALL(@Body JsonObject jsonObject);
 
 
+//    ***********************************************************
+    @POST("home/")
+    @FormUrlEncoded
+    Call<Object> GetToken(@Field("amount") String amount , @Field("order_id") String order_id);
 
 }
 

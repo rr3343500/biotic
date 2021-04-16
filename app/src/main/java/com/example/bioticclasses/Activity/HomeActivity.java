@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.cashfree.pg.CFPaymentService;
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.fragments.category.CategoryFragment;
@@ -36,6 +37,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
@@ -159,7 +161,6 @@ public class HomeActivity extends AppCompatActivity {
                     break;
                 case R.id.lacture:
                     navController.navigate(R.id.navigation_vedio_lacture);
-                    openDrawer();
                     break;
                 case R.id.notes:
                     Bundle bundle= new Bundle();
@@ -172,8 +173,12 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.home:
                     navController.navigate(R.id.home);
                     break;
+                case R.id.payment:
+                    navController.navigate(R.id.paymentFragment);
+                    break;
 
             }
+            binding.drawer.close();
             return false;
         });
 
@@ -346,5 +351,22 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        Log.d(TAG, "ReqCode : " + CFPaymentService.REQ_CODE);
+        Log.d("m", "API Response : ");
+        //Prints all extras. Replace with app logic.
+        if (data != null) {
+            Bundle bundle = data.getExtras();
+            if (bundle != null)
+                for (String key : bundle.keySet()) {
+                    if (bundle.getString(key) != null) {
+                        Log.d("resp", key + " : " + bundle.getString(key));
+                    }
+                }
+        }
+
+    }
 }

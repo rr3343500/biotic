@@ -18,13 +18,19 @@
         android:theme="@style/Theme.BioticClasses"
         android:usesCleartextTraffic="true"
         tools:ignore="Instantiatable">
-        <activity android:name=".Activity.YoutubePlayerActivity"
-            android:screenOrientation="portrait">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".cashfree.PaymentGatewayActivity">
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".Activity.YoutubePlayerActivity"
+            android:screenOrientation="portrait">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".Activity.HomeActivity"
@@ -42,7 +48,7 @@
             android:theme="@style/Theme.BioticClasses.NoActionBar" />
         <activity android:name=".Activity.ViewTestActivity" />
         <activity android:name=".Activity.LanguageActivity" />
-        <activity android:name=".Activity.ScoreActivity"></activity>
+        <activity android:name=".Activity.ScoreActivity" />
         <activity android:name=".Activity.ProfileActivity" />
         <activity android:name=".Activity.MyTestsActivity" />
         <activity android:name=".Activity.TestListActivity" />
@@ -66,6 +72,7 @@
             android:name=".Activity.LoginActivity"
             android:screenOrientation="portrait" />
 
+
         <service
             android:name=".Service.NotificationService"
             android:exported="false">
@@ -73,6 +80,33 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+
+
+
     </application>
 
 </manifest>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

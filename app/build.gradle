@@ -81,6 +81,12 @@ dependencies {
 
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
+    implementation 'com.cashfree.pg:android-sdk:1.6.1'
+
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.cashfree.pg:android-support-sdk:1.4.2.2'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
+
 
 
 
