@@ -17,7 +17,6 @@ import com.example.bioticclasses.Activity.TakeTestActivity;
 import com.example.bioticclasses.databinding.RowCourcesLayoutBinding;
 import com.example.bioticclasses.modal.show_test_list.ShowTestDatum;
 import com.example.bioticclasses.modal.testlist.Datum;
-import com.example.bioticclasses.other.SessionManage;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 

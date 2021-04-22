@@ -29,14 +29,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.bioticclasses.Activity.HomeActivity;
-import com.example.bioticclasses.Activity.SignUpActivity;
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.AccountFragmentBinding;
-import com.example.bioticclasses.modal.account.Account;
-import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.Subject;
 import com.example.bioticclasses.modal.userprofile.UserProfile;
 import com.example.bioticclasses.other.NetworkCheck;
@@ -132,6 +128,10 @@ public class AccountFragment extends Fragment {
         binding.inputmobile.setText(sessionManage.getUserDetails().get("Mobile"));
         binding.inputmobile.setText(sessionManage.getUserDetails().get("Mobile"));
         binding.inputpassword.setText(sessionManage.getUserDetails().get("Password"));
+        binding.fnameinput.setText(sessionManage.getUserDetails().get("Pname"));
+        binding.femailinput.setText(sessionManage.getUserDetails().get("Pemail"));
+        binding.fmobinput.setText(sessionManage.getUserDetails().get("Pmobile"));
+
         Glide.with(getActivity())
                 .load(Image_URL+sessionManage.getUserDetails().get("Image"))
                 .placeholder(R.drawable.men)
@@ -145,6 +145,9 @@ public class AccountFragment extends Fragment {
         binding.viewinputpassword.setText(sessionManage.getUserDetails().get("Password"));
         binding.viewgender2.setText(sessionManage.getUserDetails().get("Gender"));
         binding.viewmeduim1.setText(sessionManage.getUserDetails().get("Medium"));
+        binding.fathernae.setText(sessionManage.getUserDetails().get("Pname"));
+        binding.fatheremail.setText(sessionManage.getUserDetails().get("Pemail"));
+        binding.fathermobile.setText(sessionManage.getUserDetails().get("Pmobile"));
 
         Glide.with(getActivity())
                 .load(Image_URL+sessionManage.getUserDetails().get("Image"))
@@ -159,6 +162,7 @@ public class AccountFragment extends Fragment {
         adapter.add(sessionManage.getUserDetails().get("Gender"));
         binding.gender2.setAdapter(adapter);
         binding.gender2.setSelection(adapter.getCount());
+
         Gender =sessionManage.getUserDetails().get("Gender");
         classadapter = new ClassAdapter(getActivity(), android.R.layout.simple_list_item_1);
         subjectAdapter = new SubjectAdapter(getActivity(), android.R.layout.simple_list_item_1);
@@ -172,12 +176,12 @@ public class AccountFragment extends Fragment {
 
     private void FragmentAction(){
 
-        binding.viewupload.setOnClickListener(v -> {
+        binding.viewbutton.setOnClickListener(v -> {
             binding.staticview.setVisibility(View.GONE);
             binding.dynamicview.setVisibility(View.VISIBLE);
         });
 
-               binding.button.setOnClickListener(v -> {
+        binding.button.setOnClickListener(v -> {
             if(Validate()){
                 if(new NetworkCheck().haveNetworkConnection(getActivity())){
                     updateProfile();
@@ -392,55 +396,50 @@ public class AccountFragment extends Fragment {
 
         if(binding.inputmobile.getText().toString().isEmpty() || binding.inputmobile.getText().toString().length()< 10){
             binding.inputmobile.setError("Invalid Mobile Number ");
-//            binding.numberTextInputLayout.setErrorEnabled(true);
             responce = false;
         }else {
             binding.inputmobile.setError(null);
-//            binding.numberTextInputLayout.setErrorEnabled(false);
-            responce = true;
         }
         if(binding.inputpassword.getText().toString().isEmpty()){
             binding.inputpassword.setError("password is empty");
-//            binding.passwordTextInputLayout.setErrorEnabled(true);
             responce = false;
         }else {
             binding.inputpassword.setError(null);
-//            binding.passwordTextInputLayout.setErrorEnabled(false);
-            responce = true;
         }
         if(binding.inputname.getText().toString().isEmpty()){
             binding.inputname.setError("name is empty");
-//            binding.nameTextInputLayout.setErrorEnabled(true);
             responce = false;
         }else {
             binding.inputname.setError(null);
-//            binding.nameTextInputLayout.setErrorEnabled(false);
-            responce = true;
         }
         if(Gender.isEmpty()){
             Toast.makeText(getActivity(), "Select Gender", Toast.LENGTH_SHORT).show();
             responce = false;
         }else {
-            responce = true;
         }
-
-//        if(ClassName.isEmpty()){
-//            Toast.makeText(getActivity(), "Select Classs", Toast.LENGTH_SHORT).show();
-//            responce = false;
-//        }else {
-//            responce = true;
-//        }
-//        if(jsonObject.toString().isEmpty()){
-//            Toast.makeText(getActivity(), "Select Subject", Toast.LENGTH_SHORT).show();
-//            responce = false;
-//        }else {
-//            responce = true;
-//        }
+        if(binding.femailinput.getText().toString().trim().isEmpty()){
+            binding.femailinput.setError("Father Email Empty");
+            responce = false;
+        }else {
+            binding.fnameinput.setError(null);
+        }
+        if(binding.fnameinput.getText().toString().trim().isEmpty()){
+            binding.fnameinput.setError("Father Name Empty");
+            responce = false;
+        }else {
+            binding.fnameinput.setError(null);
+        }
+        if(binding.fmobinput.getText().toString().isEmpty() || binding.fmobinput.getText().toString().length()< 10){
+            binding.fmobinput.setError("Invalid Mobile Number ");
+            responce = false;
+        }else {
+            binding.fmobinput.setError(null);
+        }
         if(Language.isEmpty()){
             Toast.makeText(getActivity(), "Select Medium", Toast.LENGTH_SHORT).show();
             responce = false;
         }else {
-            responce = true;
+//            responce = true;
         }
 
         return responce;
@@ -491,7 +490,22 @@ public class AccountFragment extends Fragment {
         RequestBody userid = RequestBody.create(MediaType.parse("multipart/form-data"),  sessionManage.getUserDetails().get("userid"));
         RequestBody gender = RequestBody.create(MediaType.parse("multipart/form-data"),  Gender);
 
-        biotechInterface.ACCOUNT_CALL(filePart,userid,name, mobile,email,meduim,password,gender).enqueue(new Callback<UserProfile>() {
+        RequestBody fname = RequestBody.create(MediaType.parse("multipart/form-data"),  binding.fnameinput.getText().toString().trim());
+        RequestBody femail = RequestBody.create(MediaType.parse("multipart/form-data"),  binding.femailinput.getText().toString().trim());
+        RequestBody fnumber = RequestBody.create(MediaType.parse("multipart/form-data"),  binding.fmobinput.getText().toString().trim());
+
+        Log.e("TAG", "updateProfile: " + binding.inputname.getText().toString() );
+        Log.e("TAG", "updateProfile: " + binding.inputemail.getText().toString() );
+        Log.e("TAG", "updateProfile: " + binding.inputmobile.getText().toString() );
+        Log.e("TAG", "updateProfile: " + binding.inputpassword.getText().toString() );
+        Log.e("TAG", "updateProfile: " +  Language.toUpperCase() );
+        Log.e("TAG", "updateProfile: " + Gender );
+        Log.e("TAG", "updateProfile: " + binding.fnameinput.getText().toString() );
+        Log.e("TAG", "updateProfile: " + binding.femailinput.getText().toString() );
+        Log.e("TAG", "updateProfile: " + binding.fmobinput.getText().toString() );
+
+
+        biotechInterface.ACCOUNT_CALL(filePart,userid,name, mobile,email,meduim,password,gender ,fname,femail,fnumber).enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()){
@@ -507,7 +521,10 @@ public class AccountFragment extends Fragment {
                                 response.body().getResult().getData().getPassword(),
                                 response.body().getResult().getData().getMedium(),
                                 response.body().getResult().getData().getGender(),
-                                response.body().getResult().getData().getImgName()
+                                response.body().getResult().getData().getImgName(),
+                                binding.fnameinput.getText().toString(),
+                                binding.femailinput.getText().toString(),
+                                binding.fmobinput.getText().toString()
                         );
 
                         binding.viewinputname.setText(response.body().getResult().getData().getNameEn());

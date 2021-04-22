@@ -6,12 +6,23 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
 public class Datum {
 
+    @SerializedName("total_amount")
+    @Expose
+    private Integer totalAmount;
+    @SerializedName("pending_amount")
+    @Expose
+    private Integer pendingAmount;
+    @SerializedName("paid_amount")
+    @Expose
+    private Integer paidAmount;
     @SerializedName("active")
     @Expose
     private String active;
+    @SerializedName("transtion")
+    @Expose
+    private List<Object> transtion = null;
     @SerializedName("_id")
     @Expose
     private String id;
@@ -42,6 +53,15 @@ public class Datum {
     @SerializedName("img_path")
     @Expose
     private String imgPath;
+    @SerializedName("father_name")
+    @Expose
+    private String fatherName;
+    @SerializedName("parents_mobile")
+    @Expose
+    private String parentsMobile;
+    @SerializedName("parents_email")
+    @Expose
+    private String parentsEmail;
     @SerializedName("stu_sub")
     @Expose
     private List<StuSub> stuSub = null;
@@ -55,12 +75,44 @@ public class Datum {
     @Expose
     private Integer v;
 
+    public Integer getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public Integer getPendingAmount() {
+        return pendingAmount;
+    }
+
+    public void setPendingAmount(Integer pendingAmount) {
+        this.pendingAmount = pendingAmount;
+    }
+
+    public Integer getPaidAmount() {
+        return paidAmount;
+    }
+
+    public void setPaidAmount(Integer paidAmount) {
+        this.paidAmount = paidAmount;
+    }
+
     public String getActive() {
         return active;
     }
 
     public void setActive(String active) {
         this.active = active;
+    }
+
+    public List<Object> getTranstion() {
+        return transtion;
+    }
+
+    public void setTranstion(List<Object> transtion) {
+        this.transtion = transtion;
     }
 
     public String getId() {
@@ -141,6 +193,30 @@ public class Datum {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public String getFatherName() {
+        return fatherName;
+    }
+
+    public void setFatherName(String fatherName) {
+        this.fatherName = fatherName;
+    }
+
+    public String getParentsMobile() {
+        return parentsMobile;
+    }
+
+    public void setParentsMobile(String parentsMobile) {
+        this.parentsMobile = parentsMobile;
+    }
+
+    public String getParentsEmail() {
+        return parentsEmail;
+    }
+
+    public void setParentsEmail(String parentsEmail) {
+        this.parentsEmail = parentsEmail;
     }
 
     public List<StuSub> getStuSub() {

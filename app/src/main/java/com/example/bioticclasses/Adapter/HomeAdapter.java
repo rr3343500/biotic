@@ -3,7 +3,6 @@ package com.example.bioticclasses.Adapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,13 +14,10 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.bioticclasses.Activity.MainActivity;
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.Service.ApiClient;
-import com.example.bioticclasses.databinding.RowCourcesLayoutBinding;
 import com.example.bioticclasses.databinding.RowHomeRecycleLayoutBinding;
 import com.example.bioticclasses.modal.category.CatDatum;
-import com.example.bioticclasses.modal.category.Category;
 import com.example.bioticclasses.other.SessionManage;
 import com.google.android.material.card.MaterialCardView;
 
@@ -53,7 +49,7 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull @NotNull HomeAdapter.ViewHolder holder, int position) {
         Glide.with(context)
-                .load(ApiClient.Image_URL+categoryList.get(position).getImgPath())
+                .load(ApiClient.Image_URL + categoryList.get(position).getImgPath())
                 .fitCenter()
                 .placeholder(context.getResources().getDrawable(R.drawable.placeholder))
                 .into(holder.imageView);
@@ -61,14 +57,46 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.name.setText(categoryList.get(position).getName());
         holder.desc.setText(categoryList.get(position).getDes());
 
-        if(categoryList.get(position).getName().equals("Online Class")){
+        holder.cardView.setOnClickListener(v -> {
+            navController = Navigation.findNavController(v);
+
+            switch (categoryList.get(position).getName()) {
+                case "Test Paper":
+                case "Dpt":
+                case "Notes":
+                    Bundle bundle = new Bundle();
+                    bundle.putString("type", categoryList.get(position).getName());
+                    navController.navigate(R.id.navigation_category, bundle);
+                    break;
+//                case "Online Class":
+//                    break;
+                case "Videos":
+                    navController.navigate(R.id.navigation_vedio_lacture);
+                    break;
+                case "Attendence":
+                    navController.navigate(R.id.attendanceFragment);
+                    break;
+                case "Remainder":
+                    navController.navigate(R.id.reminderFragment);
+                    break;
+                default:
+                    Toast.makeText(context, "This feature coming soon!", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+
+
+
+
+/*        if(categoryList.get(position).getName().equals("Online Class")){
             holder.cardView.setOnClickListener(v -> {
                 Toast.makeText(context, "This feature coming soon!", Toast.LENGTH_SHORT).show();
             });
         }else {
             if(categoryList.get(position).getName().equals("Videos")){
                 holder.cardView.setOnClickListener(v -> {
-                    navController= Navigation.findNavController(v);
+
                     navController.navigate(R.id.navigation_vedio_lacture);
                 });
             }else {
@@ -79,7 +107,7 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                     navController.navigate(R.id.navigation_category,bundle);
                 });
             }
-        }
+        }*/
 
     }
 

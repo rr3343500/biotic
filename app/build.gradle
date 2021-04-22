@@ -87,6 +87,9 @@ dependencies {
     implementation 'com.cashfree.pg:android-support-sdk:1.4.2.2'
     implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
 
+    implementation 'com.joooonho:selectableroundedimageview:1.0.1'
+
+    implementation 'com.archit.calendar:awesome-calendar:2.0.0'
 
 
 

@@ -32,6 +32,17 @@
         android:title="Transaction" />
 
     <item
+        android:id="@+id/attendanceFragment"
+        android:icon="@drawable/attendance_icon"
+        android:title="Attendance" />
+
+    <item
+        android:id="@+id/reminderFragment"
+        android:icon="@drawable/remainder_icon"
+        android:title="Remainder" />
+
+
+    <item
         android:id="@+id/logout"
         android:icon="@drawable/logout"
         android:title="Logout" />

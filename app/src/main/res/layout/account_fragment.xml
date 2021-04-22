@@ -78,24 +78,25 @@
                         android:id="@+id/viewupload"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:visibility="gone"
                         android:src="@drawable/edit_icon"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/viewimageview"
                         tools:ignore="MissingConstraints" />
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/viewupload"-->
-<!--                        android:layout_width="30dp"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:layout_alignParentRight="true"-->
-<!--                        android:layout_alignParentBottom="true"-->
-<!--                        android:scaleType="fitXY"-->
-<!--                        android:src="@drawable/edit_icon"-->
-<!--                        android:visibility="visible"-->
-<!--                        android:background="@color/theme_pink"-->
-<!--                        android:layout_marginRight="10dp"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/viewupload"-->
+                    <!--                        android:layout_width="30dp"-->
+                    <!--                        android:layout_height="30dp"-->
+                    <!--                        android:layout_alignParentRight="true"-->
+                    <!--                        android:layout_alignParentBottom="true"-->
+                    <!--                        android:scaleType="fitXY"-->
+                    <!--                        android:src="@drawable/edit_icon"-->
+                    <!--                        android:visibility="visible"-->
+                    <!--                        android:background="@color/theme_pink"-->
+                    <!--                        android:layout_marginRight="10dp"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                        app:layout_constraintTop_toTopOf="parent" />-->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -116,6 +117,7 @@
                     android:layout_margin="20dp"
                     android:layout_below="@id/viewborder"
                     android:paddingTop="10dp"
+                    android:paddingBottom="20dp"
                     android:layout_height="wrap_content">
 
 
@@ -304,6 +306,7 @@
                             android:layout_weight="1"
                             android:divider="@android:color/transparent"
                             android:dividerHeight="0.0px"
+                            android:id="@+id/viewmediuminput"
                             android:elevation="8dp"
                             android:layout_margin="2dp"
                             app:cardCornerRadius="5dp"
@@ -329,7 +332,124 @@
 
 
 
+
+
                     </LinearLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/fdetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/viewspinnerview"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:text="Parent Detail"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textColor="@color/light_black"
+                        android:layout_margin="16dp"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewfathername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/fdetails"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Father name"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:maxLength="15"
+                            android:id="@+id/fathernae"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewfatheremail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/viewfathername"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="father email"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:maxLength="15"
+                            android:id="@+id/fatheremail"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewfathermobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        android:layout_marginBottom="20dp"
+                        app:layout_constraintTop_toBottomOf="@id/viewfatheremail"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="father Number"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:maxLength="15"
+                            android:id="@+id/fathermobile"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
 
 
                     <com.google.android.material.card.MaterialCardView
@@ -402,17 +522,17 @@
                         android:layout_marginTop="30dp"
                         android:backgroundTint="@color/theme_pink_dark"
                         android:fontFamily="@font/montserrat_regular"
-                        android:text="Update Profile"
+                        android:text="Edit Profile"
                         android:textColor="@color/white"
                         android:textSize="14dp"
                         android:textAllCaps="false"
                         android:letterSpacing="0"
                         android:textStyle="bold"
                         app:cornerRadius="5dp"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/viewsubjectview" />
+                        app:layout_constraintTop_toBottomOf="@id/viewfathermobile" />
 
 
 
@@ -636,6 +756,104 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/fname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/pass"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Father Name"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:maxLength="15"
+                            android:id="@+id/fnameinput"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/femail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/fname"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Father Email"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:maxLength="15"
+                            android:id="@+id/femailinput"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/fmob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="5dp"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="0.0px"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/femail"
+                        app:cardElevation="3dp"
+                        app:cardPreventCornerOverlap="false">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:hint="Father number"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:maxLength="10"
+                            android:id="@+id/fmobinput"
+                            android:textColorHint="@color/hint_gray"
+                            android:textSize="30px" />
+
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_marginTop="20dp"
@@ -643,7 +861,7 @@
                         android:weightSum="2"
                         android:layout_marginRight="5dp"
                         android:layout_marginLeft="5dp"
-                        app:layout_constraintTop_toBottomOf="@id/pass"
+                        app:layout_constraintTop_toBottomOf="@id/fmob"
                         android:layout_height="50dp">
 
 

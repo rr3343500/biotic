@@ -19,19 +19,17 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
-
 import com.example.bioticclasses.Activity.HomeActivity;
 import com.example.bioticclasses.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
 
 public class NotificationService extends FirebaseMessagingService {
 
@@ -49,24 +47,43 @@ public class NotificationService extends FirebaseMessagingService {
 
         if (remoteMessage.getData().size() > 0) {
 
-            Log.e(TAG, "onMessageReceived: " + remoteMessage.toString());
-            Log.e(TAG, "onMessageReceived: " + remoteMessage.getData().get("data"));
+            Map<String, String> data = remoteMessage.getData();
 
-            String data = remoteMessage.getData().get("data");
+            String title = data.get("heading");
+            String des = data.get("description");
+            String img = data.get("image");
+            String basepath = ApiClient.Image_URL + img;
 
-            try {
-                JSONObject jsonObject = new JSONObject(data);
-                String image = jsonObject.getString("image");
-                String title = jsonObject.getString("title");
-                String message = jsonObject.getString("message");
-                if (image.isEmpty()) {
-                    Shownotification(title, message);
-                    return;
-                }
-                new LongTask(getApplicationContext(), title, message, image).execute();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (img.isEmpty()) {
+                Shownotification(title, des);
+
+            } else {
+                new LongTask(getApplicationContext(), title, des, basepath).execute();
             }
+
+
+//            Log.e(TAG, "onMessageReceived: " + remoteMessage.toString());
+//            Log.e(TAG, "onMessageReceived: " + remoteMessage.getData().get("data"));
+//
+//            String data = remoteMessage.getData().get("data");
+//            Log.e(TAG, "onMessageReceived: " + data );
+//            Log.e(TAG, "onMessageReceived: " + data );
+
+
+//            try {
+//                JSONOoge
+//                bject jsonObject = new JSONObject(data);
+//                String image = jsonObject.getString("image");
+//                String title = jsonObject.getString("heading");
+//                String message = jsonObject.getString("description");
+//                if (image.isEmpty()) {
+//                    Shownotification(title, message);
+//                    return;
+//                }
+//                new LongTask(getApplicationContext(), title, message, image).execute();
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
 
         }
     }
@@ -167,7 +184,7 @@ public class NotificationService extends FirebaseMessagingService {
                 .setContentTitle(titile)
                 .setContentText(massage)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.logo)
                 .setColor(ContextCompat.getColor(this, R.color.black))
                 .setStyle(new NotificationCompat.BigPictureStyle()
                         .bigPicture(img))
@@ -224,7 +241,7 @@ public class NotificationService extends FirebaseMessagingService {
                 .setContentTitle(titile)
                 .setContentText(massage)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.logo)
                 .setColor(ContextCompat.getColor(this, R.color.black))
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)
                 .setPriority(Notification.PRIORITY_HIGH)

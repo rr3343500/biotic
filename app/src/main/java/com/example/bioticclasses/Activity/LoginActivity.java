@@ -19,7 +19,7 @@ import com.example.bioticclasses.databinding.ActivityLoginBinding;
 import com.example.bioticclasses.modal.login.Login;
 import com.example.bioticclasses.other.NetworkCheck;
 import com.example.bioticclasses.other.SessionManage;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -30,10 +30,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-     ActivityLoginBinding binding;
-     SessionManage sessionManage;
-     BiotechInterface biotechInterface ;
-     boolean doubleBackToExitPressedOnce = false;
+    ActivityLoginBinding binding;
+    SessionManage sessionManage;
+    BiotechInterface biotechInterface ;
+    boolean doubleBackToExitPressedOnce = false;
     private boolean showPsw= true;
 
     @Override
@@ -65,17 +65,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        binding.forget.setOnClickListener(v -> { startActivity(new Intent(LoginActivity.this , ForgetPassword.class)); });
+//        binding.forget.setOnClickListener(v -> { startActivity(new Intent(LoginActivity.this , ForgetPassword.class)); });
         binding.signup.setOnClickListener(v -> { startActivity(new Intent(LoginActivity.this , SignUpActivity.class)); });
         binding.button.setOnClickListener(v -> {
-          if(Validate()){
-              if(new NetworkCheck().haveNetworkConnection(LoginActivity.this)){
-                  SigIn();
-              }else {
-                  Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
-              }
+            if(Validate()){
+                if(new NetworkCheck().haveNetworkConnection(LoginActivity.this)){
+                    SigIn();
+                }else {
+                    Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
 
-          }
+            }
         });
     }
 
@@ -91,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
         biotechInterface.LOGIN_CALL(jsonObject).enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
+                Log.e("TAG", "onResponse: " + new Gson().toJson(response.body()));
+
                 if (response.isSuccessful()){
                     Log.e("sadsfs",response.body().getResult().getMessage());
                     Log.e("sadsfs", String.valueOf(response.body().getResult().getErrorCode()));
@@ -119,8 +121,10 @@ public class LoginActivity extends AppCompatActivity {
                                 response.body().getResult().getData().get(0).getActive(),
                                 response.body().getResult().getData().get(0).getImgName(),
                                 response.body().getResult().getData().get(0).getPassword(),
-                                "MALE"
-
+                                response.body().getResult().getData().get(0).getGender(),
+                                response.body().getResult().getData().get(0).getFatherName(),
+                                String.valueOf(response.body().getResult().getData().get(0).getParentsMobile()),
+                                response.body().getResult().getData().get(0).getParentsEmail()
 
                         );
 

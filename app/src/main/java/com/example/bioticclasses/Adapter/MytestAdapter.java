@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bioticclasses.Activity.ScoreActivity;
 import com.example.bioticclasses.Activity.ViewTestActivity;
 import com.example.bioticclasses.List.CourseList;
 import com.example.bioticclasses.databinding.RowMytestlistLayoutBinding;
@@ -49,6 +50,10 @@ public class MytestAdapter extends RecyclerView.Adapter<MytestAdapter.Viewholder
         if (list.getTestName() != null) {binding.name.setText(list.getTestName().trim());}
         binding.viewtest.setOnClickListener(v -> {
             context.startActivity(new Intent(context, ViewTestActivity.class).putExtra("position",String.valueOf(position)));
+        });
+
+        binding.analysis.setOnClickListener(v -> {
+            context.startActivity(new Intent(context, ScoreActivity.class).putExtra("time",String.valueOf(position)));
         });
     }
 

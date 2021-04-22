@@ -107,7 +107,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         if (list.get(question).getType().trim().toUpperCase().equals("TEXT")) {
             binding.mainview.question.setText(list.get(question).getQuestion());
             int snoCount = question + 1;
-            binding.mainview.ques.setText("Q." + snoCount);
+            binding.mainview.ques.setText("Question -" + snoCount);
             binding.mainview.t1.setText(list.get(question).getOp1());
 //                binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
             binding.mainview.ans1.setTag("op1");
@@ -269,15 +269,18 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
             binding.mainview.next.setEnabled(false);
             binding.mainview.submit.setVisibility(View.VISIBLE);
             binding.mainview.next.setVisibility(View.GONE);
+            binding.mainview.prev.setVisibility(View.VISIBLE);
         } else {
             binding.mainview.prev.setEnabled(true);
             Loading();
+            binding.mainview.next.setVisibility(View.VISIBLE);
+            binding.mainview.prev.setVisibility(View.VISIBLE);
             binding.mainview.submit.setVisibility(View.GONE);
 
         }
         binding.mainview.question.setText(list.get(question).getQuestion());
         int snoCount = question + 1;
-        binding.mainview.ques.setText("Q." + snoCount);
+        binding.mainview.ques.setText("Question - " + snoCount);
         binding.mainview.t1.setText(list.get(question).getOp1());
 //        binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
         binding.mainview.ans1.setTag("op1");
@@ -311,17 +314,20 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         action = false;
         clearResponse();
         if (question == 0) {
-            binding.mainview.prev.setEnabled(false);
+            binding.mainview.prev.setVisibility(View.GONE);
+            binding.mainview.next.setEnabled(true);
             binding.mainview.submit.setVisibility(View.GONE);
+            binding.mainview.next.setVisibility(View.VISIBLE);
         } else {
             binding.mainview.next.setEnabled(true);
             Loading();
+            binding.mainview.prev.setVisibility(View.VISIBLE);
             binding.mainview.submit.setVisibility(View.GONE);
             binding.mainview.next.setVisibility(View.VISIBLE);
         }
         binding.mainview.question.setText(list.get(question).getQuestion());
         int snoCount = question + 1;
-        binding.mainview.ques.setText("Q." + snoCount);
+        binding.mainview.ques.setText("Question - " + snoCount);
 
         binding.mainview.t1.setText(list.get(question).getOp1());
 //        binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
@@ -538,7 +544,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         }
         binding.mainview.question.setText(list.get(question).getQuestion());
         int snoCount = question + 1;
-        binding.mainview.ques.setText("Q." + snoCount);
+        binding.mainview.ques.setText("Question - " + snoCount);
         binding.mainview.t1.setText(list.get(question).getOp1());
 //        binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
         binding.mainview.ans1.setTag("op1");

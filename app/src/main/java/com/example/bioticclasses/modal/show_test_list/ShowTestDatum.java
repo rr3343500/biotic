@@ -2,6 +2,7 @@
 package com.example.bioticclasses.modal.show_test_list;
 
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,6 +11,12 @@ public class ShowTestDatum {
     @SerializedName("_id")
     @Expose
     private String id;
+    @SerializedName("user_time_taken")
+    @Expose
+    private String userTimeTaken;
+    @SerializedName("total_time")
+    @Expose
+    private String totalTime;
     @SerializedName("total_ques")
     @Expose
     private String totalQues;
@@ -34,6 +41,12 @@ public class ShowTestDatum {
     @SerializedName("test_id")
     @Expose
     private String testId;
+    @SerializedName("test_name")
+    @Expose
+    private String testName;
+    @SerializedName("user_name")
+    @Expose
+    private String userName;
     @SerializedName("user_id")
     @Expose
     private String userId;
@@ -46,16 +59,40 @@ public class ShowTestDatum {
     @SerializedName("__v")
     @Expose
     private Integer v;
-    @SerializedName("test_name")
-    @Expose
-    private String testName;
 
+    @SerializedName("coorect_marks")
+    @Expose
+    private Integer coorect_marks;
+
+    public void setCoorect_marks(Integer coorect_marks){
+        this.coorect_marks=coorect_marks;
+    }
+
+    public Integer getCoorect_marks(){
+       return coorect_marks;
+    }
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserTimeTaken() {
+        return userTimeTaken;
+    }
+
+    public void setUserTimeTaken(String userTimeTaken) {
+        this.userTimeTaken = userTimeTaken;
+    }
+
+    public String getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(String totalTime) {
+        this.totalTime = totalTime;
     }
 
     public String getTotalQues() {
@@ -122,6 +159,22 @@ public class ShowTestDatum {
         this.testId = testId;
     }
 
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -152,14 +205,6 @@ public class ShowTestDatum {
 
     public void setV(Integer v) {
         this.v = v;
-    }
-
-    public String getTestName() {
-        return testName;
-    }
-
-    public void setTestName(String testName) {
-        this.testName = testName;
     }
 
 }

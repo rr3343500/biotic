@@ -32,18 +32,18 @@
 
 
 
-        <TextView
-            android:id="@+id/tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="Create a New Account"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            <TextView
+                android:id="@+id/tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Create a New Account"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,326 +103,440 @@
 
 
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/name1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="5dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0.0px"
-            android:elevation="8dp"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintTop_toBottomOf="@id/account"
-            card_view:cardElevation="3dp"
-            card_view:cardPreventCornerOverlap="false">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:backgroundTint="@color/white"
-                android:fontFamily="@font/montserrat_regular"
-                android:hint="Name"
-                android:inputType="text"
-                android:maxLines="1"
-                android:id="@+id/inputname"
-                android:textColorHint="@color/hint_gray"
-                android:textSize="30px" />
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/mobile1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="5dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0.0px"
-            android:elevation="8dp"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintTop_toBottomOf="@id/name1"
-            card_view:cardElevation="3dp"
-            card_view:cardPreventCornerOverlap="false">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:backgroundTint="@color/white"
-                android:fontFamily="@font/montserrat_regular"
-                android:hint="Mobile Number"
-                android:inputType="number"
-                android:maxLength="10"
-                android:maxLines="1"
-                android:id="@+id/inputmobile"
-                android:textColorHint="@color/hint_gray"
-                android:textSize="30px" />
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/email1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="5dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0.0px"
-            android:elevation="8dp"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintTop_toBottomOf="@id/mobile1"
-            card_view:cardElevation="3dp"
-            card_view:cardPreventCornerOverlap="false">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:backgroundTint="@color/white"
-                android:fontFamily="@font/montserrat_regular"
-                android:hint="Email ID"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:id="@+id/inputemail"
-                android:textColorHint="@color/hint_gray"
-                android:textSize="30px" />
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/pass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="5dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0.0px"
-            android:elevation="8dp"
-            app:passwordToggleEnabled="true"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintTop_toBottomOf="@id/email1"
-            card_view:cardElevation="3dp"
-            card_view:cardPreventCornerOverlap="false">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:backgroundTint="@color/white"
-                android:fontFamily="@font/montserrat_regular"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:maxLength="15"
-                android:id="@+id/inputpassword"
-                android:textColorHint="@color/hint_gray"
-                android:textSize="30px" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:id="@+id/showpass"
-                android:layout_gravity="center_vertical|right"
-                android:src="@drawable/black_eye_icon"/>
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:id="@+id/spinnerview"
-            android:weightSum="2"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            app:layout_constraintTop_toBottomOf="@id/pass"
-            android:layout_height="50dp">
-
-
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/gender1"
+                android:id="@+id/name1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="2dp"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0.0px"
-                android:elevation="8dp"
-                app:cardCornerRadius="5dp"
-                card_view:cardElevation="3dp"
-                card_view:cardPreventCornerOverlap="false">
-
-                <Spinner
-                    android:id="@+id/gender2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="start"
-                    android:theme="@style/mySpinnerItemStyle"
-                    android:popupBackground="@color/theme_pink"
-                    android:textAlignment="textStart"
-                    app:layout_constraintTop_toBottomOf="@id/language" />
-
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0.0px"
-                android:elevation="8dp"
-                android:layout_margin="2dp"
-                app:cardCornerRadius="5dp"
-                card_view:cardElevation="3dp"
-                card_view:cardPreventCornerOverlap="false">
-
-                <Spinner
-                    android:id="@+id/meduim1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="start"
-                    android:popupBackground="@color/theme_pink"
-                    android:theme="@style/mySpinnerItemStyle"
-                    android:textAlignment="textStart"
-                    app:layout_constraintTop_toBottomOf="@id/language" />
-
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-
-        </LinearLayout>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/classs"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="20dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0.0px"
-            android:elevation="8dp"
-            app:layout_constraintTop_toBottomOf="@id/spinnerview"
-            app:cardCornerRadius="5dp"
-            card_view:cardElevation="3dp"
-            card_view:cardPreventCornerOverlap="false">
-
-            <Spinner
-                android:id="@+id/classes2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:popupBackground="@color/theme_pink"
-                android:theme="@style/mySpinnerItemStyle"
-                android:textAlignment="textStart"
-                app:layout_constraintTop_toBottomOf="@id/language" />
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/subjectview"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="20dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0.0px"
-            android:elevation="8dp"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/classs"
-            app:cardCornerRadius="5dp"
-            card_view:cardElevation="3dp"
-            card_view:cardPreventCornerOverlap="false">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_regular"
-                android:text="Select Subject"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center_vertical"
-                android:id="@+id/multisubject"
-                android:textColor="@color/hint_gray"/>
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@color/theme_pink_dark"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="Create Account"
-            android:textColor="@color/white"
-            android:textSize="14dp"
-            android:textAllCaps="false"
-            android:letterSpacing="0"
-            android:textStyle="bold"
-            app:cornerRadius="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subjectview" />
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button">
-
-            <TextView
-                android:id="@+id/dont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:fontFamily="@font/montserrat_regular"
-                android:text="Already have an account?"
-                android:textColor="@color/black"
-                android:textSize="14dp"
-
-                tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:id="@+id/login"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="5dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0.0px"
+                android:elevation="8dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintTop_toBottomOf="@id/account"
+                card_view:cardElevation="3dp"
+                card_view:cardPreventCornerOverlap="false">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Name"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:id="@+id/inputname"
+                    android:textColorHint="@color/hint_gray"
+                    android:textSize="30px" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mobile1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="5dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0.0px"
+                android:elevation="8dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintTop_toBottomOf="@id/name1"
+                card_view:cardElevation="3dp"
+                card_view:cardPreventCornerOverlap="false">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Mobile Number"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:id="@+id/inputmobile"
+                    android:textColorHint="@color/hint_gray"
+                    android:textSize="30px" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/email1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="5dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0.0px"
+                android:elevation="8dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintTop_toBottomOf="@id/mobile1"
+                card_view:cardElevation="3dp"
+                card_view:cardPreventCornerOverlap="false">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Email ID"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:id="@+id/inputemail"
+                    android:textColorHint="@color/hint_gray"
+                    android:textSize="30px" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="5dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0.0px"
+                android:elevation="8dp"
+                app:passwordToggleEnabled="true"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintTop_toBottomOf="@id/email1"
+                card_view:cardElevation="3dp"
+                card_view:cardPreventCornerOverlap="false">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:maxLength="15"
+                    android:id="@+id/inputpassword"
+                    android:textColorHint="@color/hint_gray"
+                    android:textSize="30px" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/showpass"
+                    android:layout_gravity="center_vertical|right"
+                    android:src="@drawable/black_eye_icon"/>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:id="@+id/spinnerview"
+                android:weightSum="2"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                app:layout_constraintTop_toBottomOf="@id/pass"
+                android:layout_height="50dp">
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/gender1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="0.0px"
+                    android:elevation="8dp"
+                    app:cardCornerRadius="5dp"
+                    card_view:cardElevation="3dp"
+                    card_view:cardPreventCornerOverlap="false">
+
+                    <Spinner
+                        android:id="@+id/gender2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:theme="@style/mySpinnerItemStyle"
+                        android:popupBackground="@color/theme_pink"
+                        android:textAlignment="textStart"
+                        app:layout_constraintTop_toBottomOf="@id/language" />
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="0.0px"
+                    android:elevation="8dp"
+                    android:layout_margin="2dp"
+                    app:cardCornerRadius="5dp"
+                    card_view:cardElevation="3dp"
+                    card_view:cardPreventCornerOverlap="false">
+
+                    <Spinner
+                        android:id="@+id/meduim1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:popupBackground="@color/theme_pink"
+                        android:theme="@style/mySpinnerItemStyle"
+                        android:textAlignment="textStart"
+                        app:layout_constraintTop_toBottomOf="@id/language" />
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+
+            </LinearLayout>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/classs"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0.0px"
+                android:elevation="8dp"
+                app:layout_constraintTop_toBottomOf="@id/spinnerview"
+                app:cardCornerRadius="5dp"
+                card_view:cardElevation="3dp"
+                card_view:cardPreventCornerOverlap="false">
+
+                <Spinner
+                    android:id="@+id/classes2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:popupBackground="@color/theme_pink"
+                    android:theme="@style/mySpinnerItemStyle"
+                    android:textAlignment="textStart"
+                    app:layout_constraintTop_toBottomOf="@id/language" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/subjectview"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0.0px"
+                android:elevation="8dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/classs"
+                app:cardCornerRadius="5dp"
+                card_view:cardElevation="3dp"
+                card_view:cardPreventCornerOverlap="false">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Select Subject"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/multisubject"
+                    android:textColor="@color/hint_gray"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+
+            <TextView
+                android:id="@+id/parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/montserrat_regular"
-                android:text="Log In"
-                android:textColor="@color/theme_pink"
+                android:text="Parent Detail"
+                android:textColor="@color/light_black"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/subjectview"
+                android:layout_marginLeft="5dp"
+                app:layout_goneMarginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/parentnameview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="5dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0.0px"
+                android:elevation="8dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintTop_toBottomOf="@id/parent"
+                card_view:cardElevation="3dp"
+                card_view:cardPreventCornerOverlap="false">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Father Name"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:id="@+id/parentname"
+                    android:textColorHint="@color/hint_gray"
+                    android:textSize="30px" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/parentmobileview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="5dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0.0px"
+                android:elevation="8dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintTop_toBottomOf="@id/parentnameview"
+                card_view:cardElevation="3dp"
+                card_view:cardPreventCornerOverlap="false">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Mobile Number "
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:maxLength="10"
+                    android:id="@+id/parentmobile"
+                    android:textColorHint="@color/hint_gray"
+                    android:textSize="30px" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/parentemailview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="5dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0.0px"
+                android:elevation="8dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintTop_toBottomOf="@id/parentmobileview"
+                card_view:cardElevation="3dp"
+                card_view:cardPreventCornerOverlap="false">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:backgroundTint="@color/white"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:id="@+id/parentEmail"
+                    android:textColorHint="@color/hint_gray"
+                    android:textSize="30px" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/theme_pink_dark"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Create Account"
+                android:textColor="@color/white"
                 android:textSize="14dp"
-                tools:ignore="MissingConstraints" />
-        </LinearLayout>
+                android:textAllCaps="false"
+                android:letterSpacing="0"
+                android:textStyle="bold"
+                app:cornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parentemailview" />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button">
+
+                <TextView
+                    android:id="@+id/dont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Already have an account?"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Log In"
+                    android:textColor="@color/theme_pink"
+                    android:textSize="14dp"
+                    tools:ignore="MissingConstraints" />
+            </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -494,251 +608,251 @@
 
 
 
-<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:visibility="gone"-->
-<!--    android:layout_height="match_parent"-->
-<!--   >-->
+    <!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:visibility="gone"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--   >-->
 
 
-<!--    <TextView-->
-<!--        android:id="@+id/title1"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Create your Own \n account today."-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="22sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/signupBtn"-->
-<!--        app:layout_constraintLeft_toLeftOf="@+id/GuidelineStart1"-->
-<!--        app:layout_constraintRight_toRightOf="@+id/GuidelineEnd1"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.060000002" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/title1"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Create your Own \n account today."-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="22sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/signupBtn"-->
+    <!--        app:layout_constraintLeft_toLeftOf="@+id/GuidelineStart1"-->
+    <!--        app:layout_constraintRight_toRightOf="@+id/GuidelineEnd1"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.060000002" />-->
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/signupBtn"-->
-<!--        app:layout_constraintLeft_toLeftOf="@+id/GuidelineStart1"-->
-<!--        app:layout_constraintRight_toRightOf="@+id/GuidelineEnd1"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/title1"-->
-<!--        app:layout_constraintVertical_bias="0.13">-->
-
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/nameTextInputLayout"-->
-<!--            style="@style/TextInputLayoutTheme"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:boxStrokeColor="#F53A48"-->
-<!--            app:hintTextColor="@color/white"-->
-<!--            app:errorEnabled="true"-->
-<!--            app:boxStrokeErrorColor="@color/white"-->
-<!--            app:errorTextColor="@color/white"-->
-<!--            app:layout_constraintTop_toTopOf="parent">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:fontFamily="@font/lato_semi_bold"-->
-<!--                android:hint="@string/name"-->
-<!--                android:id="@+id/name"-->
-<!--                android:inputType="text"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textColorHint="@color/white" />-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/emailTextInputLayout"-->
-<!--            style="@style/TextInputLayoutTheme"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:boxStrokeColor="#F53A48"-->
-<!--            app:hintTextColor="@color/white"-->
-<!--            app:errorEnabled="true"-->
-<!--            app:boxStrokeErrorColor="@color/white"-->
-<!--            app:errorTextColor="@color/white"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/nameTextInputLayout">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:fontFamily="@font/lato_semi_bold"-->
-<!--                android:hint="@string/email"-->
-<!--                android:id="@+id/email"-->
-<!--                android:inputType="textEmailAddress"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textColorHint="@color/white" />-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/numberTextInputLayout"-->
-<!--            style="@style/TextInputLayoutTheme"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:boxStrokeColor="#F53A48"-->
-<!--            app:hintTextColor="@color/white"-->
-<!--            app:errorEnabled="true"-->
-<!--            app:boxStrokeErrorColor="@color/white"-->
-<!--            app:errorTextColor="@color/white"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:fontFamily="@font/lato_semi_bold"-->
-<!--                android:hint="@string/number"-->
-<!--                android:inputType="number"-->
-<!--                android:id="@+id/mobile"-->
-<!--                android:maxLength="10"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textColorHint="@color/white" />-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/passwordTextInputLayout"-->
-<!--            style="@style/TextInputLayoutTheme"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:boxStrokeColor="#F53A48"-->
-<!--            app:hintTextColor="@color/white"-->
-<!--            app:errorEnabled="true"-->
-<!--            app:boxStrokeErrorColor="@color/white"-->
-<!--            app:errorTextColor="@color/white"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/numberTextInputLayout">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:fontFamily="@font/lato_semi_bold"-->
-<!--                android:hint="@string/password"-->
-<!--                android:id="@+id/password"-->
-<!--                android:inputType="textPassword"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textColorHint="@color/white" />-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="10dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/signupBtn"-->
+    <!--        app:layout_constraintLeft_toLeftOf="@+id/GuidelineStart1"-->
+    <!--        app:layout_constraintRight_toRightOf="@+id/GuidelineEnd1"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/title1"-->
+    <!--        app:layout_constraintVertical_bias="0.13">-->
 
 
-<!--        <Spinner-->
-<!--            android:id="@+id/gender"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="60dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:background="@drawable/spinner_background"-->
-<!--            android:gravity="start"-->
-<!--            android:theme="@style/mySpinnerItemStyle"-->
-<!--            android:textAlignment="textStart"-->
-<!--            android:popupBackground="@color/theme"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/passwordTextInputLayout" />-->
+    <!--        <com.google.android.material.textfield.TextInputLayout-->
+    <!--            android:id="@+id/nameTextInputLayout"-->
+    <!--            style="@style/TextInputLayoutTheme"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            app:boxStrokeColor="#F53A48"-->
+    <!--            app:hintTextColor="@color/white"-->
+    <!--            app:errorEnabled="true"-->
+    <!--            app:boxStrokeErrorColor="@color/white"-->
+    <!--            app:errorTextColor="@color/white"-->
+    <!--            app:layout_constraintTop_toTopOf="parent">-->
 
-<!--        <Spinner-->
-<!--            android:id="@+id/language"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="60dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:background="@drawable/spinner_background"-->
-<!--            android:gravity="start"-->
-<!--            android:theme="@style/mySpinnerItemStyle"-->
-<!--            android:textAlignment="textStart"-->
-<!--            android:popupBackground="@color/theme"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/gender"-->
-<!--            tools:ignore="MissingConstraints" />-->
+    <!--            <com.google.android.material.textfield.TextInputEditText-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:fontFamily="@font/lato_semi_bold"-->
+    <!--                android:hint="@string/name"-->
+    <!--                android:id="@+id/name"-->
+    <!--                android:inputType="text"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:textColorHint="@color/white" />-->
 
-<!--        <Spinner-->
-<!--            android:id="@+id/classes"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="60dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:background="@drawable/spinner_background"-->
-<!--            android:gravity="start"-->
-<!--            android:popupBackground="@color/theme"-->
-<!--            android:theme="@style/mySpinnerItemStyle"-->
-<!--            android:textAlignment="textStart"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/language" />-->
+    <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
-<!--&lt;!&ndash;        <Spinner&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/subject"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_height="60dp"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_marginTop="10dp"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:background="@drawable/spinner_background"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:gravity="start"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:visibility="gone"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:popupBackground="@color/theme"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:theme="@style/mySpinnerItemStyle"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:textAlignment="textStart"&ndash;&gt;-->
-<!--&lt;!&ndash;            app:layout_constraintTop_toBottomOf="@id/classes" />&ndash;&gt;-->
+    <!--        <com.google.android.material.textfield.TextInputLayout-->
+    <!--            android:id="@+id/emailTextInputLayout"-->
+    <!--            style="@style/TextInputLayoutTheme"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            app:boxStrokeColor="#F53A48"-->
+    <!--            app:hintTextColor="@color/white"-->
+    <!--            app:errorEnabled="true"-->
+    <!--            app:boxStrokeErrorColor="@color/white"-->
+    <!--            app:errorTextColor="@color/white"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/nameTextInputLayout">-->
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:gravity="center_vertical"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/classes"-->
-<!--            android:id="@+id/subject"-->
-<!--            android:visibility="gone"-->
-<!--            android:paddingLeft="20dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:paddingBottom="20dp"-->
-<!--            android:paddingTop="20dp"-->
-<!--            android:background="@drawable/mutispinner_background">-->
+    <!--            <com.google.android.material.textfield.TextInputEditText-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:fontFamily="@font/lato_semi_bold"-->
+    <!--                android:hint="@string/email"-->
+    <!--                android:id="@+id/email"-->
+    <!--                android:inputType="textEmailAddress"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:textColorHint="@color/white" />-->
 
-<!--           <TextView-->
-<!--               android:layout_width="wrap_content"-->
-<!--               android:layout_height="wrap_content"-->
-<!--               android:fontFamily="@font/lato_semi_bold"-->
-<!--               android:text="Select Subject"-->
-<!--               android:ellipsize="end"-->
-<!--               android:maxLines="1"-->
-<!--               android:id="@+id/multisubject1"-->
-<!--               android:textColor="@color/white"/>-->
+    <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
-<!--        </LinearLayout>-->
+    <!--        <com.google.android.material.textfield.TextInputLayout-->
+    <!--            android:id="@+id/numberTextInputLayout"-->
+    <!--            style="@style/TextInputLayoutTheme"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            app:boxStrokeColor="#F53A48"-->
+    <!--            app:hintTextColor="@color/white"-->
+    <!--            app:errorEnabled="true"-->
+    <!--            app:boxStrokeErrorColor="@color/white"-->
+    <!--            app:errorTextColor="@color/white"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout">-->
 
+    <!--            <com.google.android.material.textfield.TextInputEditText-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:fontFamily="@font/lato_semi_bold"-->
+    <!--                android:hint="@string/number"-->
+    <!--                android:inputType="number"-->
+    <!--                android:id="@+id/mobile"-->
+    <!--                android:maxLength="10"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:textColorHint="@color/white" />-->
 
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
+    <!--        <com.google.android.material.textfield.TextInputLayout-->
+    <!--            android:id="@+id/passwordTextInputLayout"-->
+    <!--            style="@style/TextInputLayoutTheme"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            app:boxStrokeColor="#F53A48"-->
+    <!--            app:hintTextColor="@color/white"-->
+    <!--            app:errorEnabled="true"-->
+    <!--            app:boxStrokeErrorColor="@color/white"-->
+    <!--            app:errorTextColor="@color/white"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/numberTextInputLayout">-->
 
+    <!--            <com.google.android.material.textfield.TextInputEditText-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="match_parent"-->
+    <!--                android:fontFamily="@font/lato_semi_bold"-->
+    <!--                android:hint="@string/password"-->
+    <!--                android:id="@+id/password"-->
+    <!--                android:inputType="textPassword"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:textColorHint="@color/white" />-->
 
-<!--    <com.google.android.material.card.MaterialCardView-->
-<!--        android:id="@+id/signupBtn"-->
-<!--        android:layout_width="50dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_margin="8dp"-->
-<!--        android:backgroundTint="@color/black"-->
-<!--        app:cardCornerRadius="50dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent">-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_margin="8dp"-->
-<!--            android:src="@drawable/ic_baseline_arrow_right_alt_24" />-->
-
-<!--    </com.google.android.material.card.MaterialCardView>-->
-
-
-<!--    <androidx.constraintlayout.widget.Guideline-->
-<!--        android:id="@+id/GuidelineStart1"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical"-->
-<!--        app:layout_constraintGuide_begin="8dp" />-->
+    <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
 
-<!--    <androidx.constraintlayout.widget.Guideline-->
-<!--        android:id="@+id/GuidelineEnd1"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical"-->
-<!--        app:layout_constraintGuide_end="8dp" />-->
+    <!--        <Spinner-->
+    <!--            android:id="@+id/gender"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="60dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:background="@drawable/spinner_background"-->
+    <!--            android:gravity="start"-->
+    <!--            android:theme="@style/mySpinnerItemStyle"-->
+    <!--            android:textAlignment="textStart"-->
+    <!--            android:popupBackground="@color/theme"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/passwordTextInputLayout" />-->
+
+    <!--        <Spinner-->
+    <!--            android:id="@+id/language"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="60dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:background="@drawable/spinner_background"-->
+    <!--            android:gravity="start"-->
+    <!--            android:theme="@style/mySpinnerItemStyle"-->
+    <!--            android:textAlignment="textStart"-->
+    <!--            android:popupBackground="@color/theme"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/gender"-->
+    <!--            tools:ignore="MissingConstraints" />-->
+
+    <!--        <Spinner-->
+    <!--            android:id="@+id/classes"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="60dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:background="@drawable/spinner_background"-->
+    <!--            android:gravity="start"-->
+    <!--            android:popupBackground="@color/theme"-->
+    <!--            android:theme="@style/mySpinnerItemStyle"-->
+    <!--            android:textAlignment="textStart"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/language" />-->
+
+    <!--&lt;!&ndash;        <Spinner&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:id="@+id/subject"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:layout_height="60dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:layout_marginTop="10dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:background="@drawable/spinner_background"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:gravity="start"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:visibility="gone"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:popupBackground="@color/theme"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:theme="@style/mySpinnerItemStyle"&ndash;&gt;-->
+    <!--&lt;!&ndash;            android:textAlignment="textStart"&ndash;&gt;-->
+    <!--&lt;!&ndash;            app:layout_constraintTop_toBottomOf="@id/classes" />&ndash;&gt;-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:gravity="center_vertical"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/classes"-->
+    <!--            android:id="@+id/subject"-->
+    <!--            android:visibility="gone"-->
+    <!--            android:paddingLeft="20dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:paddingBottom="20dp"-->
+    <!--            android:paddingTop="20dp"-->
+    <!--            android:background="@drawable/mutispinner_background">-->
+
+    <!--           <TextView-->
+    <!--               android:layout_width="wrap_content"-->
+    <!--               android:layout_height="wrap_content"-->
+    <!--               android:fontFamily="@font/lato_semi_bold"-->
+    <!--               android:text="Select Subject"-->
+    <!--               android:ellipsize="end"-->
+    <!--               android:maxLines="1"-->
+    <!--               android:id="@+id/multisubject1"-->
+    <!--               android:textColor="@color/white"/>-->
+
+    <!--        </LinearLayout>-->
 
 
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+
+    <!--    <com.google.android.material.card.MaterialCardView-->
+    <!--        android:id="@+id/signupBtn"-->
+    <!--        android:layout_width="50dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:layout_margin="8dp"-->
+    <!--        android:backgroundTint="@color/black"-->
+    <!--        app:cardCornerRadius="50dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent">-->
+
+    <!--        <ImageView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_margin="8dp"-->
+    <!--            android:src="@drawable/ic_baseline_arrow_right_alt_24" />-->
+
+    <!--    </com.google.android.material.card.MaterialCardView>-->
+
+
+    <!--    <androidx.constraintlayout.widget.Guideline-->
+    <!--        android:id="@+id/GuidelineStart1"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_constraintGuide_begin="8dp" />-->
+
+
+    <!--    <androidx.constraintlayout.widget.Guideline-->
+    <!--        android:id="@+id/GuidelineEnd1"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_constraintGuide_end="8dp" />-->
+
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </ScrollView>

@@ -2,14 +2,27 @@
 package com.example.bioticclasses.modal.signup;
 
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Data {
 
+    @SerializedName("total_amount")
+    @Expose
+    private Integer totalAmount;
+    @SerializedName("pending_amount")
+    @Expose
+    private Integer pendingAmount;
+    @SerializedName("paid_amount")
+    @Expose
+    private Integer paidAmount;
     @SerializedName("active")
     @Expose
     private String active;
+    @SerializedName("transtion")
+    @Expose
+    private List<Object> transtion = null;
     @SerializedName("_id")
     @Expose
     private String id;
@@ -25,6 +38,9 @@ public class Data {
     @SerializedName("password")
     @Expose
     private String password;
+    @SerializedName("stu_clas")
+    @Expose
+    private String stuClas;
     @SerializedName("medium")
     @Expose
     private String medium;
@@ -34,6 +50,18 @@ public class Data {
     @SerializedName("img_path")
     @Expose
     private String imgPath;
+    @SerializedName("father_name")
+    @Expose
+    private String fatherName;
+    @SerializedName("parents_mobile")
+    @Expose
+    private String parentsMobile;
+    @SerializedName("parents_email")
+    @Expose
+    private String parentsEmail;
+    @SerializedName("user_token")
+    @Expose
+    private String userToken;
     @SerializedName("stu_sub")
     @Expose
     private List<StuSub> stuSub = null;
@@ -46,16 +74,40 @@ public class Data {
     @SerializedName("__v")
     @Expose
     private Integer v;
-    @SerializedName("stu_clas")
+    @SerializedName("gender")
     @Expose
-    private String stu_clas;
+    private String gender;
 
-    public String getStu_clas(){
-        return stu_clas;
+    public void setGender(String gender){
+        this.gender=gender;
     }
 
-    public void setStu_clas(String stu_clas){
-        this.stu_clas=stu_clas;
+    public String getGender(){
+        return gender;
+    }
+
+    public Integer getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public Integer getPendingAmount() {
+        return pendingAmount;
+    }
+
+    public void setPendingAmount(Integer pendingAmount) {
+        this.pendingAmount = pendingAmount;
+    }
+
+    public Integer getPaidAmount() {
+        return paidAmount;
+    }
+
+    public void setPaidAmount(Integer paidAmount) {
+        this.paidAmount = paidAmount;
     }
 
     public String getActive() {
@@ -64,6 +116,14 @@ public class Data {
 
     public void setActive(String active) {
         this.active = active;
+    }
+
+    public List<Object> getTranstion() {
+        return transtion;
+    }
+
+    public void setTranstion(List<Object> transtion) {
+        this.transtion = transtion;
     }
 
     public String getId() {
@@ -106,6 +166,14 @@ public class Data {
         this.password = password;
     }
 
+    public String getStuClas() {
+        return stuClas;
+    }
+
+    public void setStuClas(String stuClas) {
+        this.stuClas = stuClas;
+    }
+
     public String getMedium() {
         return medium;
     }
@@ -128,6 +196,38 @@ public class Data {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public String getFatherName() {
+        return fatherName;
+    }
+
+    public void setFatherName(String fatherName) {
+        this.fatherName = fatherName;
+    }
+
+    public String getParentsMobile() {
+        return parentsMobile;
+    }
+
+    public void setParentsMobile(String parentsMobile) {
+        this.parentsMobile = parentsMobile;
+    }
+
+    public String getParentsEmail() {
+        return parentsEmail;
+    }
+
+    public void setParentsEmail(String parentsEmail) {
+        this.parentsEmail = parentsEmail;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     public List<StuSub> getStuSub() {

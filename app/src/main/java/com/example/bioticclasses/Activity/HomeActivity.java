@@ -1,14 +1,19 @@
 package com.example.bioticclasses.Activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -25,8 +30,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.cashfree.pg.CFPaymentService;
 import com.example.bioticclasses.R;
+import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
+import com.example.bioticclasses.fragments.attendance.AttendanceFragment;
 import com.example.bioticclasses.fragments.category.CategoryFragment;
+import com.example.bioticclasses.fragments.fees.PaymentFragment;
 import com.example.bioticclasses.fragments.vediolacture.FragmentVedioLacture;
 import com.example.bioticclasses.global.GlobalList;
 import com.example.bioticclasses.modal.testlist.TestList;
@@ -56,10 +64,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -95,23 +106,22 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("global").addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<Void> task) {
+        biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
+        versionControl();
 
-                String msg = "Successfull";
-                if (!task.isSuccessful()) {
-                    msg = "Failed";
-                }
-                Log.e(TAG, "onComplete: " + msg);
+        FirebaseMessaging.getInstance().subscribeToTopic("global").addOnCompleteListener(task -> {
+
+            String msg = "Successfull";
+            if (!task.isSuccessful()) {
+                msg = "Failed";
             }
-        });
+            Log.e(TAG, "onComplete: " + msg);
+        });;
 
 
 
-//        if( getIntent().getBooleanExtra("Exit me", false)){
-//            finish();
-//        }
+
+
         sessionManage = new SessionManage(this);
         if(sessionManage.checkLogin()){
             InitializeFragment();
@@ -175,6 +185,12 @@ public class HomeActivity extends AppCompatActivity {
                     break;
                 case R.id.payment:
                     navController.navigate(R.id.paymentFragment);
+                    break;
+                case R.id.attendanceFragment:
+                    navController.navigate(R.id.attendanceFragment);
+                    break;
+                case R.id.reminderFragment:
+                    navController.navigate(R.id.reminderFragment);
                     break;
 
             }
@@ -261,9 +277,7 @@ public class HomeActivity extends AppCompatActivity {
                 linearLayout.addView(textView);
 
                 textView.setOnClickListener(v -> {
-                    Snackbar snackbar = Snackbar
-                            .make(v, textView.getText().toString() +"    " +textView.getTag().toString(), Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    Snackbar snackbar = Snackbar.make(v, textView.getText().toString() +"    " +textView.getTag().toString(), Snackbar.LENGTH_LONG);snackbar.show();
                     binding.home.subjectname.setText(textView.getText().toString());
                     try {
                         sessionManage.SetCurrentSubject(String.valueOf(new JSONObject().put(textView.getTag().toString(),textView.getText().toString())));
@@ -278,7 +292,19 @@ public class HomeActivity extends AppCompatActivity {
                     if(getcurrentfragmentislacture()){
                         navController.navigate(R.id.navigation_vedio_lacture);
                     }else {
-                        Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    if(getcurrentfragmentistransaction()){
+                        navController.navigate(R.id.paymentFragment);
+                    }else {
+
+                    }
+
+                    if(getcurrentfragmentisattendance()){
+                        navController.navigate(R.id.attendanceFragment);
+                    }else {
+
                     }
                     dialog.cancel();
 
@@ -345,6 +371,32 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    private Boolean getcurrentfragmentistransaction() {
+        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().getPrimaryNavigationFragment();
+        FragmentManager fragmentManager = navHostFragment.getChildFragmentManager();
+        loginFragment = fragmentManager.getPrimaryNavigationFragment();
+        loginFragment.getArguments();
+        if(loginFragment instanceof PaymentFragment){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+    private Boolean getcurrentfragmentisattendance() {
+        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().getPrimaryNavigationFragment();
+        FragmentManager fragmentManager = navHostFragment.getChildFragmentManager();
+        loginFragment = fragmentManager.getPrimaryNavigationFragment();
+        loginFragment.getArguments();
+        if(loginFragment instanceof AttendanceFragment){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
 
 
     private void checkprofile(){
@@ -354,19 +406,99 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().getPrimaryNavigationFragment();
+        FragmentManager fragmentManager = navHostFragment.getChildFragmentManager();
+        loginFragment = fragmentManager.getPrimaryNavigationFragment();
+        loginFragment.onActivityResult(requestCode, resultCode, data);
 
-        Log.d(TAG, "ReqCode : " + CFPaymentService.REQ_CODE);
-        Log.d("m", "API Response : ");
-        //Prints all extras. Replace with app logic.
-        if (data != null) {
-            Bundle bundle = data.getExtras();
-            if (bundle != null)
-                for (String key : bundle.keySet()) {
-                    if (bundle.getString(key) != null) {
-                        Log.d("resp", key + " : " + bundle.getString(key));
-                    }
-                }
-        }
+//        Log.d(TAG, "ReqCode : " + CFPaymentService.REQ_CODE);
+//        Log.d("m", "API Response : ");
+//        //Prints all extras. Replace with app logic.
+//        if (data != null) {
+//            Bundle bundle = data.getExtras();
+//            if (bundle != null)
+//                for (String key : bundle.keySet()) {
+//                    if (bundle.getString(key) != null) {
+//                        Log.d("resp", key + " : " + bundle.getString(key));
+//                    }
+//                }
+//        }
 
     }
+
+
+
+    private void versionControl() {
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            int Androidversion = pInfo.versionCode;
+            Log.e(TAG, "versionControl: " + Androidversion);
+
+            biotechInterface.fetch_version().enqueue(new Callback<Object>() {
+
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+
+                    Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().toString());
+                        String error = jsonObject.getString("error");
+                        String message = jsonObject.getString("message");
+                        String data = jsonObject.getString("data");
+                        if (error.equalsIgnoreCase("false")) {
+
+                            JSONArray jsonArray = new JSONArray(data);
+                            String version = jsonArray.getJSONObject(0).getString("version");
+                            String type = jsonArray.getJSONObject(0).getString("type");
+                            int ver = Integer.parseInt(version);
+
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+
+                            if (Androidversion < ver) {
+
+                                if (type.equalsIgnoreCase("Mandatory")) {
+                                    builder.setMessage("Your are using older version");
+                                    builder.setCancelable(false);
+                                    builder.setPositiveButton("Open Playstore",
+                                            (arg0, arg1) -> {
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                                                finish();
+                                            });
+
+                                } else {
+                                    builder.setMessage("Newer version is available");
+                                    builder.setNegativeButton("Close", (dialog, which) -> {
+                                        builder.setMessage("Your are under Varification");
+                                        dialog.dismiss();
+                                    });
+                                }
+
+                                AlertDialog alertDialog = builder.create();
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                alertDialog.show();
+
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+
+                }
+            });
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
 }

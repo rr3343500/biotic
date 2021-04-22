@@ -12,7 +12,6 @@ import com.example.bioticclasses.modal.banner.Datum;
 import com.example.bioticclasses.modal.category.CatDatum;
 import com.example.bioticclasses.modal.category.Category;
 import com.example.bioticclasses.modal.userprofile.Data;
-import com.example.bioticclasses.modal.userprofile.UserProfile;
 import com.example.bioticclasses.other.SessionManage;
 import com.google.gson.JsonObject;
 

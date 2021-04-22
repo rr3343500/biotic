@@ -83,6 +83,9 @@ SessionManage {
     public static final String IMAGE = "Image";
     public static final String PASSWORD = "Password";
     public static final String GENDER = "Gender";
+    public static final String PNAME = "Pname";
+    public static final String PEMAIL = "Pemail";
+    public static final String PMOBILE = "Pmobile";
 
 
     // Constructor
@@ -125,7 +128,8 @@ SessionManage {
      * Create login session
      */
 //    public void createLoginSession(String name, String email, String mobile, String photo){     modified due to photo not available
-    public void createLoginSession(String name, String email, String mobile, String class1, String subject,String medium, String Userid, String active, String image, String password,String gender) {
+    public void createLoginSession(String name, String email, String mobile, String class1, String subject,String medium, String Userid, String active, String image, String password,String gender
+            ,String pname, String Pmobile, String pemail) {
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
@@ -138,11 +142,14 @@ SessionManage {
         editor.putString(IMAGE, image);
         editor.putString(PASSWORD, password);
         editor.putString(GENDER, gender);
+        editor.putString(PNAME, pname);
+        editor.putString(PMOBILE, Pmobile);
+        editor.putString(PEMAIL, pemail);
         editor.commit();
     }
 
 
-    public void updatedetails(String name, String mobile, String email,String password,String medium,String gender,String image ) {
+    public void updatedetails(String name, String mobile, String email,String password,String medium,String gender,String image ,String pname , String pemail , String pmob ) {
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
         editor.putString(MOBILE, mobile);
@@ -150,11 +157,14 @@ SessionManage {
         editor.putString(IMAGE, image);
         editor.putString(PASSWORD, password);
         editor.putString(GENDER, gender);
+        editor.putString(PNAME, pname);
+        editor.putString(PEMAIL, pemail);
+        editor.putString(PMOBILE, pmob);
         editor.commit();
     }
 
     public Boolean checkLogin() {
-       Boolean  responce = true;
+        Boolean  responce = true;
         // Check login status
         if (!this.isLoggedIn()) {
             // user is not logged in redirect him to Login Activity
@@ -206,6 +216,9 @@ SessionManage {
         user.put(IMAGE, pref.getString(IMAGE, null));
         user.put(PASSWORD, pref.getString(PASSWORD, null));
         user.put(GENDER, pref.getString(GENDER, null));
+        user.put(PNAME, pref.getString(PNAME, null));
+        user.put(PMOBILE, pref.getString(PMOBILE, null));
+        user.put(PEMAIL, pref.getString(PEMAIL, null));
 
 
         return user;
@@ -262,31 +275,4 @@ SessionManage {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

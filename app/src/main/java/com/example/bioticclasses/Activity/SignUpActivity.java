@@ -1,9 +1,5 @@
 package com.example.bioticclasses.Activity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -14,8 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -25,6 +19,10 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.bioticclasses.R;
 import com.example.bioticclasses.Service.ApiClient;
@@ -37,7 +35,8 @@ import com.example.bioticclasses.other.NetworkCheck;
 import com.example.bioticclasses.other.SessionManage;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -80,6 +79,8 @@ public class SignUpActivity extends AppCompatActivity  {
     private Uri fileUri;
     MultipartBody.Part filePart= null;
     private boolean showPsw= true;
+    private static final String TAG = "SignUpActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,12 +146,12 @@ public class SignUpActivity extends AppCompatActivity  {
             linearLayout.addView(cb);
             cb.setOnClickListener(v -> {
                 if(!cb.isChecked()){
-                  jsonObject.remove(cb.getTag().toString());
+                    jsonObject.remove(cb.getTag().toString());
                 }else {
                     try {
-                      if (!findSubjects(cb.getTag().toString())){
-                          jsonObject.put(cb.getTag().toString(),cb.getText().toString());
-                      }
+                        if (!findSubjects(cb.getTag().toString())) {
+                            jsonObject.put(cb.getTag().toString(), cb.getText().toString());
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -249,7 +250,6 @@ public class SignUpActivity extends AppCompatActivity  {
                 }else {
                     Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
@@ -276,39 +276,39 @@ public class SignUpActivity extends AppCompatActivity  {
         binding.classes2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(action){
+                if(action) {
                     ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.hint_gray));
-                ((TextView) parent.getChildAt(0)).setTextSize(14);
-                ((TextView) parent.getChildAt(0)).setTypeface(face);
-                ((TextView) parent.getChildAt(0)).setPadding(0,0,0,0);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ((TextView) parent.getChildAt(0)).setLetterSpacing(0);
-                }
-
-                jsonObject = new JSONObject();
-                binding.multisubject.setText("Select Subject");
-                if (second){
-                    ClassName= classes[position];
-                    subjectlist.clear();
-                    for(int i=0 ;i< subjectsList.size();i++){
-                        if(subjectsList.get(i).getStuClass().trim().toUpperCase().equals(ClassName.trim().toUpperCase())){
-                            subjectlist.put(subjectsList.get(i).getId(),subjectsList.get(i).getNameEn());
-                        }
+                    ((TextView) parent.getChildAt(0)).setTextSize(14);
+                    ((TextView) parent.getChildAt(0)).setTypeface(face);
+                    ((TextView) parent.getChildAt(0)).setPadding(0, 0, 0, 0);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        ((TextView) parent.getChildAt(0)).setLetterSpacing(0);
                     }
 
-                    Log.e("main ", String.valueOf(subjectsList.size()));
-                    subjects= null;
+                    jsonObject = new JSONObject();
+                    binding.multisubject.setText("Select Subject");
+                    if (second) {
+                        ClassName = classes[position];
+                        subjectlist.clear();
+                        for (int i = 0; i < subjectsList.size(); i++) {
+                            if (subjectsList.get(i).getStuClass().trim().toUpperCase().equals(ClassName.trim().toUpperCase())) {
+                                subjectlist.put(subjectsList.get(i).getId(), subjectsList.get(i).getNameEn());
+                            }
+                        }
+
+                        Log.e("main ", String.valueOf(subjectsList.size()));
+                        subjects = null;
 //                    subjects=stringArrayList.toArray(new String[stringArrayList.size()]);
 //                    subjectAdapter.clear();
 //                    subjectAdapter.addAll(subjects);
 //                    subjectAdapter.add("Select Subject");
 //                    binding.subject.setAdapter(subjectAdapter);
 //                    binding.subject.setSelection(subjectAdapter.getCount());
-                    binding.subjectview.setVisibility(View.VISIBLE);
+                        binding.subjectview.setVisibility(View.VISIBLE);
 
-                }else {
-                    second=true;
-                }
+                    } else {
+                        second = true;
+                    }
                 }
 
             }
@@ -341,7 +341,7 @@ public class SignUpActivity extends AppCompatActivity  {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-              Language="";
+                Language = "";
             }
         });
 
@@ -397,7 +397,7 @@ public class SignUpActivity extends AppCompatActivity  {
 
     private boolean Validate(){
 
-        Boolean responce =true;
+        Boolean responce = true;
 
         if(binding.inputmobile.getText().toString().isEmpty() || binding.inputmobile.getText().toString().length()< 10){
             binding.inputmobile.setError("Invalid Mobile Number ");
@@ -406,7 +406,7 @@ public class SignUpActivity extends AppCompatActivity  {
         }else {
             binding.inputmobile.setError(null);
 //            binding.numberTextInputLayout.setErrorEnabled(false);
-            responce = true;
+//            responce = true;
         }
         if(binding.inputpassword.getText().toString().isEmpty()){
             binding.inputpassword.setError("password is empty");
@@ -415,7 +415,7 @@ public class SignUpActivity extends AppCompatActivity  {
         }else {
             binding.inputpassword.setError(null);
 //            binding.passwordTextInputLayout.setErrorEnabled(false);
-            responce = true;
+//            responce = true;
         }
         if(binding.inputname.getText().toString().isEmpty()){
             binding.inputname.setError("name is empty");
@@ -424,39 +424,69 @@ public class SignUpActivity extends AppCompatActivity  {
         }else {
             binding.inputname.setError(null);
 //            binding.nameTextInputLayout.setErrorEnabled(false);
-            responce = true;
+//            responce = true;
         }
         if(Gender.isEmpty()){
             Toast.makeText(this, "Select Gender", Toast.LENGTH_SHORT).show();
             responce = false;
         }else {
-            responce = true;
+//            responce = true;
         }
 
         if(ClassName.isEmpty()){
             Toast.makeText(this, "Select Classs", Toast.LENGTH_SHORT).show();
             responce = false;
         }else {
-            responce = true;
+//            responce = true;
         }
-        if(jsonObject.toString().isEmpty()){
+        if(jsonObject.length()==0){
             Toast.makeText(this, "Select Subject", Toast.LENGTH_SHORT).show();
             responce = false;
         }else {
-            responce = true;
-        }
+            Log.e(TAG, "Validate: "+ jsonObject.toString() );
+         }
         if(Language.isEmpty()){
             Toast.makeText(this, "Select Medium", Toast.LENGTH_SHORT).show();
             responce = false;
         }else {
-            responce = true;
+//            responce = true;
         }
 
-        if(filePart==null){
+        if (filePart == null) {
             Toast.makeText(this, "Upload Image", Toast.LENGTH_SHORT).show();
             responce = false;
-        }else {
-            responce = true;
+        } else {
+//            responce = true;
+        }
+
+        if (binding.parentname.getText().toString().isEmpty()) {
+            binding.parentname.setError("Father name is empty");
+//            binding.nameTextInputLayout.setErrorEnabled(true);
+            responce = false;
+        } else {
+            binding.inputname.setError(null);
+//            binding.nameTextInputLayout.setErrorEnabled(false);
+//            responce = true;
+        }
+
+        if (binding.parentmobile.getText().toString().isEmpty() || binding.parentmobile.getText().toString().length()< 10) {
+            binding.parentmobile.setError(" mobile is empty");
+//            binding.nameTextInputLayout.setErrorEnabled(true);
+            responce = false;
+        } else {
+            binding.inputname.setError(null);
+//            binding.nameTextInputLayout.setErrorEnabled(false);
+//            responce = true;
+        }
+
+        if (binding.parentEmail.getText().toString().isEmpty()) {
+            binding.parentEmail.setError("email is empty");
+//            binding.nameTextInputLayout.setErrorEnabled(true);
+            responce = false;
+        } else {
+            binding.inputname.setError(null);
+//            binding.nameTextInputLayout.setErrorEnabled(false);
+//            responce = true;
         }
 
         return responce;
@@ -495,29 +525,37 @@ public class SignUpActivity extends AppCompatActivity  {
         Log.e("row  json ", jsonObject1.toString());
 
 
-
-
-        RequestBody name = RequestBody.create(MediaType.parse("multipart/form-data"),  binding.inputname.getText().toString());
-        RequestBody email = RequestBody.create(MediaType.parse("multipart/form-data"),  binding.inputemail.getText().toString());
-        RequestBody mobile = RequestBody.create(MediaType.parse("multipart/form-data"),  binding.inputmobile.getText().toString());
-        RequestBody password = RequestBody.create(MediaType.parse("multipart/form-data"),  binding.inputpassword.getText().toString());
-        RequestBody meduim = RequestBody.create(MediaType.parse("multipart/form-data"),  Language.toUpperCase());
+        RequestBody name = RequestBody.create(MediaType.parse("multipart/form-data"), binding.inputname.getText().toString());
+        RequestBody email = RequestBody.create(MediaType.parse("multipart/form-data"), binding.inputemail.getText().toString());
+        RequestBody mobile = RequestBody.create(MediaType.parse("multipart/form-data"), binding.inputmobile.getText().toString());
+        RequestBody password = RequestBody.create(MediaType.parse("multipart/form-data"), binding.inputpassword.getText().toString());
+        RequestBody meduim = RequestBody.create(MediaType.parse("multipart/form-data"), Language.toUpperCase());
         RequestBody classs = RequestBody.create(MediaType.parse("multipart/form-data"), ClassName);
-        RequestBody subject = RequestBody.create(MediaType.parse("multipart/form-data"),  jsonArray.toString());
-        RequestBody gender = RequestBody.create(MediaType.parse("multipart/form-data"),  Gender);
+        RequestBody subject = RequestBody.create(MediaType.parse("multipart/form-data"), jsonArray.toString());
+        RequestBody gender = RequestBody.create(MediaType.parse("multipart/form-data"), Gender);
+        RequestBody parentname = RequestBody.create(MediaType.parse("multipart/form-data"), binding.parentname.getText().toString());
+        RequestBody parentmobile = RequestBody.create(MediaType.parse("multipart/form-data"), binding.parentmobile.getText().toString());
+        RequestBody parentemail = RequestBody.create(MediaType.parse("multipart/form-data"), binding.parentEmail.getText().toString());
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        RequestBody device_id = RequestBody.create(MediaType.parse("multipart/form-data"), refreshedToken);
 
-        biotechInterface.SIGNUP_CALL(filePart,name,email, mobile,meduim,classs,password,subject,gender).enqueue(new Callback<Signup>() {
-//        biotechInterface.SIGNUP_CALL(filePart,binding.inputname.getText().toString().toUpperCase(),binding.inputemail.getText().toString().toUpperCase(), binding.inputmobile.getText().toString(),
+        Log.e(TAG, "Signup: "+ ClassName.toString() );
+
+        biotechInterface.SIGNUP_CALL(filePart, name, email, mobile, meduim, classs, password, subject, gender, parentname, parentemail, parentmobile, device_id).enqueue(new Callback<Signup>() {
+            //        biotechInterface.SIGNUP_CALL(filePart,binding.inputname.getText().toString().toUpperCase(),binding.inputemail.getText().toString().toUpperCase(), binding.inputmobile.getText().toString(),
 //                Language.toUpperCase(),ClassName, binding.inputpassword.getText().toString(),jsonArray.toString()).enqueue(new Callback<Signup>() {
             @Override
             public void onResponse(Call<Signup> call, Response<Signup> response) {
-                if (response.isSuccessful()){
-                    Log.e("sadsfs",response.body().getResult().getMessage());
+
+                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+
+                if (response.isSuccessful()) {
+                    Log.e("sadsfs", response.body().getResult().getMessage());
                     Log.e("sadsfs", String.valueOf(response.body().getResult().getErrorCode()));
                     Log.e("sadsfs", String.valueOf(response.body().getResult().getError()));
-                    if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
+                    if (!response.body().getResult().getError() && response.body().getResult().getErrorCode() == 200) {
 
-                        JSONObject jsonObject= new JSONObject();
+                        JSONObject jsonObject = new JSONObject();
 
                         for(int i=0; i<response.body().getResult().getData().getStuSub().size();i++){
                             try {
@@ -527,20 +565,23 @@ public class SignUpActivity extends AppCompatActivity  {
                             }
                         }
 
-
                         sessionManage.createLoginSession(response.body().getResult().getData().getNameEn(),
                                 response.body().getResult().getData().getEmail(),
                                 response.body().getResult().getData().getMobile(),
-                                String.valueOf(response.body().getResult().getData().getStu_clas()),
+                                String.valueOf(response.body().getResult().getData().getStuClas()),
                                 jsonObject.toString(),
                                 response.body().getResult().getData().getMedium(),
                                 response.body().getResult().getData().getId(),
                                 response.body().getResult().getData().getActive(),
                                 response.body().getResult().getData().getImgName(),
                                 response.body().getResult().getData().getPassword(),
-                                Gender
+                                response.body().getResult().getData().getGender(),
+                                response.body().getResult().getData().getFatherName(),
+                                String.valueOf(response.body().getResult().getData().getParentsMobile()),
+                                response.body().getResult().getData().getParentsEmail()
+
                         );
-                        Log.e("xzfsdf",  response.body().getResult().getData().getActive());
+
                         if (sessionManage.Checkingcredential()){
                             startActivity(new Intent(SignUpActivity.this,HomeActivity.class));
                             binding.mainview.setAlpha((float) 0.2);
@@ -563,7 +604,7 @@ public class SignUpActivity extends AppCompatActivity  {
             @Override
             public void onFailure(Call<Signup> call, Throwable t) {
                 Log.e("sadsfs",t.getMessage());
-                Toast.makeText(SignUpActivity.this, "user  Already Registered!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 binding.mainview.setAlpha((float) 1);
                 binding.progress.setVisibility(View.GONE);
             }

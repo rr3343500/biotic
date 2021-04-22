@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F2F2F2"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.fees.PaymentFragment">
 
@@ -40,10 +41,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total Fees"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:fontFamily="@font/montserrat_semibold"
-                        android:textColor="@color/payment_text"/>
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/question_color"/>
 
 
                     <LinearLayout
@@ -59,15 +62,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="INR "
+                            android:textSize="14sp"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/light_black"/>
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/totalFessAmt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="99"
+                            android:text=""
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:textSize="14sp"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                             app:layout_constraintBottom_toBottomOf="@+id/totalFessInr"
                             app:layout_constraintLeft_toRightOf="@+id/totalFessInr"
@@ -106,10 +113,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Paid"
+                        android:textSize="16sp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:fontFamily="@font/montserrat_semibold"
-                        android:textColor="@color/payment_text"/>
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textStyle="bold"
+                        android:textColor="@color/question_color"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -124,15 +133,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="INR "
+                            android:textSize="14sp"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/light_black"/>
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/Paidamt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="99"
+                            android:text=""
+                            android:maxLines="1"
+                            android:textSize="14sp"
+                            android:ellipsize="end"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                             app:layout_constraintBottom_toBottomOf="@+id/totalFessInr"
                             app:layout_constraintLeft_toRightOf="@+id/totalFessInr"
@@ -170,14 +183,16 @@
                         android:id="@+id/FeesPending"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Fees Pending"
                         android:background="@color/white"
-                        app:layout_constraintTop_toTopOf="@+id/fessPendingInr"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textStyle="bold"
+                        android:text="Fees Pending"
+                        android:textSize="16sp"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textColor="@color/question_color"
                         app:layout_constraintBottom_toBottomOf="@+id/fessPendingInr"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:textColor="@color/payment_text"/>
+                        app:layout_constraintTop_toTopOf="@+id/fessPendingInr" />
 
                     <LinearLayout
                         android:id="@+id/fessPendingInr"
@@ -193,20 +208,21 @@
                             android:layout_height="wrap_content"
                             android:text="INR "
                             android:background="@color/white"
-                            android:textSize="12dp"
+                            android:textSize="14sp"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/light_black"/>
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/FeesPendingAmt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="99"
                             android:background="@color/white"
-                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                             android:fontFamily="@font/montserrat_regular"
-                            android:textColor="@color/black"/>
+                            android:text=""
+                            android:textSize="14sp"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                            android:textColor="@color/black" />
 
                     </LinearLayout>
 
@@ -219,9 +235,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="PAY"
-                android:backgroundTint="@color/payment_text"
+                android:backgroundTint="@color/paybuttoncolor"
                 android:textColor="@color/white"
-                android:fontFamily="@font/lato_semi_bold"
+                android:fontFamily="@font/montserrat_semibold"
                 app:layout_constraintTop_toBottomOf="@+id/Fesspending"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -229,13 +245,15 @@
                 android:paddingLeft="42dp"
                 android:paddingRight="42dp"
                 android:paddingTop="8dp"
+                android:textStyle="bold"
                 android:paddingBottom="8dp"
                 app:cornerRadius="12dp"/>
 
             <View
                 android:id="@+id/line1"
                 android:layout_width="match_parent"
-                android:layout_height="3dp"
+                android:layout_height="4dp"
+                android:background="@color/test_background"
                 android:layout_marginTop="18dp"
                 app:layout_constraintTop_toBottomOf="@+id/PayButton"/>
 
@@ -255,7 +273,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:text="Transaction"
-                    android:textColor="#808080"
+                    android:textSize="18dp"
+                    android:textColor="#443532"
                     android:fontFamily="@font/montserrat_regular"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
 
@@ -265,6 +284,10 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/title1"
                     android:layout_marginTop="16dp"
+                    app:stackFromEnd="false"
+                    android:paddingBottom="80dp"
+                    android:clipToPadding="false"
+                    android:scrollbarStyle="outsideOverlay"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="vertical"/>
 

@@ -1,8 +1,6 @@
 package com.example.bioticclasses.fragments.home;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,14 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.bioticclasses.Activity.MainActivity;
-import com.example.bioticclasses.Activity.ScoreActivity;
 import com.example.bioticclasses.Adapter.HomeAdapter;
 import com.example.bioticclasses.Adapter.SliderAdapter;
 import com.example.bioticclasses.List.SliderList;
@@ -55,6 +49,7 @@ public class HomeFragment extends Fragment {
     private  JSONObject jsonObject1;
     private  JsonObject finalsubject1;
     static BiotechInterface biotechInterface;
+    private static final String TAG = "HomeFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
@@ -63,8 +58,11 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        sessionManage= new SessionManage(getActivity());
+        sessionManage = new SessionManage(getActivity());
         biotechInterface = ApiClient.getClient().create(BiotechInterface.class);
+
+
+
         SetFragmentData();
         Requestprofile();
         return root;
@@ -82,6 +80,7 @@ public class HomeFragment extends Fragment {
         title.setText("Home");
 
         homeViewModel.getMainList().observe(getActivity(), data -> {
+            sliderLists.clear();
             for (int i = 0; i < data.size(); i++) {
                 sliderLists.add(new SliderList("", data.get(i).getName()));
             }
@@ -132,7 +131,7 @@ public class HomeFragment extends Fragment {
                             if (response.body().getResult().getData().getActive().toUpperCase().equals("NO")) {
 
                                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                                alertDialogBuilder.setMessage("Your are under Varification");
+                                alertDialogBuilder.setMessage("You are under Verification");
                                 alertDialogBuilder.setPositiveButton("Exit",
                                         (arg0, arg1) -> {
                                             getActivity().moveTaskToBack(true);
@@ -155,4 +154,48 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

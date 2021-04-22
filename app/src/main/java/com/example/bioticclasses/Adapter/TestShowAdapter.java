@@ -64,39 +64,81 @@ public class TestShowAdapter extends RecyclerView.Adapter<TestShowAdapter.Viewho
                 holder.t2.setText(list.getOp2());
                 holder.t3.setText(list.getOp3());
                 holder.t4.setText(list.getOp4());
-                holder.accepted.setText("Correct answer - " + list.getCop());
                 int q = position + 1;
                 holder.ques.setText("Q." + q);
                 switch (list.getUop()) {
                     case "op1":
                         holder.ans1.setChecked(true);
+                        if(list.getCop().toUpperCase().trim().equals("OP1")){
+                            holder.correct1.setVisibility(View.VISIBLE);
+                        }else {
+                            holder.correct1.setImageResource(R.drawable.wrong_icon);
+                            holder.correct1.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case "op2":
                         holder.ans2.setChecked(true);
+                        if(list.getCop().toUpperCase().trim().equals("OP2")){
+                            holder.correct2.setVisibility(View.VISIBLE);
+                        }else {
+                            holder.correct2.setImageResource(R.drawable.wrong_icon);
+                            holder.correct2.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case "op3":
                         holder.ans3.setChecked(true);
+                        if(list.getCop().toUpperCase().trim().equals("OP3")){
+                            holder.correct3.setVisibility(View.VISIBLE);
+                        }else {
+                            holder.correct3.setImageResource(R.drawable.wrong_icon);
+                            holder.correct3.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case "op4":
                         holder.ans3.setChecked(true);
+                        if(list.getCop().toUpperCase().trim().equals("OP4")){
+                            holder.correct4.setVisibility(View.VISIBLE);
+                        }else {
+                            holder.correct4.setImageResource(R.drawable.wrong_icon);
+                            holder.correct4.setVisibility(View.VISIBLE);
+                        }
                         break;
                 }
 
-                if (list.getCop().toUpperCase().trim().equals("OP1"))
-                    holder.correct1.setVisibility(View.VISIBLE);
-                else holder.correct1.setVisibility(View.GONE);
 
-                if (list.getCop().toUpperCase().trim().equals("OP2"))
-                    holder.correct2.setVisibility(View.VISIBLE);
-                else holder.correct2.setVisibility(View.GONE);
+                switch (list.getCop()){
+                    case "op1":
+                        holder.accepted.setText("Correct answer - " + list.getOp1());
+                        break;
+                    case "op2":
+                        holder.accepted.setText("Correct answer - " + list.getOp2());
+                        break;
+                    case "op3":
+                        holder.accepted.setText("Correct answer - " + list.getOp3());
+                        break;
+                    case "op4":
+                        holder.accepted.setText("Correct answer - " + list.getOp4());
+                        break;
 
-                if (list.getCop().toUpperCase().trim().equals("OP3"))
-                    holder.correct3.setVisibility(View.VISIBLE);
-                else holder.correct3.setVisibility(View.GONE);
+                }
 
-                if (list.getCop().toUpperCase().trim().equals("OP4"))
-                    holder.correct4.setVisibility(View.VISIBLE);
-                else holder.correct4.setVisibility(View.GONE);
+//                if (list.getCop().toUpperCase().trim().equals("OP1"))
+//                    holder.correct1.setVisibility(View.VISIBLE);
+//                else holder.correct1.setVisibility(View.GONE);
+//
+//                if (list.getCop().toUpperCase().trim().equals("OP2"))
+//                    holder.correct2.setVisibility(View.VISIBLE);
+//                else holder.correct2.setVisibility(View.GONE);
+//
+//                if (list.getCop().toUpperCase().trim().equals("OP3"))
+//                    holder.correct3.setVisibility(View.VISIBLE);
+//                else holder.correct3.setVisibility(View.GONE);
+//
+//                if (list.getCop().toUpperCase().trim().equals("OP4"))
+//                    holder.correct4.setVisibility(View.VISIBLE);
+//                else holder.correct4.setVisibility(View.GONE);
+
+
 
                 break;
             case "IMAGE":
