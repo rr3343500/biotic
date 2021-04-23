@@ -95,7 +95,7 @@ public class TestShowAdapter extends RecyclerView.Adapter<TestShowAdapter.Viewho
                         }
                         break;
                     case "op4":
-                        holder.ans3.setChecked(true);
+                        holder.ans4.setChecked(true);
                         if(list.getCop().toUpperCase().trim().equals("OP4")){
                             holder.correct4.setVisibility(View.VISIBLE);
                         }else {

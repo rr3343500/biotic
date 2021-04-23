@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bioticclasses.R;
 import com.example.bioticclasses.databinding.RowTransactionsBinding;
 import com.example.bioticclasses.modal.transaction.Transtion;
 import com.google.android.material.textview.MaterialTextView;
@@ -34,8 +35,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         holder.title.setText(transtions.get(position).getSubjectName());
-        holder.date.setText("Date : "+transtions.get(position).getDate());
-        holder.amt.setText("INR "+transtions.get(position).getAmount());
+        holder.date.setText("Date : "+transtions.get(position).getDate().substring(0,10));
+        holder.amt.setText(context.getString(R.string.Rs)+transtions.get(position).getAmount());
         holder.type.setText("Transaction id : "+transtions.get(position).getTranstionId());
 
 

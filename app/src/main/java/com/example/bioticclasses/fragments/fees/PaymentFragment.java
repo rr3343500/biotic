@@ -285,7 +285,7 @@ public class PaymentFragment extends Fragment {
                  }
             }
             else{
-                amount.setError("Amount should be greater than 0.");
+                amount.setError("Amount should be greater than 0 or less then pending amount.");
             }
         });
         dialog.show();
@@ -294,7 +294,7 @@ public class PaymentFragment extends Fragment {
 
 
     Boolean validateAmount(int amopunt ){
-        if (amopunt > 0) {
+        if (amopunt > 0 && amopunt < Integer.parseInt(binding.FeesPendingAmt.getText().toString())) {
             return true;
         }
         else {

@@ -503,6 +503,7 @@ public class AccountFragment extends Fragment {
         Log.e("TAG", "updateProfile: " + binding.fnameinput.getText().toString() );
         Log.e("TAG", "updateProfile: " + binding.femailinput.getText().toString() );
         Log.e("TAG", "updateProfile: " + binding.fmobinput.getText().toString() );
+        Log.e("TAG", "updateProfile: " + sessionManage.getUserDetails().get("userid") );
 
 
         biotechInterface.ACCOUNT_CALL(filePart,userid,name, mobile,email,meduim,password,gender ,fname,femail,fnumber).enqueue(new Callback<UserProfile>() {

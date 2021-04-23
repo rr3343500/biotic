@@ -1,6 +1,6 @@
 package com.example.bioticclasses.Service;
 
-import com.example.bioticclasses.modal.attendence.AttendenceList;
+import com.example.bioticclasses.modal.attendence.AttendanceList;
 import com.example.bioticclasses.modal.banner.Banner;
 import com.example.bioticclasses.modal.category.Category;
 import com.example.bioticclasses.modal.login.Login;
@@ -8,7 +8,7 @@ import com.example.bioticclasses.modal.mainList.MainList;
 import com.example.bioticclasses.modal.mytest.MyTest;
 import com.example.bioticclasses.modal.notes.Notes;
 import com.example.bioticclasses.modal.payment.Payment;
-import com.example.bioticclasses.modal.reminder.ReminderList;
+import com.example.bioticclasses.modal.reminder.Remainder;
 import com.example.bioticclasses.modal.show_test_list.TestShowList;
 import com.example.bioticclasses.modal.signup.Signup;
 import com.example.bioticclasses.modal.subjectclass.SubjectClass;
@@ -123,11 +123,11 @@ public interface BiotechInterface {
     @POST("user_detail")
     Call<UserProfile> USER_PROFILE_CALL(@Body JsonObject jsonObject);
 
-    @POST("fetch_attendence_byId")
-    Call<AttendenceList> fetch_attendence(@Body JsonObject jsonObject);
+    @POST("fetch_attendenceby_userId_subjectId")
+    Call<AttendanceList> fetch_attendence(@Body JsonObject jsonObject);
 
     @GET("fetch_reminders")
-    Call<ReminderList> fetch_reminder();
+    Call<Remainder> fetch_reminder();
 
     @GET("fetch_version")
     Call<Object> fetch_version();

@@ -12,6 +12,7 @@
     <string name="number">Mobile</string>
     <string name="email">Email</string>
     <string name="name">Name</string>
+    <string name="Rs">\u20B9</string>
     <string name="title_activity_vedio_lacture">VedioLactureActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

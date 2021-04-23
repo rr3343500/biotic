@@ -438,51 +438,52 @@ public class HomeActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
+                    if(response.isSuccessful()) {
+                        Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            String error = jsonObject.getString("error");
+                            String message = jsonObject.getString("message");
+                            String data = jsonObject.getString("data");
+                            if (error.equalsIgnoreCase("false")) {
 
-                    Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-                    try {
-                        JSONObject jsonObject = new JSONObject(response.body().toString());
-                        String error = jsonObject.getString("error");
-                        String message = jsonObject.getString("message");
-                        String data = jsonObject.getString("data");
-                        if (error.equalsIgnoreCase("false")) {
-
-                            JSONArray jsonArray = new JSONArray(data);
-                            String version = jsonArray.getJSONObject(0).getString("version");
-                            String type = jsonArray.getJSONObject(0).getString("type");
-                            int ver = Integer.parseInt(version);
+                                JSONArray jsonArray = new JSONArray(data);
+                                String version = jsonArray.getJSONObject(0).getString("version");
+                                String type = jsonArray.getJSONObject(0).getString("type");
+                                int ver = Integer.parseInt(version);
 
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 
-                            if (Androidversion < ver) {
+                                if (Androidversion < ver) {
 
-                                if (type.equalsIgnoreCase("Mandatory")) {
-                                    builder.setMessage("Your are using older version");
-                                    builder.setCancelable(false);
-                                    builder.setPositiveButton("Open Playstore",
-                                            (arg0, arg1) -> {
-                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
-                                                finish();
-                                            });
+                                    if (type.equalsIgnoreCase("Mandatory")) {
+                                        builder.setMessage("Your are using older version");
+                                        builder.setCancelable(false);
+                                        builder.setPositiveButton("Open Playstore",
+                                                (arg0, arg1) -> {
+                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                                                    finish();
+                                                });
 
-                                } else {
-                                    builder.setMessage("Newer version is available");
-                                    builder.setNegativeButton("Close", (dialog, which) -> {
-                                        builder.setMessage("Your are under Varification");
-                                        dialog.dismiss();
-                                    });
+                                    } else {
+                                        builder.setMessage("Newer version is available");
+                                        builder.setNegativeButton("Close", (dialog, which) -> {
+                                            builder.setMessage("Your are under Varification");
+                                            dialog.dismiss();
+                                        });
+                                    }
+
+                                    AlertDialog alertDialog = builder.create();
+                                    alertDialog.setCanceledOnTouchOutside(false);
+                                    alertDialog.show();
+
                                 }
 
-                                AlertDialog alertDialog = builder.create();
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.show();
-
                             }
-
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
 
                 }

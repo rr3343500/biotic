@@ -28,7 +28,7 @@
 
     <item
         android:id="@+id/payment"
-        android:icon="@drawable/vedio_icon"
+        android:icon="@drawable/wallet_icon"
         android:title="Transaction" />
 
     <item
@@ -39,7 +39,7 @@
     <item
         android:id="@+id/reminderFragment"
         android:icon="@drawable/remainder_icon"
-        android:title="Remainder" />
+        android:title="Notification" />
 
 
     <item

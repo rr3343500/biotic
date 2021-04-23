@@ -107,7 +107,7 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
         if (list.get(question).getType().trim().toUpperCase().equals("TEXT")) {
             binding.mainview.question.setText(list.get(question).getQuestion());
             int snoCount = question + 1;
-            binding.mainview.ques.setText("Question -" + snoCount);
+            binding.mainview.ques.setText("Question - " + snoCount);
             binding.mainview.t1.setText(list.get(question).getOp1());
 //                binding.mainview.ans1.setTag(questionLists.get(question).getOption1());
             binding.mainview.ans1.setTag("op1");
