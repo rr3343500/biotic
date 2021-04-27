@@ -54,7 +54,7 @@ public class FragmentVedioLacture extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentVedioLactureFragmentBinding.inflate(inflater, container, false);
         title = getActivity().findViewById(R.id.title);
-        title.setText("Lactures");
+        title.setText("Lectures");
         return binding.getRoot();
     }
 
@@ -91,7 +91,6 @@ public class FragmentVedioLacture extends Fragment {
             try {
                 jsonObject = new JSONObject(sessionManage.getUserDetails().get("Subject"));
                 Iterator<?> keys = jsonObject.keys();
-                String key = String.valueOf(keys.next());
                 while (keys.hasNext()) {
                     String key1 = String.valueOf(keys.next());
                     finalsubject = new JsonObject();

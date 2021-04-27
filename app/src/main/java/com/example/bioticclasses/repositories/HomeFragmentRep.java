@@ -113,7 +113,6 @@ public class HomeFragmentRep {
                 if (response.isSuccessful()){
                     if (!response.body().getResult().getError() && response.body().getResult().getErrorCode() == 200) {
                      catListMutableLiveData.setValue(response.body().getResult().getData());
-
                     }
                 }
             }

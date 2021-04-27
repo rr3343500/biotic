@@ -343,7 +343,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/viewspinnerview"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        android:text="Parent Detail"
+                        android:text="Parent's Detail"
                         android:fontFamily="@font/montserrat_regular"
                         android:textColor="@color/light_black"
                         android:layout_margin="16dp"/>

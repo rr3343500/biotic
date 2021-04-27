@@ -113,10 +113,10 @@
              android:textSize="16dp"
              android:fontFamily="@font/lato_regular"
              android:textColor="@color/black"
-             android:text="UnAnswered"
+             android:text="Not Visited"
              android:layout_alignParentRight="true"
              android:drawablePadding="10dp"
-             android:drawableLeft="@drawable/red_point"
+             android:drawableLeft="@drawable/gray_dor"
              android:layout_height="wrap_content"/>
 
             <TextView
@@ -126,6 +126,7 @@
              android:fontFamily="@font/lato_regular"
              android:textColor="@color/black"
              android:text="Not Visited"
+                android:visibility="gone"
              android:layout_marginTop="10dp"
              android:layout_below="@id/answered"
              android:drawablePadding="10dp"
@@ -139,6 +140,7 @@
              android:textColor="@color/black"
              android:text="Not Visited"
              android:layout_marginTop="10dp"
+                android:visibility="gone"
              android:layout_alignParentRight="true"
              android:layout_below="@id/answered"
              android:drawablePadding="10dp"

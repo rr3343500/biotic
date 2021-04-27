@@ -225,13 +225,30 @@ public class HomeActivity extends AppCompatActivity {
         }else {
             JSONObject jsonObject= new JSONObject(sessionManage.getUserDetails().get("Subject")) ;
             Iterator<?> keys = jsonObject.keys();
-            String key = String.valueOf(keys.next());
-            binding.home.subjectname.setText((CharSequence) jsonObject.get(key));
+            while (keys.hasNext()){
+                String key = String.valueOf(keys.next());
+                binding.home.subjectname.setText((CharSequence) jsonObject.get(key));
+                break;
+            }
+
         }
     }
 
     private void ActivityAction() {
         binding.home.sidebarMenu.setOnClickListener(v -> {
+            View headerView= binding.navView.getHeaderView(0);
+            TextView name =headerView.findViewById(R.id.username);
+            TextView classes =headerView.findViewById(R.id.userclasses);
+            TextView mobile =headerView.findViewById(R.id.usermobile);
+            CircleImageView image =headerView.findViewById(R.id.profileimg);
+            name.setText(sessionManage.getUserDetails().get("Name"));
+            mobile.setText(sessionManage.getUserDetails().get("Mobile"));
+            classes.setText(sessionManage.getUserDetails().get("Medium"));
+            Glide.with(this)
+                    .load(Image_URL+sessionManage.getUserDetails().get("Image"))
+                    .placeholder(R.drawable.men)
+                    .error(R.drawable.men)
+                    .into(image);
             openDrawer();
         });
         binding.home.subject.setOnClickListener(v -> {showDialog();});
@@ -499,7 +516,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

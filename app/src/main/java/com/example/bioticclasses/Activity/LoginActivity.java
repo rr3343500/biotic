@@ -131,6 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.e("xzfsdf",  response.body().getResult().getData().get(0).getActive());
                         if (sessionManage.Checkingcredential() ){
                             startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                            finish();
                             binding.constraintLayout.setAlpha(1);
                             binding.progress.setVisibility(View.GONE);
                         }

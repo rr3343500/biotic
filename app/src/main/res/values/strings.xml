@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Biotic Classes</string>
+    <string name="app_name">Biotic</string>
     <string name="biotic">Biotic</string>
     <string name="classes">Classes</string>
     <string name="welcome">Welcome Back!  </string>
@@ -28,5 +28,6 @@
     <string name="title_notifications">Notifications</string>
 
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
-
+    <string name="zoomkey">qfjDOqjbDJF3dXsgHUcTJKP5w7Ppzxa0fujh</string>
+    <string name="zoomsecet">HXuhFwGPLM7JK4F0EbyCXHI1YDfqnZyl4cah</string>
 </resources>

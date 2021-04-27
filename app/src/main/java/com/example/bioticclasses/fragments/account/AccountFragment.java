@@ -34,6 +34,7 @@ import com.example.bioticclasses.Service.ApiClient;
 import com.example.bioticclasses.Service.BiotechInterface;
 import com.example.bioticclasses.databinding.AccountFragmentBinding;
 import com.example.bioticclasses.modal.subjectclass.Subject;
+import com.example.bioticclasses.modal.updateprofie.UpdateUserProfile;
 import com.example.bioticclasses.modal.userprofile.UserProfile;
 import com.example.bioticclasses.other.NetworkCheck;
 import com.example.bioticclasses.other.SessionManage;
@@ -52,6 +53,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -506,15 +508,25 @@ public class AccountFragment extends Fragment {
         Log.e("TAG", "updateProfile: " + sessionManage.getUserDetails().get("userid") );
 
 
-        biotechInterface.ACCOUNT_CALL(filePart,userid,name, mobile,email,meduim,password,gender ,fname,femail,fnumber).enqueue(new Callback<UserProfile>() {
+        biotechInterface.ACCOUNT_CALL(filePart,userid,name, mobile,email,meduim,password,gender ,fname,femail,fnumber).enqueue(new Callback<UpdateUserProfile>() {
             @Override
-            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+            public void onResponse(Call<UpdateUserProfile> call, Response<UpdateUserProfile> response) {
                 if (response.isSuccessful()){
                     Log.e("sadsfs",response.body().getResult().getMessage());
                     Log.e("sadsfs", String.valueOf(response.body().getResult().getErrorCode()));
                     Log.e("sadsfs", String.valueOf(response.body().getResult().getError()));
                     if (!response.body().getResult().getError()  && response.body().getResult().getErrorCode()==200){
-
+                         String imagename;
+                        if(response.body().getResult().getData().getImgName()==null){
+                         imagename= sessionManage.getUserDetails().get("Image");
+                        }else {
+                            imagename=response.body().getResult().getData().getImgName();
+                            Glide.with(getActivity())
+                                    .load(Image_URL+imagename)
+                                    .placeholder(R.drawable.men)
+                                    .error(R.drawable.men)
+                                    .into(binding.viewimage);
+                        }
                         sessionManage.updatedetails(
                                 response.body().getResult().getData().getNameEn(),
                                 response.body().getResult().getData().getMobile(),
@@ -522,10 +534,10 @@ public class AccountFragment extends Fragment {
                                 response.body().getResult().getData().getPassword(),
                                 response.body().getResult().getData().getMedium(),
                                 response.body().getResult().getData().getGender(),
-                                response.body().getResult().getData().getImgName(),
-                                binding.fnameinput.getText().toString(),
-                                binding.femailinput.getText().toString(),
-                                binding.fmobinput.getText().toString()
+                                imagename,
+                                response.body().getResult().getData().getFatherName(),
+                                response.body().getResult().getData().getParentsEmail(),
+                                response.body().getResult().getData().getParentsMobile()
                         );
 
                         binding.viewinputname.setText(response.body().getResult().getData().getNameEn());
@@ -535,11 +547,10 @@ public class AccountFragment extends Fragment {
                         binding.viewgender2.setText(response.body().getResult().getData().getGender());
                         binding.viewmeduim1.setText(response.body().getResult().getData().getMedium());
 
-                        Glide.with(getActivity())
-                                .load(Image_URL+response.body().getResult().getData().getImgName())
-                                .placeholder(R.drawable.men)
-                                .error(R.drawable.men)
-                                .into(binding.viewimage);
+                        binding.fathernae.setText(response.body().getResult().getData().getFatherName());
+                        binding.fatheremail.setText(response.body().getResult().getData().getParentsEmail());
+                        binding.fathermobile.setText(response.body().getResult().getData().getParentsMobile());
+
 
 
 
@@ -547,6 +558,14 @@ public class AccountFragment extends Fragment {
                         binding.progress.setVisibility(View.GONE);
                         binding.dynamicview.setVisibility(View.GONE);
                         binding.staticview.setVisibility(View.VISIBLE);
+
+
+
+
+
+
+
+
 
 
                     }
@@ -561,7 +580,7 @@ public class AccountFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<UserProfile> call, Throwable t) {
+            public void onFailure(Call<UpdateUserProfile> call, Throwable t) {
                 Log.e("sadsfs",t.getMessage());
 
                 binding.mainview.setAlpha((float) 1);

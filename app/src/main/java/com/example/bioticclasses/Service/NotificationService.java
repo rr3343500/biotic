@@ -1,5 +1,6 @@
 package com.example.bioticclasses.Service;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -36,6 +37,7 @@ public class NotificationService extends FirebaseMessagingService {
     private static final String TAG = "NotificationService";
 
 
+    @SuppressLint("WrongThread")
     @Override
     public void onMessageReceived(@NonNull @NotNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -49,8 +51,15 @@ public class NotificationService extends FirebaseMessagingService {
 
             Map<String, String> data = remoteMessage.getData();
 
+
+
+            for (Map.Entry<String, String> pair : data.entrySet()) {
+                System.out.println(String.format("Key (name) is: %s, Value (age) is : %s", pair.getKey(), pair.getValue()));
+            }
+
+            Log.e(TAG, "onMessageReceived: "+remoteMessage.getData().get("heading") );
             String title = data.get("heading");
-            String des = data.get("description");
+            String des = data.get("descroption");
             String img = data.get("image");
             String basepath = ApiClient.Image_URL + img;
 

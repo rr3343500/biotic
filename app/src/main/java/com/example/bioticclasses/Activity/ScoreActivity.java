@@ -95,8 +95,6 @@ public class ScoreActivity extends AppCompatActivity {
                 int hours = (int) ((timetaking / (1000 * 60 * 60)) % 24);
                 String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
 
-
-
                 int finaltotaltime= (int) (totaltime / 60000);
                 int finaltakjingtime= (int) (timetaking / 60000);
                 binding.totaltime.setText(String.valueOf(finaltotaltime)+"m");

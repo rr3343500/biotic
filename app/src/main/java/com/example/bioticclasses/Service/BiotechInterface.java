@@ -16,6 +16,7 @@ import com.example.bioticclasses.modal.test_submit_data.TestSubmitData;
 import com.example.bioticclasses.modal.testlist.TestList;
 import com.example.bioticclasses.modal.testresult.TestResult;
 import com.example.bioticclasses.modal.transaction.Transaction;
+import com.example.bioticclasses.modal.updateprofie.UpdateUserProfile;
 import com.example.bioticclasses.modal.userprofile.UserProfile;
 import com.example.bioticclasses.modal.video.VideoList;
 import com.google.gson.JsonObject;
@@ -43,11 +44,11 @@ public interface BiotechInterface {
 
 
 
-    @POST("user_update")
+    @POST("update_user2")
     @Multipart
-    Call<UserProfile>ACCOUNT_CALL(@Part MultipartBody.Part file, @Part("user_id") RequestBody s , @Part("name_en") RequestBody s1, @Part("mobile") RequestBody s2, @Part("email") RequestBody s3,
-                                  @Part("medium") RequestBody s4, @Part("password") RequestBody s5, @Part("gender") RequestBody s7 ,
-                                  @Part("father_name") RequestBody s8,@Part("parents_email") RequestBody s9,@Part("parents_mobile") RequestBody s10 );
+    Call<UpdateUserProfile>ACCOUNT_CALL(@Part MultipartBody.Part file, @Part("user_id") RequestBody s , @Part("name_en") RequestBody s1, @Part("mobile") RequestBody s2, @Part("email") RequestBody s3,
+                                        @Part("medium") RequestBody s4, @Part("password") RequestBody s5, @Part("gender") RequestBody s7 ,
+                                        @Part("father_name") RequestBody s8, @Part("parents_email") RequestBody s9, @Part("parents_mobile") RequestBody s10 );
 
     @Headers({
             "Accept: application/json",
@@ -126,8 +127,8 @@ public interface BiotechInterface {
     @POST("fetch_attendenceby_userId_subjectId")
     Call<AttendanceList> fetch_attendence(@Body JsonObject jsonObject);
 
-    @GET("fetch_reminders")
-    Call<Remainder> fetch_reminder();
+    @POST("find_reminder")
+    Call<Remainder> fetch_reminder(@Body JsonObject jsonObject);
 
     @GET("fetch_version")
     Call<Object> fetch_version();

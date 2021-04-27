@@ -391,17 +391,19 @@ public class TakeTestActivity extends AppCompatActivity implements QuestionAdapt
     }
 
     public void TimeUp(View view) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Time Up Please Submit");
-        alertDialogBuilder.setPositiveButton("Submit",
-                (arg0, arg1) -> {
-                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",String.valueOf(START_TIME_IN_MILLIS)).putExtra("remainnig",String.valueOf(takingtime)).putExtra("type",timecheck.getTimeLimit().trim()));
-                    finish();
-                });
-        alertDialog = alertDialogBuilder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.setCancelable(false);
-        alertDialog.show();
+        startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",String.valueOf(START_TIME_IN_MILLIS)).putExtra("remainnig",String.valueOf(takingtime)).putExtra("type",timecheck.getTimeLimit().trim()));
+        finish();
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//        alertDialogBuilder.setMessage("Time Up Please Submit");
+//        alertDialogBuilder.setPositiveButton("Submit",
+//                (arg0, arg1) -> {
+//                    startActivity(new Intent(this, ScoreActivity.class).putExtra("pos", String.valueOf(SubPos)).putExtra("answersheet", answersheet.toString()).putExtra("TestPos", String.valueOf(TestPos)).putExtra("totaltime",String.valueOf(START_TIME_IN_MILLIS)).putExtra("remainnig",String.valueOf(takingtime)).putExtra("type",timecheck.getTimeLimit().trim()));
+//                    finish();
+//                });
+//        alertDialog = alertDialogBuilder.create();
+//        alertDialog.setCanceledOnTouchOutside(false);
+//        alertDialog.setCancelable(false);
+//        alertDialog.show();
     }
 
     public void Submit(View view){

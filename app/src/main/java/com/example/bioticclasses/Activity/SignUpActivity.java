@@ -256,12 +256,14 @@ public class SignUpActivity extends AppCompatActivity  {
         binding.gender2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.hint_gray));
-                ((TextView) parent.getChildAt(0)).setTextSize(14);
-                ((TextView) parent.getChildAt(0)).setTypeface(face);
-                ((TextView) parent.getChildAt(0)).setPadding(0,0,0,0);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ((TextView) parent.getChildAt(0)).setLetterSpacing(0);
+                if(parent != null){
+                    ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(R.color.hint_gray));
+                    ((TextView) parent.getChildAt(0)).setTextSize(14);
+                    ((TextView) parent.getChildAt(0)).setTypeface(face);
+                    ((TextView) parent.getChildAt(0)).setPadding(0,0,0,0);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        ((TextView) parent.getChildAt(0)).setLetterSpacing(0);
+                    }
                 }
                 if (first){Gender= spinnerValue[position];}else {first= true;};
 
@@ -584,6 +586,7 @@ public class SignUpActivity extends AppCompatActivity  {
 
                         if (sessionManage.Checkingcredential()){
                             startActivity(new Intent(SignUpActivity.this,HomeActivity.class));
+                            finish();
                             binding.mainview.setAlpha((float) 0.2);
                             binding.progress.setVisibility(View.GONE);
                         }
